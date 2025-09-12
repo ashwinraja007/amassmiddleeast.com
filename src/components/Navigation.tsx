@@ -30,7 +30,7 @@ const Navigation = () => {
         <div className="flex justify-between items-center">
           {/* Logo */}
           <div className="flex items-center">
-            <img src="/lovable-uploads/a44481e1-bf8c-43ab-b259-b833b252e1ed.png" alt="Amass Middle East Shipping Services Logo" className="h-9 sm:h-16 lg:h-20 w-auto object-contain" />
+            <img src="/lovable-uploads/a44481e1-bf8c-43ab-b259-b833b252e1ed.png" alt="Amass Middle East Shipping Services Logo" className="h-9 sm:h-16 lg:h-19 w-auto object-contain" />
           </div>
 
           {/* Desktop Navigation */}

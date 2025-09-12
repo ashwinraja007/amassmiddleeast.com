@@ -6,25 +6,25 @@ const WhatMakesUsUniqueSection = () => {
     title: "Bespoke Logistics Solutions",
     description: "Efficient, cost-effective and innovative bespoke global logistics solutions with a wide range of services comprising of end-to-end logistics packages.",
     delay: 0,
-    color: "gc-gold"
+    color: "amass-blue"
   }, {
     icon: Globe,
     title: "Overseas Network",
     description: "Through our extensive network of international representatives, we are able to offer you a comprehensive range of high-quality logistical freight services.",
     delay: 100,
-    color: "gc-blue"
+    color: "amass-red"
   }, {
     icon: Heart,
     title: "Service Driven",
     description: "We provide the highest quality of service and is widely recognized as the most customer-driven logistics company.",
     delay: 200,
-    color: "gc-gold"
+    color: "amass-blue"
   }, {
     icon: Truck,
     title: "Built To Deliver",
     description: "We provide the most reliable & cost effective logistics solutions thereby creating a long-term partnership with our clients.",
     delay: 300,
-    color: "gc-blue"
+    color: "amass-red"
   }];
   return <section className="py-20 bg-blue-800 ">
       <div className="container mx-auto px-4 md:px-6">
@@ -32,7 +32,7 @@ const WhatMakesUsUniqueSection = () => {
           <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">
             What Makes Us Unique?
           </h2>
-          <div className="w-20 h-1 bg-gc-gold mx-auto"></div>
+          <div className="w-20 h-1 bg-amass-blue mx-auto"></div>
         </ScrollAnimation>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">

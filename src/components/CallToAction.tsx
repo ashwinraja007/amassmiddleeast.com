@@ -32,7 +32,7 @@ const CallToAction = () => {
           <Link to={getNavLink("/contact")}>
             <Button 
               size="lg" 
-              className="bg-gc-gold hover:bg-gc-bronze text-white px-8 py-4 text-lg font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
+              className="bg-amass-blue hover:bg-amass-dark-blue text-white px-8 py-4 text-lg font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
             >
               Get Quote Now
             </Button>

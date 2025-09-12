@@ -111,7 +111,7 @@
 }
 
 .service-card:hover .service-card-overlay {
-  @apply from-gc-gold/90 to-gc-gold/60;
+  @apply from-primary/90 to-primary/60;
 }
 
 .service-card-icon {
@@ -136,7 +136,7 @@
 }
 
 .numbered-process-item .number {
-  @apply absolute left-0 top-0 w-10 h-10 rounded-full bg-gc-gold text-white flex items-center justify-center font-bold z-10;
+  @apply absolute left-0 top-0 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold z-10;
 }
 
 .blog-card {
@@ -153,7 +153,7 @@
 
 .nav-link::after {
   content: '';
-  @apply absolute bottom-0 left-0 w-0 h-0.5 bg-gc-gold transition-all duration-300;
+  @apply absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300;
 }
 
 .nav-link:hover::after, .nav-link.active::after {

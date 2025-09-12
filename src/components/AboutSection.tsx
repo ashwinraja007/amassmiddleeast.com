@@ -23,26 +23,26 @@ const AboutSection = () => {
           <div className="order-2 lg:order-1">
             <ScrollAnimation>
               <h2 className="text-3xl md:text-4xl font-bold mb-2 text-gray-900">About Us</h2>
-              <div className="w-16 h-1 bg-gc-gold mb-6"></div>
+              <div className="w-16 h-1 bg-amass-blue mb-6"></div>
               <div className="space-y-6 mb-8">
                 <div className="flex items-start">
-                  <CheckCircle className="text-gc-gold shrink-0 mr-3 mt-1" size={20} />
+                  <CheckCircle className="text-amass-blue shrink-0 mr-3 mt-1" size={20} />
                   <div>
                     <h3 className="font-semibold text-xl mb-3 text-gray-900">15 Years Excellence in Logistics Industry</h3>
                     <p className="text-gray-700 leading-relaxed">
-                      GC, a Singapore-based global freight forwarding and logistics solutions provider, establishes its presence in the region with a reliable network of experienced agents spanning the globe. Backed by a highly experienced team of logistics professionals with over 30 years of industry expertise, GC has swiftly emerged as one of the fastest-growing logistics and freight forwarding companies in South East Asia, the Indian subcontinent, and the Middle East.
+                      Amass Middle East Shipping Services LLC, a Neutral LCL Consolidation Service Provider to serve the UAE market. Our Office is in Oudh Metha-Dubai and the CFS is in Jebel Ali. As part of our business expansion, we have opened branches in Saudi Arabia with offices in Dammam, Riyadh, and Jeddah.
                     </p>
                   </div>
                 </div>
               </div>
               <div className="flex flex-wrap gap-4">
                 <Link to={getNavLink("/about-us")}>
-                  <Button className="bg-gc-gold hover:bg-gc-bronze text-white rounded-md px-6 py-3">
+                  <Button className="bg-amass-blue hover:bg-amass-dark-blue text-white rounded-md px-6 py-3">
                     Know More
                   </Button>
                 </Link>
                 <Link to={getNavLink("/contact")}>
-                  <Button variant="outline" className="border-gc-gold text-gc-gold hover:bg-gc-gold hover:text-white rounded-md px-6 py-3">
+                  <Button variant="outline" className="border-amass-blue text-amass-blue hover:bg-amass-blue hover:text-white rounded-md px-6 py-3">
                     Reach Us
                   </Button>
                 </Link>

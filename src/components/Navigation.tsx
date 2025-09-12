@@ -43,16 +43,13 @@ const Navigation = () => {
       <div className="bg-[#c99e65] text-white text-xs sm:text-sm py-1 px-2 sm:px-4 flex justify-between sm:justify-end items-center gap-2 sm:gap-3">
         <span className="hidden sm:block">Stay connected</span>
         <div className="flex items-center gap-2 sm:gap-3">
-          <a href="https://www.facebook.com/globalconsol/" target="_blank" rel="noopener noreferrer">
+          <a href="https://www.facebook.com/amassfreight/" target="_blank" rel="noopener noreferrer">
             <FaFacebookF className="text-xs sm:text-sm hover:text-white/80" />
           </a>
-          <a href="https://x.com/globalconsol/" target="_blank" rel="noopener noreferrer">
-            <FaTwitter className="text-xs sm:text-sm hover:text-white/80" />
-          </a>
-          <a href="https://www.linkedin.com/company/global-consolidators/" target="_blank" rel="noopener noreferrer">
+          <a href="https://www.linkedin.com/company/amass-freight/" target="_blank" rel="noopener noreferrer">
             <FaLinkedinIn className="text-xs sm:text-sm hover:text-white/80" />
           </a>
-          <a href="https://www.instagram.com/globalconsolidators/" target="_blank" rel="noopener noreferrer">
+          <a href="https://www.instagram.com/amassfreight/" target="_blank" rel="noopener noreferrer">
             <FaInstagram className="text-xs sm:text-sm hover:text-white/80" />
           </a>
         </div>
@@ -61,14 +58,12 @@ const Navigation = () => {
       {/* Main Nav Bar */}
       <div className="container mx-auto px-3 sm:px-4 md:px-6 py-2 sm:py-4 lg:py-[19px]">
         <div className="flex justify-between items-center">
-          {/* Logos */}
-          <div className="flex items-center gap-2 sm:gap-4">
-            <img src="/logo.png" alt="GGL Logo" className="h-12 sm:h-16 lg:h-20 w-auto object-contain" />
-            <div className="h-6 sm:h-8 w-px bg-gray-500 hidden sm:block" />
-            <img
-              src="/lovable-uploads/a2513c1d-2708-4143-a69b-fa65a1d4d1f2.png"
-              alt="1 Global Enterprises Logo"
-              className="hidden sm:block h-8 sm:h-10 lg:h-11 w-auto object-contain"
+          {/* Logo */}
+          <div className="flex items-center">
+            <img 
+              src="/lovable-uploads/a44481e1-bf8c-43ab-b259-b833b252e1ed.png" 
+              alt="Amass Middle East Shipping Services Logo" 
+              className="h-12 sm:h-16 lg:h-20 w-auto object-contain" 
             />
           </div>
 
@@ -76,9 +71,9 @@ const Navigation = () => {
           <div className="hidden lg:flex items-center gap-4 xl:gap-6">
             <Link
               to={getNavLink("/home")}
-              className={`nav-link font-medium hover:text-gc-gold text-sm xl:text-base ${
+              className={`nav-link font-medium hover:text-amass-blue text-sm xl:text-base ${
                 isActive(getNavLink("/home")) || (currentCountry.code === "SG" && isActive("/"))
-                  ? "text-gc-gold"
+                  ? "text-amass-blue"
                   : "text-black"
               }`}
             >
@@ -88,8 +83,8 @@ const Navigation = () => {
             {/* Info Dropdown */}
             <DropdownMenu open={isCompanyDropdownOpen} onOpenChange={setIsCompanyDropdownOpen}>
               <DropdownMenuTrigger
-                className={`nav-link font-medium hover:text-gc-gold text-sm xl:text-base flex items-center gap-1 ${
-                  isCompanyLinkActive() ? "text-gc-gold" : "text-black"
+                className={`nav-link font-medium hover:text-amass-blue text-sm xl:text-base flex items-center gap-1 ${
+                  isCompanyLinkActive() ? "text-amass-blue" : "text-black"
                 }`}
               >
                 Info <ChevronDown className="w-4 h-4" />
@@ -115,8 +110,8 @@ const Navigation = () => {
 
             <Link
               to={getNavLink("/services")}
-              className={`nav-link font-medium hover:text-gc-gold text-sm xl:text-base ${
-                isActive(getNavLink("/services")) ? "text-gc-gold" : "text-black"
+              className={`nav-link font-medium hover:text-amass-blue text-sm xl:text-base ${
+                isActive(getNavLink("/services")) ? "text-amass-blue" : "text-black"
               }`}
             >
               Services
@@ -124,8 +119,8 @@ const Navigation = () => {
 
             <Link
               to={getNavLink("/blog")}
-              className={`nav-link font-medium hover:text-gc-gold text-sm xl:text-base ${
-                isActive(getNavLink("/blog")) || isActive(getNavLink("/blogs")) ? "text-gc-gold" : "text-black"
+              className={`nav-link font-medium hover:text-amass-blue text-sm xl:text-base ${
+                isActive(getNavLink("/blog")) || isActive(getNavLink("/blogs")) ? "text-amass-blue" : "text-black"
               }`}
             >
               Blogs
@@ -145,7 +140,7 @@ const Navigation = () => {
           <div className="hidden md:flex items-center gap-2 lg:gap-4">
             <CountrySelector />
             <Link to={`${getNavLink("/contact")}#contact-form`}>
-              <Button className="bg-gc-gold hover:bg-gc-bronze text-white rounded-md text-xs sm:text-sm px-3 sm:px-4 py-2">
+              <Button className="bg-amass-blue hover:bg-amass-dark-blue text-white rounded-md text-xs sm:text-sm px-3 sm:px-4 py-2">
                 Contact / Quote
               </Button>
             </Link>
@@ -175,10 +170,10 @@ const Navigation = () => {
                 <Link
                   key={item.path}
                   to={item.path === "/gallery" ? "/gallery" : getNavLink(item.path)}
-                  className={`font-medium hover:text-gc-gold py-2 text-base ${
+                  className={`font-medium hover:text-amass-blue py-2 text-base ${
                     isActive(item.path === "/gallery" ? "/gallery" : getNavLink(item.path)) ||
                     (item.path === "/home" && currentCountry.code === "SG" && isActive("/"))
-                      ? "text-gc-gold"
+                      ? "text-amass-blue"
                       : "text-black"
                   }`}
                   onClick={() => setIsMenuOpen(false)}
@@ -196,7 +191,7 @@ const Navigation = () => {
                 onClick={() => setIsMenuOpen(false)}
                 className="pt-2"
               >
-                <Button className="bg-gc-gold hover:bg-gc-bronze text-white w-full rounded-md">
+                <Button className="bg-amass-blue hover:bg-amass-dark-blue text-white w-full rounded-md">
                   GET QUOTE
                 </Button>
               </Link>

@@ -11,23 +11,23 @@ const HeroSection = () => {
   });
   const sliderImages = [{
     url: "/h1.png",
-    title: "GLOBAL CONSOL",
-    description: "Vital Link to Enhance Your Supply Chain.",
+    title: "AMASS FREIGHT",
+    description: "Your Trusted Partner in Global Logistics Solutions.",
     gradient: ""
   }, {
-    url: "/h2.png",
-    title: "LOGISTICS SERVICES",
-    description: "Supported through own offices and network of key partners around the world.",
+    url: "/h2.png", 
+    title: "LCL CONSOLIDATION",
+    description: "Neutral LCL consolidation services connecting UAE and Middle East.",
     gradient: ""
   }, {
     url: "/h3.png",
-    title: "WAREHOUSE MANAGEMENT",
-    description: "A cutting edge solutions with advanced WMS .",
+    title: "CFS SERVICES",
+    description: "State-of-the-art container freight station in Jebel Ali.",
     gradient: ""
   }, {
     url: "/h4.png",
-    title: "MULTIPLE CARRIER OPTION",
-    description: "Assublue space with contracted rates to major trade routes .",
+    title: "REGIONAL NETWORK", 
+    description: "Strategic offices across UAE and Saudi Arabia for seamless logistics.",
     gradient: ""
   }];
   const portalLinks = [{
@@ -199,13 +199,13 @@ const HeroSection = () => {
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {[{
-                src: "/GC_demo_1.mp4",
-                label: "Getting Started",
-                duration: "5:32"
+                src: "/OECL_ad.mp4",
+                label: "Amass Services Overview",
+                duration: "3:45"
               }, {
-                src: "/GC_promo_2.mp4",
-                label: "Advanced Features",
-                duration: "7:45"
+                src: "/OECl_Customer_Portal_Explainer.mp4", 
+                label: "Customer Portal Guide",
+                duration: "5:20"
               }].map((video, i) => <div key={i} className="group border-2 border-gray-200 rounded-xl overflow-hidden bg-gray-50 hover:border-blue-300 transition-all duration-300 hover:shadow-lg">
                       <div className="aspect-video relative">
                         <video controls className="w-full h-full object-cover" poster={`/video-thumbnail-${i + 1}.jpg`}>

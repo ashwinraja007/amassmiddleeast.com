@@ -50,7 +50,13 @@ type Stat = {
   color: "blue" | "red" | "gold" | "slate";
   big?: boolean; // wide/tall feature card
 };
-const STATS: Stat[] = [ {
+const STATS: Stat[] = [{
+  label: "NO. 1",
+  value: 1,
+  caption: "Domestic LCL Market • Undisputed Leader",
+  icon: Trophy,
+  color: "slate"
+}, {
   label: "Countries & Regions",
   value: 200,
   icon: Globe2,
@@ -64,23 +70,23 @@ const STATS: Stat[] = [ {
   label: "Cubic Meters • Global Export LCL Freight",
   value: 3000000,
   icon: Boxes,
-  color: "blue",
+  color: "red",
   big: true
 }, {
   label: "Branches & Offices",
   value: 84,
   icon: Building2,
-  color: "red"
+  color: "blue"
 }, {
   label: "Destinations",
   value: 20000,
   icon: MapPinned,
-  color: "red"
+  color: "gold"
 }, {
   label: "Shipments / Year",
   value: 555000,
   icon: Package,
-  color: "red",
+  color: "slate",
   big: true
 }];
 const colorMap = {

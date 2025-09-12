@@ -52,28 +52,23 @@ type Stat = {
   big?: boolean;           // wide/tall feature card
 };
 
-const STATS: Stat[] = [
-  { label: "NO. 1", value: 1, caption: "Domestic LCL Market • Undisputed Leader", icon: Trophy, color: "slate" },
+const STATS: Stat[] = 
   { label: "Countries & Regions", value: 200, icon: Globe2, color: "blue" },
   { label: "Weekly Direct Service", value: 1000, icon: Plane, color: "blue" },
-  { label: "Cubic Meters • Global Export LCL Freight", value: 3000000, icon: Boxes, color: "red", big: true },
-  { label: "Branches & Offices", value: 84, icon: Building2, color: "blue" },
-  { label: "Destinations", value: 20000, icon: MapPinned, color: "gold" },
-  { label: "Shipments / Year", value: 555000, icon: Package, color: "slate", big: true },
+  { label: "Cubic Meters • Global Export LCL Freight", value: 3000000, icon: Boxes, color: "blue", big: true },
+  { label: "Branches & Offices", value: 84, icon: Building2, color: "red" },
+  { label: "Destinations", value: 20000, icon: MapPinned, color: "red" },
+  { label: "Shipments / Year", value: 555000, icon: Package, color: "red", big: true },
 ];
 
 const colorMap = {
   blue: "bg-kargon-blue text-white",
   red: "bg-kargon-red text-white",
-  gold: "bg-gc-gold text-gray-900",
-  slate: "bg-gray-100 text-gray-900",
 };
 
 const ringMap = {
   blue: "ring-kargon-blue/30",
   red: "ring-kargon-red/30",
-  gold: "ring-gc-gold/40",
-  slate: "ring-gray-300",
 };
 
 function StatCard({ s }: { s: Stat }) {

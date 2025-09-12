@@ -15,7 +15,7 @@ const HeroSection = () => {
     description: "Your Trusted Partner in Global Logistics Solutions.",
     gradient: ""
   }, {
-    url: "/h2.png", 
+    url: "/h2.png",
     title: "LCL CONSOLIDATION",
     description: "Neutral LCL consolidation services connecting UAE and Middle East.",
     gradient: ""
@@ -26,7 +26,7 @@ const HeroSection = () => {
     gradient: ""
   }, {
     url: "/h4.png",
-    title: "REGIONAL NETWORK", 
+    title: "REGIONAL NETWORK",
     description: "Strategic offices across UAE and Saudi Arabia for seamless logistics.",
     gradient: ""
   }];
@@ -138,40 +138,7 @@ const HeroSection = () => {
       </div>
 
       {/* Enhanced Portal Buttons - Made smaller and responsive */}
-      <div className="absolute bottom-6 left-0 right-0 z-30 px-4">
-        <div className={`max-w-7xl mx-auto transition-all duration-1000 delay-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"}`}>
-          <div className="grid grid-cols-4 gap-1 sm:gap-2">
-            {portalLinks.map((link, index) => {
-            const ButtonContent = <div className="group relative overflow-hidden w-full h-14 sm:h-16 md:h-18 flex flex-col gap-1 items-center justify-center text-xs transition-all duration-300 rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 hover:-translate-y-1">
-                  <div className={`absolute inset-0 bg-gradient-to-br ${link.color} opacity-90 group-hover:opacity-100 transition-opacity`} />
-                  
-                  <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
-                  <div className="relative z-10 flex flex-col items-center gap-1">
-                    <div className="p-1 bg-white/20 rounded group-hover:bg-white/30 transition-colors">
-                      {link.icon}
-                    </div>
-                    <div className="text-center">
-                      <div className="font-medium text-white leading-tight text-xs">{link.title}</div>
-                    </div>
-                  </div>
-                </div>;
-            if (link.external) {
-              return <a href={link.url} key={index} target="_blank" rel="noopener noreferrer" className="w-full">
-                    {ButtonContent}
-                  </a>;
-            } else if (link.onClick) {
-              return <button key={index} onClick={link.onClick} className="w-full">
-                    {ButtonContent}
-                  </button>;
-            } else {
-              return <Link to={link.url} key={index} className="w-full">
-                    {ButtonContent}
-                  </Link>;
-            }
-          })}
-          </div>
-        </div>
-      </div>
+      
 
       {/* Enhanced Modal - Fixed z-index issue */}
       {isCustomerPortalOpen && <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-in fade-in duration-300">
@@ -203,7 +170,7 @@ const HeroSection = () => {
                 label: "Amass Services Overview",
                 duration: "3:45"
               }, {
-                src: "/OECl_Customer_Portal_Explainer.mp4", 
+                src: "/OECl_Customer_Portal_Explainer.mp4",
                 label: "Customer Portal Guide",
                 duration: "5:20"
               }].map((video, i) => <div key={i} className="group border-2 border-gray-200 rounded-xl overflow-hidden bg-gray-50 hover:border-blue-300 transition-all duration-300 hover:shadow-lg">

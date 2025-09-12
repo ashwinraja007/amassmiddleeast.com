@@ -23,27 +23,14 @@ const Navigation = () => {
   const isCompanyLinkActive = () => isActive(getNavLink("/about-us")) || isActive(getNavLink("/gallery")) || isActive(getNavLink("/career"));
   return <header className="fixed top-0 left-0 right-0 w-full z-50 shadow-md bg-white transition-all duration-300">
       {/* Top bar */}
-      <div className="bg-[#c99e65] text-white text-xs sm:text-sm py-1 px-2 sm:px-4 flex justify-between sm:justify-end items-center gap-2 sm:gap-3">
-        <span className="hidden sm:block">Stay connected</span>
-        <div className="flex items-center gap-2 sm:gap-3">
-          <a href="https://www.facebook.com/amassfreight/" target="_blank" rel="noopener noreferrer">
-            <FaFacebookF className="text-xs sm:text-sm hover:text-white/80" />
-          </a>
-          <a href="https://www.linkedin.com/company/amass-freight/" target="_blank" rel="noopener noreferrer">
-            <FaLinkedinIn className="text-xs sm:text-sm hover:text-white/80" />
-          </a>
-          <a href="https://www.instagram.com/amassfreight/" target="_blank" rel="noopener noreferrer">
-            <FaInstagram className="text-xs sm:text-sm hover:text-white/80" />
-          </a>
-        </div>
-      </div>
+      
 
       {/* Main Nav Bar */}
       <div className="container mx-auto px-3 sm:px-4 md:px-6 py-2 sm:py-4 lg:py-[19px]">
         <div className="flex justify-between items-center">
           {/* Logo */}
           <div className="flex items-center">
-            <img src="/lovable-uploads/a44481e1-bf8c-43ab-b259-b833b252e1ed.png" alt="Amass Middle East Shipping Services Logo" className="h-11 sm:h-16 lg:h-20 w-auto object-contain" />
+            <img src="/lovable-uploads/a44481e1-bf8c-43ab-b259-b833b252e1ed.png" alt="Amass Middle East Shipping Services Logo" className="h-10 sm:h-16 lg:h-20 w-auto object-contain" />
           </div>
 
           {/* Desktop Navigation */}

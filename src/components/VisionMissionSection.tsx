@@ -1,137 +1,174 @@
 import { useEffect, useRef, useState } from "react";
-import ScrollAnimation from "./ScrollAnimation";
 import { Trophy, Globe2, Plane, Boxes, Building2, MapPinned, Package } from "lucide-react";
 
-/** Tiny count-up hook (no external libs) */
-function useCountUp(end: number, duration = 1400, startWhenVisible = true) {
+/* ---- tiny count-up (no libs) ---- */
+function useCountUp(end: number, ms = 1400) {
   const [val, setVal] = useState(0);
   const ref = useRef<HTMLDivElement | null>(null);
-  const [started, setStarted] = useState(!startWhenVisible);
+  const [start, setStart] = useState(false);
 
   useEffect(() => {
-    if (!startWhenVisible) return;
     const el = ref.current;
     if (!el) return;
-
-    const io = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          setStarted(true);
-          io.disconnect();
-        }
-      },
-      { threshold: 0.4 }
-    );
+    const io = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) { setStart(true); io.disconnect(); }
+    }, { threshold: 0.4 });
     io.observe(el);
     return () => io.disconnect();
-  }, [startWhenVisible]);
+  }, []);
 
   useEffect(() => {
-    if (!started) return;
-    const start = performance.now();
+    if (!start) return;
+    const t0 = performance.now();
     const step = (t: number) => {
-      const p = Math.min(1, (t - start) / duration);
-      setVal(Math.floor(end * (1 - Math.pow(1 - p, 3)))); // easeOutCubic
+      const p = Math.min(1, (t - t0) / ms);
+      const eased = 1 - Math.pow(1 - p, 3); // easeOutCubic
+      setVal(Math.floor(end * eased));
       if (p < 1) requestAnimationFrame(step);
     };
     requestAnimationFrame(step);
-  }, [end, duration, started]);
+  }, [end, ms, start]);
 
-  // format with commas
   const text = val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  return { ref, text, done: val >= end };
+  return { ref, text };
 }
 
-type Stat = {
-  label: string;
-  value: number;
-  suffix?: string;         // e.g., " YEAR", " m³"
-  caption?: string;        // smaller helper line
-  icon: React.ElementType; // lucide icon
-  color: "blue" | "red" | "gold" | "slate";
-  big?: boolean;           // wide/tall feature card
+/* ---- data model ---- */
+type StatItem = {
+  title?: string;          // small line above number (e.g., "NO. 1")
+  value: number;           // number to show
+  unit?: string;           // optional suffix
+  caption: string;         // main description
+  Icon: React.ElementType; // lucide icon
+  tone: "blue" | "red" | "gold" | "slate";
 };
 
-const STATS: Stat[] = 
-  { label: "Countries & Regions", value: 200, icon: Globe2, color: "blue" },
-  { label: "Weekly Direct Service", value: 1000, icon: Plane, color: "blue" },
-  { label: "Cubic Meters • Global Export LCL Freight", value: 3000000, icon: Boxes, color: "blue", big: true },
-  { label: "Branches & Offices", value: 84, icon: Building2, color: "red" },
-  { label: "Destinations", value: 20000, icon: MapPinned, color: "red" },
-  { label: "Shipments / Year", value: 555000, icon: Package, color: "red", big: true },
+const toneGrad = {
+  blue:  "from-kargon-blue to-kargon-blue/90",
+  red:   "from-kargon-red to-kargon-red/90",
+  gold:  "from-gc-gold to-gc-gold",
+  slate: "from-slate-400 to-slate-600",
+};
+
+/* ---- YOUR EXACT STATS ---- */
+const LOGISTICS_STATS: StatItem[] = [
+  {
+    title: "NO. 1",
+    value: 1,
+    unit: "",
+    caption: "Domestic LCL Market • Undisputed Leader",
+    Icon: Trophy,
+    tone: "gold",
+  },
+  {
+    title: "Countries & Regions",
+    value: 200,
+    unit: "",
+    caption: "Global coverage at scale",
+    Icon: Globe2,
+    tone: "blue",
+  },
+  {
+    title: "Weekly Direct Service",
+    value: 1000,
+    unit: "",
+    caption: "High-frequency schedules",
+    Icon: Plane,
+    tone: "blue",
+  },
+  {
+    title: "Cubic Meters • Global Export LCL Freight",
+    value: 3_000_000,
+    unit: "",
+    caption: "Proven consolidation capacity",
+    Icon: Boxes,
+    tone: "red",
+  },
+  {
+    title: "Branches & Offices",
+    value: 84,
+    unit: "",
+    caption: "On-ground expertise",
+    Icon: Building2,
+    tone: "blue",
+  },
+  {
+    title: "Destinations",
+    value: 20_000,
+    unit: "",
+    caption: "Door-to-door reach",
+    Icon: MapPinned,
+    tone: "blue",
+  },
+  {
+    title: "Shipments / Year",
+    value: 555_000,
+    unit: "",
+    caption: "Trusted by shippers worldwide",
+    Icon: Package,
+    tone: "red",
+  },
 ];
 
-const colorMap = {
-  blue: "bg-kargon-blue text-white",
-  red: "bg-kargon-red text-white",
-};
-
-const ringMap = {
-  blue: "ring-kargon-blue/30",
-  red: "ring-kargon-red/30",
-};
-
-function StatCard({ s }: { s: Stat }) {
-  const { ref, text } = useCountUp(s.value);
-  const Icon = s.icon;
+/* ---- card ---- */
+function PillCard({ item }: { item: StatItem }) {
+  const { ref, text } = useCountUp(item.value);
+  const Icon = item.Icon;
+  const grad = toneGrad[item.tone];
 
   return (
-    <div
-      className={[
-        "rounded-2xl p-5 sm:p-6 md:p-7 shadow-sm ring-1",
-        colorMap[s.color],
-        ringMap[s.color],
-        s.big ? "lg:col-span-2" : "",
-        "transition-transform duration-300 hover:-translate-y-1 hover:shadow-md",
-      ].join(" ")}
-    >
-      <div className="flex items-center gap-3 mb-3">
-        <div className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/15">
-          <Icon className="h-5 w-5" />
-        </div>
-        <p className="uppercase tracking-wide text-xs sm:text-sm opacity-90">
-          {s.label}
+    <div className="relative bg-white rounded-3xl pt-12 pb-10 px-6 shadow-md hover:shadow-lg transition-shadow text-center">
+      {/* Top circular badge */}
+      <div
+        className={`absolute -top-7 left-1/2 -translate-x-1/2 h-16 w-16 rounded-full ring-4 ring-white shadow-md grid place-items-center bg-gradient-to-b ${grad}`}
+      >
+        <Icon className="h-7 w-7 text-white" />
+      </div>
+
+      {/* Optional small title */}
+      {item.title && (
+        <p className="text-[11px] md:text-xs uppercase tracking-wide text-slate-500 mb-2">
+          {item.title}
         </p>
-      </div>
-
-      <div ref={ref as any} className="flex items-end gap-2">
-        <span className="leading-none font-extrabold text-4xl sm:text-5xl md:text-6xl">
-          {text}
-        </span>
-        {s.suffix && (
-          <span className="leading-none pb-1 font-semibold opacity-80">
-            {s.suffix}
-          </span>
-        )}
-      </div>
-
-      {s.caption && (
-        <p className="mt-2 text-sm sm:text-base opacity-90">{s.caption}</p>
       )}
+
+      {/* Number */}
+      <div ref={ref as any} className="mb-2">
+        <span className="text-4xl md:text-5xl font-extrabold text-slate-800">
+          {text}
+          {item.unit && (
+            <span className="align-top text-2xl md:text-3xl">{item.unit}</span>
+          )}
+        </span>
+      </div>
+
+      {/* Caption */}
+      <p className="text-sm md:text-base text-slate-600 leading-relaxed">
+        {item.caption}
+      </p>
+
+      {/* Ribbon tail */}
+      <div
+        className={`absolute -bottom-3 left-1/2 -translate-x-1/2 h-7 w-28 bg-gradient-to-b ${grad} shadow-sm`}
+        style={{ clipPath: "polygon(10% 0, 90% 0, 100% 100%, 50% 72%, 0 100%)" }}
+      />
     </div>
   );
 }
 
-const StatsHighlight = () => {
+/* ---- section ---- */
+export default function LogisticsPillStats() {
   return (
-    <section className="py-16 md:py-20 bg-white">
+    <section className="py-12 md:py-16 bg-gradient-to-br from-slate-50 to-white">
       <div className="container mx-auto px-4 md:px-6">
-        <ScrollAnimation className="text-center mb-10 md:mb-14">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900">Numbers That Move Us</h2>
-          <p className="text-gray-600 mt-2">Scale, reliability, and reach—at a glance.</p>
-        </ScrollAnimation>
-
-        {/* Responsive Mosaic Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-          {STATS.map((s, i) => (
-            <ScrollAnimation key={i} delay={i * 70}>
-              <StatCard s={s} />
-            </ScrollAnimation>
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {LOGISTICS_STATS.map((it, i) => (
+            <PillCard key={i} item={it} />
           ))}
         </div>
 
-        {/* Subtle legend bar */}
-        <div className="mt-6 flex flex-wrap items-center gap-3 text-xs">
+        {/* Legend */}
+        <div className="mt-6 flex flex-wrap items-center gap-4 text-xs text-slate-600">
           <span className="inline-flex items-center gap-2">
             <span className="h-2.5 w-2.5 rounded-full bg-kargon-blue" /> Core Network
           </span>
@@ -145,6 +182,4 @@ const StatsHighlight = () => {
       </div>
     </section>
   );
-};
-
-export default StatsHighlight;
+}

@@ -65,6 +65,8 @@ export default {
 					dark: '#1e40af', // Changed to Amass dark blue
 					blue: '#2563eb', // Changed to Amass blue
 				},
+				'gc-gold': '#f59e0b', // Golden accent for legacy compatibility
+				'gc-blue': '#2563eb', // Amass blue for legacy compatibility
 				'milk-texture': '#F7F7F7',
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',

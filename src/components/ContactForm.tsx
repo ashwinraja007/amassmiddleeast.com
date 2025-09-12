@@ -7,47 +7,40 @@ import { motion } from "framer-motion";
 import { Phone, Mail, MapPin, Send, Building2, CheckCircle2 } from "lucide-react";
 import { useLocation } from "react-router-dom";
 
-// Brand Colors
+// Brand Colors  
 const BRAND = {
-  gold: "#c0a064",
-  blue: "#2172c9",
+  blue: "#2563eb",
+  red: "#dc2626", 
+  gold: "#dc2626", // Using red as accent color for Amass
   black: "#111"
 };
 const allOffices = {
-  Singapore: [{
-    name: "Headquarters",
-    address: "Blk 511 Kampong Bahru Road, #03-01 Keppel Distripark, Singapore 099447",
-    phones: ["+65 69080838", "+65 96272211"],
-    emails: ["buddhika@globalconsol.com"]
-  }],
-  "Sri Lanka": [{
-    name: "Colombo",
-    address: "Ceylinco House, 9th Floor, No. 69, Janadhipathi Mawatha, Colombo 01, Sri Lanka",
-    phones: ["+94 114477494", "+94 114477498", "+94 114477499", "+94 764434885"],
-    emails: ["thilanka.cmb@globalconsol.com"]
-  }],
-  Pakistan: [{
-    name: "Karachi",
-    address: "Suite No.301, 3rd Floor, Fortune Center, Shahrah-e-Faisal, Block 6, PECHS, Karachi, Pakistan.",
-    phones: ["+92-300-8282511", "+92-21-34302281-5"],
-    emails: ["khalid.pk@globalconsol.com"]
+  UAE: [{
+    name: "Head Office",
+    address: "202, Sultan Business centre\nOud Metha, P.O.Box 33463\nDubai - UAE",
+    phones: ["+971 4 3575508"],
+    emails: ["contact@dxb.amassfreight.com"]
   }, {
-    name: "Lahore",
-    address: "Office # 301, 3rd Floor, Gulberg Arcade Main Market, Gulberg 2, Lahore, Pakistan.",
-    phones: ["+92 42-35782306", "+92 42-35782307", "+92 42-35782308"],
-    emails: ["shazia.pklhe@globalconsol.com"]
+    name: "CFS",
+    address: "Plot No S20312,\nJafza South,\nJebel Ali, Dubai – UAE",
+    phones: ["+971 4 3575508"],
+    emails: ["contact@dxb.amassfreight.com"]
   }],
-  Myanmar: [{
-    name: "Yangon",
-    address: "#1210, 12TH (A) FLOOR, SAKURA TOWER 339, BOGYOKE SAN ROAD, KYAUKTADA TOWNSHIP - 11181 YANGON, UNION OF MYANMAR",
-    phones: ["951 243158", "951 243101"],
-    emails: ["info@globalconsol.com"]
-  }],
-  Bangladesh: [{
-    name: "Dhaka",
-    address: "ID #9-N (New), 9-M(Old-N), 9th floor, Tower 1, Police Plaza Concord, No.2, Road # 144, Gulshan Model Town, Dhaka 1215, Bangladesh",
-    phones: ["+880 1716 620989"],
-    emails: ["info@globalconsol.com"]
+  "Saudi Arabia": [{
+    name: "Dammam - Head Office",
+    address: "RASHIDIYA BUSINESS CENTER\nBUILD NO:7257 ROOM 308, 3RD FLOOR - AL AMAMRAH\nDAMMAM – 32415 - KSA",
+    phones: ["+966 13 8331234"],
+    emails: ["contact@amassfreight.com"]
+  }, {
+    name: "Jeddah",
+    address: "Room No. 408, Saudi Business Centre\n7859 Al Madinah Al Munawarah Road\nAl Sharafeyah, Jeddah 4542-22234",
+    phones: ["+966 12 6789012"],
+    emails: ["jeddah@amassfreight.com"]
+  }, {
+    name: "Riyadh",
+    address: "ROOM NO. 20, AL MALAZ\nBLDG. NO. 104, 2 FLOOR AL QIRAWANI ST.\nAL MALAZ DISTRICT RIYADH 11332, K.S.A.",
+    phones: ["+966 11 4567890"],
+    emails: ["riyadh@amassfreight.com"]
   }]
 };
 const locationOptions = Object.keys(allOffices);
@@ -58,12 +51,8 @@ const ContactForm = () => {
   const formRef = useRef(null);
   const getCurrentCountry = () => {
     const path = location.pathname.toLowerCase();
-    if (path.includes("/singapore")) return "Singapore";
-    if (path.includes("/sri-lanka")) return "Sri Lanka";
-    if (path.includes("/myanmar")) return "Myanmar";
-    if (path.includes("/bangladesh")) return "Bangladesh";
-    if (path.includes("/pakistan")) return "Pakistan";
-    return "Singapore";
+    if (path.includes("/saudi")) return "Saudi Arabia";
+    return "UAE";
   };
   useEffect(() => {
     setSelectedLocation(getCurrentCountry());
@@ -73,7 +62,7 @@ const ContactForm = () => {
     e.preventDefault();
     const form = e.target;
     const formData = new FormData(form);
-    const emails = ["karthikjungleemara@gmail", "karthiktrendsandtactics@gmail.com"];
+    const emails = ["contact@dxb.amassfreight.com"];
     try {
       for (const email of emails) {
         await fetch(`https://formsubmit.co/ajax/${email}`, {

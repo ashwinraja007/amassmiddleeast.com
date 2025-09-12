@@ -161,15 +161,24 @@ const Footer = () => {
           >
             <div className="mb-4">
               <img
-                src="/logo.png"
-                alt="GC Logo"
+                src="/lovable-uploads/a44481e1-bf8c-43ab-b259-b833b252e1ed.png"
+                alt="Amass Middle East"
                 className="h-16 w-auto object-contain mb-2"
                 loading="lazy"
               />
             </div>
-            <p className="text-sm md:text-base text-white/80 max-w-xs text-left leading-relaxed">
-              15 Years Excellence in Logistics Industry GC, a Singapore-based global freight forwarding and logistics solutions provider, establishes its presence in the region with a reliable network of experienced agents spanning the globe. Backed by a highly
+            <h3 className="text-lg font-semibold text-white mb-2">Amass Middle East Shipping Services LLC</h3>
+            <p className="text-sm md:text-base text-white/80 max-w-xs text-left leading-relaxed mb-4">
+              We were established in the year 2015, as a Neutral LCL Consolidation Service Provider to serve the UAE market.
             </p>
+            
+            <div className="space-y-2 text-sm text-white/80">
+              <h4 className="font-medium text-white">DO Counter & CFS Timings</h4>
+              <p>Monday to Thursday: 8.00 AM to 12.30 PM, 2.00 PM to 4.00 PM</p>
+              <p>Friday: 8.00 AM to 12.00 PM, 2.00 PM to 4.30 PM</p>
+              <p className="text-xs">(12.00 PM to 2.00 PM - Friday Prayer and Lunch Break)</p>
+              <p>Saturday & Sunday CLOSED</p>
+            </div>
           </motion.div>
 
           {/* Column 2: Navigation */}
@@ -284,7 +293,7 @@ const Footer = () => {
 
         {/* Bottom Line */}
         <div className="text-center text-white/70 mt-12 pt-8 border-t border-gc-gold/20 text-sm">
-          &copy; {new Date().getFullYear()} Site Powered by Global Consolidators Pte Ltd,. All right reserved.
+          &copy; {new Date().getFullYear()} Amass Middle East Shipping Services LLC. All rights reserved.
         </div>
       </div>
     </footer>

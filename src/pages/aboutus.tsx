@@ -32,20 +32,20 @@ const AboutUs = () => {
   };
 
   const stats = [{
-    number: "15+",
-    label: "Years Experience",
+    number: "9+",
+    label: "Years of Growth",
     icon: TrendingUp
   }, {
-    number: "500+",
-    label: "Global Clients",
+    number: "40+",
+    label: "Dedicated Staff",
     icon: Users
   }, {
-    number: "50+",
-    label: "Countries Served",
+    number: "100+",
+    label: "Ports Worldwide",
     icon: Globe
   }, {
-    number: "99%",
-    label: "Customer Satisfaction",
+    number: "2000+",
+    label: "Destinations",
     icon: Award
   }];
   const features = ["Global freight forwarding expertise", "Reliable network of agents", "30+ years industry experience", "Dedicated warehouse facilities", "Own fleet of trucks", "Strategic location advantages"];
@@ -70,10 +70,10 @@ const AboutUs = () => {
             once: true
           }} className="text-center mb-16">
               <h1 className="text-5xl md:text-6xl font-bold mb-6 text-gray-900">
-                About <span className="text-kargon-red">GC</span>
+                About <span className="text-kargon-red">Amass</span>
               </h1>
               <p className="text-xl max-w-3xl mx-auto leading-relaxed text-gray-700">
-                Your premier global freight forwarding and logistics solutions provider
+                Neutral LCL Consolidation Service Provider
               </p>
             </motion.div>
 
@@ -92,12 +92,15 @@ const AboutUs = () => {
               once: true
             }} className="space-y-6">
                 <div className="space-y-4">
-                  <h2 className="text-3xl font-bold mb-4 text-kargon-blue">15 Years Excellence in Logistics Industry</h2>
+                  <h2 className="text-3xl font-bold mb-4 text-kargon-blue">Who We Are</h2>
                   <p className="text-lg leading-relaxed text-gray-700">
-                    GC, a Singapore-based global freight forwarding and logistics solutions provider, establishes its presence in the region with a reliable network of experienced agents spanning the globe. Backed by a highly experienced team of logistics professionals with over 30 years of industry expertise, GC has swiftly emerged as one of the fastest-growing logistics and freight forwarding companies in South East Asia, the Indian subcontinent, and the Middle East.
+                    Amass Middle East Shipping Services LLC, a Neutral LCL Consolidation Service Provider to serve the UAE market. Our Office is in Oudh Metha-Dubai and the CFS is in Jebel Ali.
                   </p>
                   <p className="text-lg leading-relaxed text-gray-700">
-                    Our competitive advantage lies in our dedicated warehouse facilities and owned fleet of trucks strategically located at key hubs, enabling us to deliver top-notch logistics services to our valued customers.
+                    As a part of an expansion of our business all over the world, we have opened our branches in Saudi Arabia with 3 branches in Dammam, Riyadh, and Jeddah our headquarters is in Dammam, and we have our own bonded warehouse facilities in Jeddah and Dammam.
+                  </p>
+                  <p className="text-lg leading-relaxed text-gray-700">
+                    Our growth has been phenomenal in the last 9 years, and we are now one of the leading consolidators in the region. The strength of any organization is its individuals, and we are no different. We have approximately 40 staff members catering to the business needs of the market.
                   </p>
                 </div>
 
@@ -120,7 +123,7 @@ const AboutUs = () => {
               once: true
             }} className="relative">
                 <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-                  <img alt="GC Operations" loading="lazy" className="w-full h-96 object-cover" src="/customclearance.png" />
+                  <img alt="Amass Operations" loading="lazy" className="w-full h-96 object-cover" src="/lovable-uploads/a44481e1-bf8c-43ab-b259-b833b252e1ed.png" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
                 </div>
                 <div className="absolute -bottom-6 -right-6 p-4 rounded-xl shadow-lg bg-kargon-red">
@@ -131,69 +134,131 @@ const AboutUs = () => {
           </div>
         </section>
 
-        {/* Sri Lanka specific content blocks */}
-        {isSriLanka && (
-          <section className="py-20 bg-white">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              {/* First content block */}
-              <motion.div initial={{
-                opacity: 0,
-                y: 30
-              }} whileInView={{
-                opacity: 1,
-                y: 0
-              }} transition={{
-                duration: 0.8
-              }} viewport={{
-                once: true
-              }} className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center mb-20">
-                <div className="space-y-6">
-                  <h2 className="text-3xl font-bold text-kargon-blue">Our Sri Lankan Operations</h2>
-                  <p className="text-lg leading-relaxed text-gray-700">
-                    GC Sri Lanka has established itself as a trusted logistics partner in the region, providing comprehensive freight forwarding and logistics solutions. Our local expertise combined with global reach ensures seamless operations for businesses across various industries.
-                  </p>
-                  <p className="text-lg leading-relaxed text-gray-700">
-                    We maintain state-of-the-art facilities and employ cutting-edge technology to streamline your supply chain operations, ensuring efficiency and reliability in every shipment.
-                  </p>
-                </div>
-                <div className="relative">
-                  <img alt="GC Sri Lanka Warehouse" className="w-full h-80 object-cover rounded-2xl shadow-lg" src="/warehousing.png" />
-                </div>
-              </motion.div>
+        {/* Core Services Section */}
+        <section className="py-20 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <motion.div initial={{
+              opacity: 0,
+              y: 30
+            }} whileInView={{
+              opacity: 1,
+              y: 0
+            }} transition={{
+              duration: 0.8
+            }} viewport={{
+              once: true
+            }} className="text-center mb-16">
+              <h2 className="text-4xl font-bold text-kargon-blue mb-6">Our Core Services</h2>
+            </motion.div>
 
-              {/* Second content block */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+              {/* LCL Service */}
               <motion.div initial={{
                 opacity: 0,
-                y: 30
+                x: -50
               }} whileInView={{
                 opacity: 1,
-                y: 0
+                x: 0
               }} transition={{
                 duration: 0.8,
                 delay: 0.2
               }} viewport={{
                 once: true
-              }} className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-                <div className="order-2 md:order-1 relative">
-                  <img alt="GC Sri Lanka Sea Freight" className="w-full h-80 object-cover rounded-2xl shadow-lg" src="/oceanfreight.png" />
+              }} className="bg-slate-50 rounded-2xl p-8">
+                <div className="flex items-center mb-6">
+                  <div className="w-16 h-16 bg-kargon-blue rounded-full flex items-center justify-center mr-4">
+                    <Ship className="w-8 h-8 text-white" />
+                  </div>
+                  <h3 className="text-2xl font-bold text-kargon-blue">LCL Services</h3>
                 </div>
-                <div className="order-1 md:order-2 space-y-6">
-                  <h2 className="text-3xl font-bold text-kargon-blue">Strategic Location Advantage</h2>
-                  <p className="text-lg leading-relaxed text-gray-700">
-                    Located at the crossroads of major shipping lanes, Sri Lanka offers unique advantages for international trade. Our strategic positioning enables efficient connectivity to major markets across Asia, Europe, and beyond.
-                  </p>
-                  <p className="text-lg leading-relaxed text-gray-700">
-                    Our team of experienced professionals understands the local market dynamics and regulatory requirements, ensuring smooth customs clearance and documentation processes for all your shipments.
-                  </p>
+                <p className="text-gray-700 mb-4">
+                  Amass Freight, Dubai is one of the leading logistics providers in the region providing Less-Than Container load (LCL) for the ultimate convenience of our customers to help in transporting their products to any location required.
+                </p>
+                <Link to={getNavLink("/services/lcl")} className="text-kargon-red font-medium hover:underline">
+                  Read more →
+                </Link>
+              </motion.div>
+
+              {/* CFS Service */}
+              <motion.div initial={{
+                opacity: 0,
+                x: 50
+              }} whileInView={{
+                opacity: 1,
+                x: 0
+              }} transition={{
+                duration: 0.8,
+                delay: 0.4
+              }} viewport={{
+                once: true
+              }} className="bg-slate-50 rounded-2xl p-8">
+                <div className="flex items-center mb-6">
+                  <div className="w-16 h-16 bg-kargon-blue rounded-full flex items-center justify-center mr-4">
+                    <Truck className="w-8 h-8 text-white" />
+                  </div>
+                  <h3 className="text-2xl font-bold text-kargon-blue">CFS Services</h3>
                 </div>
+                <p className="text-gray-700 mb-4">
+                  Take full advantage of our state-of-the-art CFS, which is equipped with the latest equipment, technology and staffed by experienced professionals at every level. Our warehouses are designed to handle your cargo efficiently across all regions.
+                </p>
+                <Link to={getNavLink("/services/cfs")} className="text-kargon-red font-medium hover:underline">
+                  Read more →
+                </Link>
               </motion.div>
             </div>
-          </section>
-        )}
+          </div>
+        </section>
 
         {/* Stats Section */}
         <section className="py-20 bg-slate-50">
-          
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <motion.div initial={{
+              opacity: 0,
+              y: 30
+            }} whileInView={{
+              opacity: 1,
+              y: 0
+            }} transition={{
+              duration: 0.8
+            }} viewport={{
+              once: true
+            }} className="text-center mb-16">
+              <h2 className="text-4xl font-bold text-kargon-blue mb-6">Our Achievements</h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                Leading consolidator in the region with phenomenal growth and trusted partnerships
+              </p>
+            </motion.div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {stats.map((stat, index) => (
+                <motion.div
+                  key={index}
+                  initial={{
+                    opacity: 0,
+                    y: 30
+                  }}
+                  whileInView={{
+                    opacity: 1,
+                    y: 0
+                  }}
+                  transition={{
+                    duration: 0.8,
+                    delay: index * 0.1
+                  }}
+                  viewport={{
+                    once: true
+                  }}
+                  className="text-center bg-white rounded-2xl p-8 shadow-lg"
+                >
+                  <div className="w-16 h-16 bg-kargon-blue/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <stat.icon className="w-8 h-8 text-kargon-blue" />
+                  </div>
+                  <div className="text-4xl font-bold text-kargon-blue mb-2">{stat.number}</div>
+                  <div className="text-gray-600 font-medium">{stat.label}</div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
         </section>
       </main>
 

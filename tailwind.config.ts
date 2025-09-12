@@ -54,17 +54,16 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
-				// GC Brand Colors from logo
-				'gc-gold': '#B8860B',
-				'gc-bronze': '#CD7F32',
-				'gc-blue': '#1E90FF',
-				'gc-dark-blue': '#104C8F',
-				'gc-light-gold': '#FFD700',
+				// Amass Brand Colors from logo
+				'amass-blue': '#2563eb',
+				'amass-dark-blue': '#1e40af', 
+				'amass-red': '#dc2626',
+				'amass-light-blue': '#60a5fa',
 				// Legacy colors for compatibility
 				kargon: {
-					red: '#B8860B', // Changed to gold
-					dark: '#1b2129',
-					blue: '#1E90FF',
+					red: '#dc2626', // Changed to Amass red
+					dark: '#1e40af', // Changed to Amass dark blue
+					blue: '#2563eb', // Changed to Amass blue
 				},
 				'milk-texture': '#F7F7F7',
 				sidebar: {

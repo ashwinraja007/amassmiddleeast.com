@@ -40,7 +40,6 @@ interface GalleryImage {
   label: string | null;
   image_url: string;
   image_path: string;
-  folder: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -380,7 +379,7 @@ const BlogEditor = () => {
     try {
       const { data, error } = await supabase
         .from('gallery')
-        .select('id,country,title,description,label,image_url,image_path,folder,created_at,updated_at')
+        .select('id,country,title,description,label,image_url,image_path,created_at,updated_at')
         .eq('country', selectedCountry)
         .order('created_at', { ascending: false });
 
@@ -396,10 +395,7 @@ const BlogEditor = () => {
   const groupedByFolder = useMemo(() => {
     const groups: Record<string, GalleryImage[]> = {};
     for (const img of galleryImages) {
-      let folder = (img.folder || "").trim();
-      if (!folder) {
-        folder = img.image_path?.includes("/") ? img.image_path.split("/")[0] : "Uncategorized";
-      }
+      const folder = img.image_path?.includes("/") ? img.image_path.split("/")[0] : "Uncategorized";
       if (!groups[folder]) groups[folder] = [];
       groups[folder].push(img);
     }
@@ -459,7 +455,6 @@ const BlogEditor = () => {
             label: galleryUploadForm.label || null,
             image_url: publicUrl,
             image_path: filePath,
-            folder: folderSafe || null,
           });
 
         if (dbError) throw dbError;

@@ -15,7 +15,6 @@ interface GalleryImage {
   label: string | null;
   image_url: string;
   image_path: string;
-  folder: string | null;       // NEW: preferred grouping source
   created_at: string;
 }
 
@@ -62,15 +61,14 @@ const Gallery = () => {
     srilanka: "🇱🇰",
   };
 
-  // Fallback to parse folder from image_path if DB folder is null
-  const deriveFolder = (img: GalleryImage) => {
-    if (img.folder && img.folder.trim()) return img.folder.trim();
-    if (img.image_path?.includes("/")) {
-      const first = img.image_path.split("/")[0];
-      return first || "Uncategorized";
-    }
-    return "Uncategorized";
-  };
+// Fallback to parse folder from image_path
+const deriveFolder = (img: GalleryImage) => {
+  if (img.image_path?.includes("/")) {
+    const first = img.image_path.split("/")[0];
+    return first || "Uncategorized";
+  }
+  return "Uncategorized";
+};
 
   const groupedImages = useMemo(() => {
     const groups: Record<string, GalleryImage[]> = {};
@@ -90,7 +88,7 @@ const Gallery = () => {
       const { data, error } = await supabase
         .from("gallery")
         .select(
-          "id,country,title,description,label,image_url,image_path,folder,created_at"
+          "id,country,title,description,label,image_url,image_path,created_at"
         )
         .eq("country", currentCountry)
         .or("label.is.null,label.neq.private")
@@ -98,7 +96,7 @@ const Gallery = () => {
 
       if (error) throw error;
 
-      setImages((data as GalleryImage[]) || []);
+      setImages((data as unknown as GalleryImage[]) || []);
     } catch (err: any) {
       console.error("Gallery fetch error:", err);
       toast({

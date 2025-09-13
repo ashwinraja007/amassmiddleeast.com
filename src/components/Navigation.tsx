@@ -151,12 +151,6 @@ const Navigation = () => {
           <div className="hidden md:flex items-center gap-2 lg:gap-3">
             <CountrySelector />
 
-            <Link to={`${getNavLink("/contact")}#contact-form`}>
-              <Button className="bg-amass-blue hover:bg-amass-dark-blue text-white rounded-md text-xs sm:text-sm px-3 sm:px-4 py-2">
-                Contact / Quote
-              </Button>
-            </Link>
-
             {/* Social Icons */}
             <div className="ml-1 flex items-center gap-2">
               {SOCIALS.map(({ name, href, Icon }) => (

@@ -1,7 +1,7 @@
 import React from "react";
 import ScrollAnimation from "./ScrollAnimation";
 
-/* ✅ Numbers + emojis you asked to show */
+/* Stats data with emojis and numbers */
 const RING = [
   { label: "Countries & Regions", value: 200, emoji: "🌍" },
   { label: "Weekly Direct Service", value: 1000, emoji: "⏱️" },
@@ -29,24 +29,23 @@ const StatsSection: React.FC = () => {
           Our <span className="text-kargon-red">Key Numbers</span>
         </h2>
 
-        {/* Grid of stats with numbers visible */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* 💡 Single row: 1 × 6 */}
+        <div className="grid grid-cols-1 md:grid-cols-6 gap-6">
           {RING.map((item, idx) => (
             <ScrollAnimation
               key={idx}
-              delay={idx * 150}
-              className="bg-white/20 backdrop-blur-lg border border-white/10 rounded-xl shadow-xl p-8 text-center"
+              delay={idx * 100}
+              className="bg-white/20 backdrop-blur-lg border border-white/10 rounded-xl shadow-xl p-6 text-center"
             >
-              <div className="flex justify-center mb-6">
+              <div className="flex justify-center mb-4">
                 <div className="p-4 rounded-full text-5xl">
                   {item.emoji}
                 </div>
               </div>
-              {/* 🔢 actual numbers rendered here */}
-              <div className="text-5xl font-bold text-white mb-2">
+              <div className="text-4xl font-bold text-white mb-1">
                 {item.value.toLocaleString()}
               </div>
-              <div className="text-lg font-medium text-white/80">
+              <div className="text-sm font-medium text-white/80">
                 {item.label}
               </div>
             </ScrollAnimation>

@@ -10,9 +10,8 @@ import { useLocation } from "react-router-dom";
 // Brand Colors  
 const BRAND = {
   blue: "#2563eb",
-  red: "#dc2626",
-  gold: "#dc2626",
-  // Using red as accent color for Amass
+  red: "#dc2626", 
+  gold: "#dc2626", // Using red as accent color for Amass
   black: "#111"
 };
 const allOffices = {
@@ -81,7 +80,7 @@ const ContactForm = () => {
       alert("Something went wrong: " + err.message);
     }
   };
-  return <section id="contact" className="py-16 bg-slate-50">
+  return <section id="contact" className="py-16 bg-slate-200">
       <div className="container mx-auto px-4">
         <motion.div initial={{
         opacity: 0,

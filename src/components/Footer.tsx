@@ -62,7 +62,7 @@ const Footer = () => {
   const getCurrentCountryFromUrl = () => {
     const pathname = location.pathname.toLowerCase();
     if (pathname.includes('/saudi')) return 'Saudi Arabia';
-    
+
     // Default to UAE
     return 'UAE';
   };
@@ -93,8 +93,7 @@ const Footer = () => {
     setCurrentAddressIndex(prev => (prev + 1) % allOffices.length);
   };
   const currentOffice = allOffices[currentAddressIndex];
-  return (
-    <footer className="pt-16 pb-8 bg-kargon-blue text-white">
+  return <footer className="pt-16 pb-8 text-white bg-blue-950">
       <div className="container mx-auto px-4">
         <div className="h-1 bg-gradient-to-r from-gc-gold via-gc-light-gold to-gc-gold rounded-full mb-8" />
 
@@ -106,17 +105,17 @@ const Footer = () => {
             <div className="mb-4 bg-white p-3 rounded-lg">
               <img src="/lovable-uploads/a44481e1-bf8c-43ab-b259-b833b252e1ed.png" alt="Amass Middle East" className="h-16 w-auto object-contain" loading="lazy" />
             </div>
-            <h3 className="text-lg font-semibold mb-2 text-gray-950">Amass Middle East Shipping Services LLC</h3>
-            <p className="text-sm md:text-base max-w-xs text-left leading-relaxed mb-4 text-zinc-950">
+            <h3 className="text-lg font-semibold mb-2 text-slate-50">Amass Middle East Shipping Services LLC</h3>
+            <p className="text-sm md:text-base max-w-xs text-left leading-relaxed mb-4 text-slate-50">
               We were established in the year 2015, as a Neutral LCL Consolidation Service Provider to serve the UAE market.
             </p>
             
             <div className="space-y-2 text-sm text-white/80">
-              <h4 className="font-medium text-zinc-950">DO Counter & CFS Timings</h4>
-              <p className="text-zinc-950">Monday to Thursday: 8.00 AM to 12.30 PM, 2.00 PM to 4.00 PM</p>
-              <p className="text-zinc-950">Friday: 8.00 AM to 12.00 PM, 2.00 PM to 4.30 PM</p>
-              <p className="text-xs text-zinc-950">(12.00 PM to 2.00 PM - Friday Prayer and Lunch Break)</p>
-              <p className="text-zinc-950">Saturday & Sunday CLOSED</p>
+              <h4 className="font-medium text-slate-50">DO Counter & CFS Timings</h4>
+              <p className="text-slate-50">Monday to Thursday: 8.00 AM to 12.30 PM, 2.00 PM to 4.00 PM</p>
+              <p className="text-slate-50">Friday: 8.00 AM to 12.00 PM, 2.00 PM to 4.30 PM</p>
+              <p className="text-xs text-slate-50">(12.00 PM to 2.00 PM - Friday Prayer and Lunch Break)</p>
+              <p className="text-slate-50">Saturday & Sunday CLOSED</p>
             </div>
           </motion.div>
 
@@ -181,7 +180,7 @@ const Footer = () => {
                     <p className="font-semibold text-gc-gold mb-1">
                       {currentOffice.name} - {currentOffice.country}
                     </p>
-                    <p className="whitespace-pre-line text-sm leading-relaxed text-gray-950">
+                    <p className="whitespace-pre-line text-sm leading-relaxed text-slate-50">
                       {currentOffice.address}
                     </p>
                   </div>
@@ -189,12 +188,12 @@ const Footer = () => {
                 
                  {currentOffice.phone && <div className="flex items-center gap-2">
         <Phone size={18} className="text-gc-gold flex-shrink-0" />
-        <p className="text-sm text-gray-950">{currentOffice.phone}</p>
+        <p className="text-sm text-slate-50">{currentOffice.phone}</p>
       </div>}
 
     {currentOffice.email && <div className="flex items-center gap-2">
         <Mail size={18} className="text-gc-gold flex-shrink-0" />
-        <p className="text-sm text-gray-950">{currentOffice.email}</p>
+        <p className="text-sm text-slate-50">{currentOffice.email}</p>
       </div>}
   </motion.div>}
             
@@ -212,7 +211,6 @@ const Footer = () => {
           &copy; {new Date().getFullYear()} Amass Middle East Shipping Services LLC. All rights reserved.
         </div>
       </div>
-    </footer>
-  );
+    </footer>;
 };
 export default Footer;

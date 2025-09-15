@@ -272,10 +272,14 @@ const AboutHexCircle: React.FC = () => {
       <div className="container relative mx-auto px-4 md:px-6 lg:px-8">
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-12 lg:gap-16 items-center">
           
-          {/* LEFT: Text content */}
+          {/* LEFT: Text content with images */}
           <div className="space-y-6 lg:pr-8">
+            {/* Header with icon */}
             <div className="space-y-4">
-              <div className="inline-block">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full flex items-center justify-center">
+                  <span className="text-white text-xl">🏢</span>
+                </div>
                 <span className="inline-block px-3 py-1 text-sm font-semibold text-blue-600 bg-blue-100 rounded-full">
                   About Amass
                 </span>
@@ -289,25 +293,76 @@ const AboutHexCircle: React.FC = () => {
               </h2>
             </div>
 
-            <div className="space-y-4 text-slate-700 leading-relaxed">
-              <p className="text-base lg:text-lg">
-                <span className="font-bold text-slate-900">Amass Middle East Shipping Services LLC</span>, 
-                a Neutral LCL Consolidation Service Provider to serve the UAE market. Our Office is in Oudh Mehta–Dubai and the CFS is in Jebel Ali.
-              </p>
+            {/* Content with icons */}
+            <div className="space-y-6 text-slate-700 leading-relaxed">
+              {/* First paragraph with UAE/Dubai icon */}
+              <div className="flex gap-4 items-start">
+                <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg flex items-center justify-center mt-1">
+                  <span className="text-white text-lg">🇦🇪</span>
+                </div>
+                <p className="text-base lg:text-lg">
+                  <span className="font-bold text-slate-900">Amass Middle East Shipping Services LLC</span>, 
+                  a Neutral LCL Consolidation Service Provider to serve the UAE market. Our Office is in Oudh Mehta–Dubai and the CFS is in Jebel Ali.
+                </p>
+              </div>
 
-              <p className="text-base lg:text-lg">
-                As part of our global expansion, we opened branches in Saudi Arabia (Dammam, Riyadh, Jeddah). HQ in Dammam with bonded warehouses in Jeddah and Dammam.
-              </p>
+              {/* Second paragraph with Saudi Arabia expansion icon */}
+              <div className="flex gap-4 items-start">
+                <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-r from-purple-500 to-purple-600 rounded-lg flex items-center justify-center mt-1">
+                  <span className="text-white text-lg">🇸🇦</span>
+                </div>
+                <p className="text-base lg:text-lg">
+                  As part of our global expansion, we opened branches in Saudi Arabia (Dammam, Riyadh, Jeddah). HQ in Dammam with bonded warehouses in Jeddah and Dammam.
+                </p>
+              </div>
 
-              <p className="text-base lg:text-lg">
-                Our growth has been phenomenal in the last 9 years, and we are now one of the leading consolidators in the region. Teams are led by seasoned logistics professionals. Amass China founded the CWN network with dedicated members worldwide.
-              </p>
+              {/* Third paragraph with growth/network icon */}
+              <div className="flex gap-4 items-start">
+                <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-r from-orange-500 to-red-600 rounded-lg flex items-center justify-center mt-1">
+                  <span className="text-white text-lg">📈</span>
+                </div>
+                <p className="text-base lg:text-lg">
+                  Our growth has been phenomenal in the last 9 years, and we are now one of the leading consolidators in the region. Teams are led by seasoned logistics professionals. Amass China founded the CWN network with dedicated members worldwide.
+                </p>
+              </div>
             </div>
 
+            {/* Key highlights with icons */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 py-6">
+              <div className="flex items-center gap-3 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-100">
+                <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                  <span className="text-white text-sm">⭐</span>
+                </div>
+                <div>
+                  <div className="font-semibold text-slate-900 text-sm">9 Years</div>
+                  <div className="text-xs text-slate-600">Industry Experience</div>
+                </div>
+              </div>
+              
+              <div className="flex items-center gap-3 p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg border border-green-100">
+                <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
+                  <span className="text-white text-sm">🌐</span>
+                </div>
+                <div>
+                  <div className="font-semibold text-slate-900 text-sm">CWN Network</div>
+                  <div className="text-xs text-slate-600">Global Presence</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Buttons with icons */}
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
               <Link to={getNavLink("/contact")}>
-                <Button className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-8 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300">
+                <Button className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-8 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-2">
+                  <span>📖</span>
                   Read More
+                </Button>
+              </Link>
+              
+              <Link to={getNavLink("/services")}>
+                <Button variant="outline" className="border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white px-8 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-2">
+                  <span>🚢</span>
+                  Our Services
                 </Button>
               </Link>
             </div>

@@ -35,7 +35,7 @@ const HeroSection: React.FC = () => {
       {/* Full-screen video with NO gradient overlay */}
       <video
         className="absolute inset-0 w-full h-full object-cover"
-        src="/GC_promo_2.mp4"   // replace with your video
+        src="/hero5.mp4"   // replace with your video
         autoPlay
         loop
         muted

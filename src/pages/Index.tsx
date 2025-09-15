@@ -59,10 +59,7 @@ const Index = () => {
       <Navigation />
       <ScrollToTop />
       <HeroSection />
-      <TrackOrder />
-      <ServicesCards />
       <AboutSection />
-      <VisionMissionSection />
       <ServicesSection />
       <GlobalPresence />
       <ContactForm />

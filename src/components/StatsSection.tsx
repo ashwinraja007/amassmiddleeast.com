@@ -1,15 +1,31 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ScrollAnimation from "./ScrollAnimation";
 
-/* Stats data with emojis and numbers */
+/* Stats with plain numbers + labels */
 const RING = [
-  { label: "Countries & Regions", value: 200, emoji: "🌍" },
-  { label: "Weekly Direct Service", value: 1000, emoji: "⏱️" },
-  { label: "Cubic Meters Export", value: 3_000_000, emoji: "📦" },
-  { label: "Branches & Offices", value: 84, emoji: "🏢" },
-  { label: "Destinations", value: 20_000, emoji: "🗺️" },
-  { label: "Shipments / Year", value: 555_000, emoji: "🚢" },
+  { label: "Countries & Regions", value: 200 },
+  { label: "Weekly Direct Service", value: 1000 },
+  { label: "Cubic Meters Export", value: 3_000_000 },
+  { label: "Branches & Offices", value: 84 },
+  { label: "Destinations", value: 20_000 },
+  { label: "Shipments / Year", value: 555_000 },
 ];
+
+/* simple count-up hook */
+function useCountUp(end: number, duration = 1500) {
+  const [val, setVal] = useState(0);
+  useEffect(() => {
+    const start = performance.now();
+    const step = (t: number) => {
+      const p = Math.min(1, (t - start) / duration);
+      const eased = 1 - Math.pow(1 - p, 3); // easeOutCubic
+      setVal(Math.round(end * eased));
+      if (p < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }, [end, duration]);
+  return val;
+}
 
 const StatsSection: React.FC = () => {
   return (
@@ -29,27 +45,26 @@ const StatsSection: React.FC = () => {
           Our <span className="text-kargon-red">Key Numbers</span>
         </h2>
 
-        {/* 💡 Single row: 1 × 6 */}
+        {/* Single horizontal row on md+ */}
         <div className="grid grid-cols-1 md:grid-cols-6 gap-6">
-          {RING.map((item, idx) => (
-            <ScrollAnimation
-              key={idx}
-              delay={idx * 100}
-              className="bg-white/20 backdrop-blur-lg border border-white/10 rounded-xl shadow-xl p-6 text-center"
-            >
-              <div className="flex justify-center mb-4">
-                <div className="p-4 rounded-full text-5xl">
-                  {item.emoji}
+          {RING.map((item, idx) => {
+            const count = useCountUp(item.value);
+            return (
+              <ScrollAnimation
+                key={idx}
+                delay={idx * 120}
+                className="bg-white/20 backdrop-blur-lg border border-white/10 rounded-xl shadow-xl p-6 text-center"
+              >
+                {/* 🔢 animated running number */}
+                <div className="text-4xl font-bold text-white mb-2 tabular-nums">
+                  {count.toLocaleString()}
                 </div>
-              </div>
-              <div className="text-4xl font-bold text-white mb-1">
-                {item.value.toLocaleString()}
-              </div>
-              <div className="text-sm font-medium text-white/80">
-                {item.label}
-              </div>
-            </ScrollAnimation>
-          ))}
+                <div className="text-sm font-medium text-white/80">
+                  {item.label}
+                </div>
+              </ScrollAnimation>
+            );
+          })}
         </div>
       </div>
     </section>

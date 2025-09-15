@@ -83,7 +83,7 @@ const ContactForm = () => {
       alert("Something went wrong: " + err.message);
     }
   };
-  return <section id="contact" className="py-16 bg-slate-50">
+  return <section id="contact" className="py-16 bg-slate-100">
       <div className="container mx-auto px-4">
         <motion.div initial={{
         opacity: 0,

@@ -54,7 +54,7 @@ const AboutSection: React.FC = () => {
             <div className="w-full overflow-hidden rounded-2xl shadow-xl border border-slate-200">
               {/* Replace src with your actual image path */}
               <img
-                src="/about-right.jpg"
+                src="/amass.jpg"
                 alt="Global Consol operations"
                 className="w-full h-auto object-cover"
                 style={{ aspectRatio: "16 / 10" }} /* keeps a nice rectangle */

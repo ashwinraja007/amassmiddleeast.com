@@ -1,13 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const HeroSection = () => {
+const HeroSection: React.FC = () => {
   return (
     <section className="relative min-h-screen overflow-hidden bg-black text-white">
-      {/* ✅ Background video */}
+      {/* ✅ Fullscreen background video */}
       <video
         className="absolute inset-0 w-full h-full object-cover"
-        src="/hero5.mp4"
+        src="/hero5.mp4"     // Place hero5.mp4 in your public folder
         autoPlay
         loop
         muted
@@ -29,7 +29,11 @@ const HeroSection = () => {
             <Link
               key={btn.label}
               to={btn.href}
-              className="bg-[#E1251B] text-white hover:bg-red-700 font-semibold px-6 py-3 rounded-md shadow-md transition"
+              className="
+                bg-[#E1251B] text-white font-semibold
+                px-6 py-3 rounded-md shadow-md
+                hover:bg-red-700 transition
+              "
             >
               {btn.label}
             </Link>

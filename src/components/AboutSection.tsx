@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { getCurrentCountryFromPath } from "@/services/countryDetection";
 
-/* ---- Enhanced count-up hook with easing ---- */
+/* ---- Enhanced count-up hook ---- */
 function useCountUp(end: number, duration = 2000, delay = 0) {
   const [val, setVal] = useState(0);
   const [started, setStarted] = useState(false);
@@ -16,8 +16,6 @@ function useCountUp(end: number, duration = 2000, delay = 0) {
       const step = (t: number) => {
         const elapsed = t - t0;
         const progress = Math.min(1, elapsed / duration);
-        
-        // Smooth easing function
         const eased = progress < 0.5 
           ? 2 * progress * progress 
           : 1 - Math.pow(-2 * progress + 2, 2) / 2;
@@ -31,7 +29,6 @@ function useCountUp(end: number, duration = 2000, delay = 0) {
     return () => clearTimeout(timeout);
   }, [end, duration, delay, started]);
   
-  // Trigger animation when component mounts
   useEffect(() => {
     const timer = setTimeout(() => setStarted(true), 500);
     return () => clearTimeout(timer);
@@ -40,53 +37,59 @@ function useCountUp(end: number, duration = 2000, delay = 0) {
   return val;
 }
 
-/* ---- Enhanced stats with icons and formatting ---- */
+/* ---- Stats with positioning and labels ---- */
 const RING = [
   { 
     label: "Countries & Regions", 
     value: 200, 
     color: "linear-gradient(135deg, #1E3A8A 0%, #3B82F6 100%)",
     suffix: "+",
-    icon: "🌍"
+    icon: "🌍",
+    position: "top-right"
   },
   { 
-    label: "Weekly Direct Services", 
+    label: "Weekly Direct Service", 
     value: 1000, 
     color: "linear-gradient(135deg, #1F2A72 0%, #4338CA 100%)",
     suffix: "+",
-    icon: "🚢"
+    icon: "🚢",
+    position: "right"
   },
   { 
-    label: "Cubic Meters Global Export", 
+    label: "Cubic Meters • Global Export LCL Freight", 
     value: 3000000, 
     color: "linear-gradient(135deg, #C62828 0%, #EF4444 100%)",
     formatAs: "millions",
-    icon: "📦"
+    icon: "📦",
+    position: "bottom-right"
   },
   { 
     label: "Branches & Offices", 
     value: 84, 
     color: "linear-gradient(135deg, #2B3F8F 0%, #6366F1 100%)",
     suffix: "+",
-    icon: "🏢"
+    icon: "🏢",
+    position: "bottom-left"
   },
   { 
-    label: "Global Destinations", 
+    label: "Destinations", 
     value: 20000, 
     color: "linear-gradient(135deg, #1FA6C7 0%, #06B6D4 100%)",
     formatAs: "thousands",
-    icon: "✈️"
+    icon: "✈️",
+    position: "left"
   },
   { 
-    label: "Annual Shipments", 
+    label: "Shipments / Year", 
     value: 555000, 
     color: "linear-gradient(135deg, #059669 0%, #10B981 100%)",
     formatAs: "thousands",
-    icon: "📊"
+    icon: "📊",
+    position: "top-left"
   },
 ];
 
-/* ---- Enhanced hexagon component ---- */
+/* ---- Hexagon component ---- */
 const Hexagon: React.FC<{
   bg: string;
   size: number;
@@ -103,7 +106,6 @@ const Hexagon: React.FC<{
   const n = value ?? 0;
   const animatedValue = useCountUp(n, 2000, delay);
   
-  // Format large numbers
   const formatNumber = (num: number) => {
     if (formatAs === "millions" && num >= 1000000) {
       return `${(num / 1000000).toFixed(1)}M`;
@@ -116,18 +118,17 @@ const Hexagon: React.FC<{
 
   return (
     <div
-      className={`hex group cursor-pointer transform transition-all duration-500 hover:scale-105 hover:-translate-y-2 hover:shadow-2xl ${className}`}
+      className={`hex group cursor-pointer transform transition-all duration-500 hover:scale-105 hover:-translate-y-1 hover:shadow-2xl ${className}`}
       style={{
         width: size,
         height: size,
         background: bg,
         clipPath: "polygon(25% 6.7%, 75% 6.7%, 100% 50%, 75% 93.3%, 25% 93.3%, 0% 50%)",
-        filter: "drop-shadow(0 10px 25px rgba(0,0,0,0.15))",
+        filter: "drop-shadow(0 8px 20px rgba(0,0,0,0.15))",
         ...style,
       }}
     >
-      <div className="flex h-full w-full flex-col items-center justify-center text-center px-2 sm:px-3 relative overflow-hidden">
-        {/* Animated background overlay */}
+      <div className="flex h-full w-full flex-col items-center justify-center text-center px-2 relative overflow-hidden">
         <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         
         {title ? (
@@ -139,15 +140,15 @@ const Hexagon: React.FC<{
         {value !== undefined ? (
           <>
             {icon && (
-              <div className="text-lg sm:text-xl mb-1 transform group-hover:scale-110 transition-transform duration-300">
+              <div className="text-base sm:text-lg mb-1 transform group-hover:scale-110 transition-transform duration-300">
                 {icon}
               </div>
             )}
-            <div className="relative z-10 text-white font-extrabold leading-none text-xl sm:text-2xl lg:text-3xl drop-shadow-sm">
+            <div className="relative z-10 text-white font-extrabold leading-none text-lg sm:text-xl lg:text-2xl drop-shadow-sm">
               {formatNumber(animatedValue)}{suffix}
             </div>
             {sub ? (
-              <div className="relative z-10 mt-1 text-[9px] sm:text-[10px] lg:text-xs font-medium text-white/95 leading-tight drop-shadow-sm">
+              <div className="relative z-10 mt-1 text-[8px] sm:text-[9px] lg:text-[10px] font-medium text-white/95 leading-tight drop-shadow-sm px-1">
                 {sub}
               </div>
             ) : null}
@@ -158,7 +159,75 @@ const Hexagon: React.FC<{
   );
 };
 
-/* ---- Main enhanced section ---- */
+/* ---- Connector Line Component ---- */
+const ConnectorLine: React.FC<{
+  from: { x: number; y: number };
+  to: { x: number; y: number };
+  label: string;
+  position: string;
+  delay: number;
+}> = ({ from, to, label, position, delay }) => {
+  const [isVisible, setIsVisible] = useState(false);
+  
+  useEffect(() => {
+    const timer = setTimeout(() => setIsVisible(true), delay);
+    return () => clearTimeout(timer);
+  }, [delay]);
+
+  const length = Math.sqrt(Math.pow(to.x - from.x, 2) + Math.pow(to.y - from.y, 2));
+  const angle = Math.atan2(to.y - from.y, to.x - from.x) * (180 / Math.PI);
+  
+  // Label positioning based on connector position
+  const getLabelPosition = () => {
+    switch(position) {
+      case 'top-right': return { top: '-40px', right: '0px', textAlign: 'right' as const };
+      case 'right': return { top: '50%', left: '100%', transform: 'translateY(-50%)', marginLeft: '20px', textAlign: 'left' as const };
+      case 'bottom-right': return { bottom: '-40px', right: '0px', textAlign: 'right' as const };
+      case 'bottom-left': return { bottom: '-40px', left: '0px', textAlign: 'left' as const };
+      case 'left': return { top: '50%', right: '100%', transform: 'translateY(-50%)', marginRight: '20px', textAlign: 'right' as const };
+      case 'top-left': return { top: '-40px', left: '0px', textAlign: 'left' as const };
+      default: return { top: '-40px', left: '50%', transform: 'translateX(-50%)', textAlign: 'center' as const };
+    }
+  };
+
+  return (
+    <div 
+      className="absolute pointer-events-none"
+      style={{
+        left: from.x,
+        top: from.y,
+        width: length,
+        height: '3px',
+        background: 'linear-gradient(90deg, #3B82F6, #06B6D4)',
+        transformOrigin: '0 50%',
+        transform: `rotate(${angle}deg)`,
+        opacity: isVisible ? 1 : 0,
+        transition: 'opacity 0.8s ease-out',
+        borderRadius: '2px',
+      }}
+    >
+      {/* End dot */}
+      <div 
+        className="absolute w-2 h-2 bg-blue-500 rounded-full -top-[2px]"
+        style={{ right: '-4px' }}
+      />
+      
+      {/* Label */}
+      <div
+        className="absolute text-xs font-semibold text-slate-700 uppercase tracking-wide whitespace-nowrap"
+        style={{
+          ...getLabelPosition(),
+          maxWidth: '140px',
+          lineHeight: '1.2',
+        }}
+      >
+        {label}
+      </div>
+    </div>
+  );
+};
+
+/* ---- Main component ---- */
 const AboutHexCircle: React.FC = () => {
   const location = useLocation();
   const currentCountry = getCurrentCountryFromPath(location.pathname);
@@ -167,25 +236,19 @@ const AboutHexCircle: React.FC = () => {
       ? p
       : `/${currentCountry.name.toLowerCase().replace(" ", "-")}${p}`;
 
-  /* Enhanced responsive layout */
-  const angles = useMemo(() => {
-    return Array.from({ length: RING.length }, (_, i) => (i * 360) / RING.length - 90);
-  }, []);
-
-  const [vars, setVars] = useState({ center: 240, item: 140, radius: 250 });
-  const [isVisible, setIsVisible] = useState(false);
+  const [vars, setVars] = useState({ center: 200, item: 120, radius: 180 });
 
   useEffect(() => {
     const onResize = () => {
       const w = window.innerWidth;
       if (w < 640) {
-        setVars({ center: 200, item: 120, radius: 0 });
+        setVars({ center: 160, item: 100, radius: 0 });
       } else if (w < 768) {
-        setVars({ center: 220, item: 130, radius: 200 });
+        setVars({ center: 180, item: 110, radius: 150 });
       } else if (w < 1024) {
-        setVars({ center: 240, item: 140, radius: 230 });
+        setVars({ center: 200, item: 120, radius: 180 });
       } else {
-        setVars({ center: 260, item: 150, radius: 270 });
+        setVars({ center: 220, item: 130, radius: 200 });
       }
     };
     onResize();
@@ -193,36 +256,23 @@ const AboutHexCircle: React.FC = () => {
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
-  // Intersection observer for animation trigger
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.3 }
-    );
-
-    const section = document.getElementById("hex-circle-section");
-    if (section) observer.observe(section);
-
-    return () => observer.disconnect();
-  }, []);
+  // Position calculations for hexagons
+  const positions = useMemo(() => {
+    const angles = [-30, 30, 90, 150, 210, 270]; // Adjusted angles for better layout
+    return angles.map(angle => {
+      const rad = (angle * Math.PI) / 180;
+      const x = Math.cos(rad) * vars.radius;
+      const y = Math.sin(rad) * vars.radius;
+      return { x, y };
+    });
+  }, [vars.radius]);
 
   return (
-    <section id="hex-circle-section" className="relative bg-gradient-to-br from-slate-50 via-white to-blue-50 py-16 md:py-20 lg:py-24 overflow-hidden">
-      {/* Animated background elements */}
-      <div className="absolute inset-0">
-        <div className="absolute top-20 left-10 w-32 h-32 bg-blue-200/20 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-20 right-10 w-40 h-40 bg-indigo-200/20 rounded-full blur-3xl animate-pulse delay-1000" />
-        <div className="absolute top-1/2 left-1/4 w-24 h-24 bg-cyan-200/20 rounded-full blur-2xl animate-pulse delay-500" />
-      </div>
-
+    <section className="relative bg-gradient-to-br from-slate-50 via-white to-blue-50 py-16 md:py-20 lg:py-24 overflow-hidden">
       <div className="container relative mx-auto px-4 md:px-6 lg:px-8">
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-12 lg:gap-16 items-center">
           
-          {/* LEFT: Enhanced text content */}
+          {/* LEFT: Text content */}
           <div className="space-y-6 lg:pr-8">
             <div className="space-y-4">
               <div className="inline-block">
@@ -242,140 +292,121 @@ const AboutHexCircle: React.FC = () => {
             <div className="space-y-4 text-slate-700 leading-relaxed">
               <p className="text-base lg:text-lg">
                 <span className="font-bold text-slate-900">Amass Middle East Shipping Services LLC</span>, 
-                a premier Neutral LCL Consolidation Service Provider serving the UAE market with excellence. 
-                Our headquarters are strategically located in Oudh Mehta–Dubai with our CFS facility in Jebel Ali.
+                a Neutral LCL Consolidation Service Provider to serve the UAE market. Our Office is in Oudh Mehta–Dubai and the CFS is in Jebel Ali.
               </p>
 
               <p className="text-base lg:text-lg">
-                As part of our ambitious global expansion, we've established key branches across Saudi Arabia 
-                including Dammam, Riyadh, and Jeddah, with our headquarters in Dammam featuring state-of-the-art 
-                bonded warehouses in both Jeddah and Dammam.
+                As part of our global expansion, we opened branches in Saudi Arabia (Dammam, Riyadh, Jeddah). HQ in Dammam with bonded warehouses in Jeddah and Dammam.
               </p>
 
               <p className="text-base lg:text-lg">
-                Our phenomenal growth over the past 9 years has positioned us as one of the region's leading 
-                consolidators. Our expert teams, led by seasoned logistics professionals, continue to drive 
-                innovation. Amass China proudly founded the CWN network, connecting dedicated members worldwide.
+                Our growth has been phenomenal in the last 9 years, and we are now one of the leading consolidators in the region. Teams are led by seasoned logistics professionals. Amass China founded the CWN network with dedicated members worldwide.
               </p>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
               <Link to={getNavLink("/contact")}>
                 <Button className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-8 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300">
-                  Learn More About Us
-                </Button>
-              </Link>
-              <Link to={getNavLink("/services")}>
-                <Button variant="outline" className="border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white px-8 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300">
-                  Our Services
+                  Read More
                 </Button>
               </Link>
             </div>
           </div>
 
-          {/* RIGHT: Enhanced hexagon visualization */}
-          <div className="relative mx-auto flex justify-center items-center min-h-[500px] lg:min-h-[600px]">
+          {/* RIGHT: Hexagon network layout */}
+          <div className="relative mx-auto flex justify-center items-center" style={{ minHeight: '600px' }}>
             
-            {/* Central hexagon with enhanced styling */}
-            <div className="relative">
-              <Hexagon
-                bg="linear-gradient(135deg, #1e3a8a 0%, #1f2a72 50%, #312e81 100%)"
-                size={vars.center}
-                title="NO. 1\nDOMESTIC LCL\nMARKET"
-                className="relative z-10 animate-pulse"
-                style={{
-                  color: "white",
-                  display: "grid",
-                  placeItems: "center",
-                  filter: "drop-shadow(0 20px 40px rgba(30, 58, 138, 0.3))",
-                }}
-              />
-              
-              {/* Glowing background effect */}
-              <div 
-                className="absolute inset-0 -z-10 animate-pulse opacity-30"
-                style={{
-                  width: vars.center + 40,
-                  height: vars.center + 40,
-                  left: -20,
-                  top: -20,
-                  background: "radial-gradient(circle, #1e3a8a, transparent 70%)",
-                  borderRadius: "50%",
-                  filter: "blur(20px)",
-                }}
-              />
-            </div>
+            {vars.radius > 0 ? (
+              // Desktop: Network layout with connectors
+              <div className="relative" style={{ width: '500px', height: '500px' }}>
+                {/* Central hexagon */}
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                  <Hexagon
+                    bg="linear-gradient(135deg, #1e3a8a 0%, #1f2a72 50%, #312e81 100%)"
+                    size={vars.center}
+                    title="NO.1 DOMESTIC LCL\nMARKET"
+                    className="relative z-20"
+                    style={{
+                      filter: "drop-shadow(0 20px 40px rgba(30, 58, 138, 0.3))",
+                    }}
+                  />
+                </div>
 
-            {/* Ring of statistical hexagons */}
-            {vars.radius > 0 && (
-              <div className="absolute inset-0">
+                {/* Surrounding hexagons with connectors */}
                 {RING.map((item, i) => {
-                  const angle = (angles[i] * Math.PI) / 180;
-                  const x = Math.cos(angle) * vars.radius;
-                  const y = Math.sin(angle) * vars.radius;
+                  const centerX = 250;
+                  const centerY = 250;
+                  const hexX = centerX + positions[i].x;
+                  const hexY = centerY + positions[i].y;
                   
                   return (
-                    <Hexagon
-                      key={i}
-                      bg={item.color}
-                      size={vars.item}
-                      value={item.value}
-                      sub={item.label}
-                      icon={item.icon}
-                      suffix={item.suffix}
-                      formatAs={item.formatAs}
-                      delay={i * 200}
-                      className="absolute animate-fade-in"
-                      style={{
-                        left: `calc(50% + ${x}px - ${vars.item / 2}px)`,
-                        top: `calc(50% + ${y}px - ${vars.item / 2}px)`,
-                        animationDelay: `${i * 0.2}s`,
-                      }}
-                    />
+                    <div key={i}>
+                      {/* Connector line */}
+                      <ConnectorLine
+                        from={{ x: centerX, y: centerY }}
+                        to={{ x: hexX, y: hexY }}
+                        label={item.label}
+                        position={item.position}
+                        delay={800 + i * 200}
+                      />
+                      
+                      {/* Hexagon */}
+                      <div
+                        className="absolute"
+                        style={{
+                          left: hexX - vars.item / 2,
+                          top: hexY - vars.item / 2,
+                        }}
+                      >
+                        <Hexagon
+                          bg={item.color}
+                          size={vars.item}
+                          value={item.value}
+                          icon={item.icon}
+                          suffix={item.suffix}
+                          formatAs={item.formatAs}
+                          delay={i * 200}
+                          className="relative z-10"
+                        />
+                      </div>
+                    </div>
                   );
                 })}
               </div>
-            )}
-
-            {/* Mobile stacked layout */}
-            {vars.radius === 0 && (
-              <div className="mt-8 grid grid-cols-2 gap-4 w-full max-w-md">
-                {RING.map((item, i) => (
+            ) : (
+              // Mobile: Stacked layout
+              <div className="w-full">
+                <div className="flex justify-center mb-8">
                   <Hexagon
-                    key={`stack-${i}`}
-                    bg={item.color}
-                    size={vars.item}
-                    value={item.value}
-                    sub={item.label}
-                    icon={item.icon}
-                    suffix={item.suffix}
-                    formatAs={item.formatAs}
-                    delay={i * 150}
-                    className="mx-auto"
+                    bg="linear-gradient(135deg, #1e3a8a 0%, #1f2a72 50%, #312e81 100%)"
+                    size={vars.center}
+                    title="NO.1 DOMESTIC LCL\nMARKET"
                   />
-                ))}
+                </div>
+                
+                <div className="grid grid-cols-2 gap-4 max-w-md mx-auto">
+                  {RING.map((item, i) => (
+                    <div key={`mobile-${i}`} className="flex flex-col items-center">
+                      <Hexagon
+                        bg={item.color}
+                        size={vars.item}
+                        value={item.value}
+                        icon={item.icon}
+                        suffix={item.suffix}
+                        formatAs={item.formatAs}
+                        delay={i * 150}
+                      />
+                      <div className="mt-2 text-xs font-medium text-slate-600 text-center leading-tight">
+                        {item.label}
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
           </div>
         </div>
       </div>
-
-      <style jsx>{`
-        @keyframes fade-in {
-          from {
-            opacity: 0;
-            transform: translateY(20px) scale(0.9);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-          }
-        }
-        .animate-fade-in {
-          animation: fade-in 0.8s ease-out forwards;
-          opacity: 0;
-        }
-      `}</style>
     </section>
   );
 };

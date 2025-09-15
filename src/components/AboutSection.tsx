@@ -1,72 +1,65 @@
-// src/components/AboutSection.tsx
-import React from "react";
-import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { CheckCircle } from "lucide-react";
+import ScrollAnimation from "./ScrollAnimation";
+import { Link, useLocation } from "react-router-dom";
 import { getCurrentCountryFromPath } from "@/services/countryDetection";
-
-const AboutSection: React.FC = () => {
+const AboutSection = () => {
   const location = useLocation();
   const currentCountry = getCurrentCountryFromPath(location.pathname);
-
-  const getNavLink = (p: string) =>
-    currentCountry.code === "SG"
-      ? p
-      : `/${currentCountry.name.toLowerCase().replace(" ", "-")}${p}`;
-
-  return (
-    <section className="bg-white py-14 md:py-20">
+  const getNavLink = (basePath: string) => {
+    if (currentCountry.code === "SG") return basePath;
+    return `/${currentCountry.name.toLowerCase().replace(" ", "-")}${basePath}`;
+  };
+  const isSriLanka = currentCountry.code === "LK";
+  return <section className="bg-slate-100 py-[114px]">
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-          {/* LEFT: clean text only (no colored sections before paragraphs) */}
-          <div>
-            <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900">
-              Who we are
-            </h2>
-
-            <p className="mt-5 text-slate-800">
-              <span className="font-semibold">Amass Middle East Shipping Services LLC</span>, a Neutral
-              LCL Consolidation Service Provider to serve the UAE market. Our office is in Oudh
-              Mehta–Dubai and the CFS is in Jebel Ali.
-            </p>
-
-            <p className="mt-4 text-slate-700">
-              We have expanded globally with branches in Saudi Arabia (Dammam, Riyadh, Jeddah) and
-              bonded warehouses in Jeddah and Dammam. Our team of 40+ professionals brings decades of
-              logistics expertise.
-            </p>
-
-            <p className="mt-4 text-slate-700">
-              Amass China founded the CWN network with dedicated members worldwide, enabling our
-              phenomenal growth over the last 9 years to become a leading regional consolidator.
-            </p>
-
-            <div className="mt-6">
-              <Link to={getNavLink("/contact")}>
-                <Button className="bg-amass-blue hover:bg-amass-dark-blue text-white">
-                  Read More
-                </Button>
-              </Link>
-            </div>
+          <div className="order-2 lg:order-1">
+            <ScrollAnimation>
+              <h2 className="text-3xl md:text-4xl font-bold mb-2 text-gray-900">About Us</h2>
+              <div className="w-16 h-1 bg-amass-blue mb-6"></div>
+              <div className="space-y-6 mb-8">
+                <div className="flex items-start">
+                  <CheckCircle className="text-amass-blue shrink-0 mr-3 mt-1" size={20} />
+                  <div>
+                    <h3 className="font-semibold text-xl mb-3 text-gray-900">15 Years Excellence in Logistics Industry</h3>
+                    <p className="text-gray-700 leading-relaxed">
+                      Amass Middle East Shipping Services LLC, a Neutral LCL Consolidation Service Provider to serve the UAE market. Our Office is in Oudh Metha-Dubai and the CFS is in Jebel Ali. As part of our business expansion, we have opened branches in Saudi Arabia with offices in Dammam, Riyadh, and Jeddah.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-wrap gap-4">
+                <Link to={getNavLink("/about-us")}>
+                  <Button className="bg-amass-blue hover:bg-amass-dark-blue text-white rounded-md px-6 py-3">
+                    Know More
+                  </Button>
+                </Link>
+                <Link to={getNavLink("/contact")}>
+                  
+                </Link>
+              </div>
+              
+              {/* Sri Lanka specific images */}
+              {isSriLanka && <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <ScrollAnimation delay={300} className="relative text-slate-50 bg-blue-950 hover:bg-blue-800">
+                    <img alt="GC Sri Lanka Operations" className="rounded-lg shadow-lg w-full object-cover h-48" src="/warehousing.png" />
+                  </ScrollAnimation>
+                  <ScrollAnimation delay={400} className="relative">
+                    <img alt="GC Sri Lanka Services" className="rounded-lg shadow-lg w-full object-cover h-48" src="/oceanfreight.png" />
+                  </ScrollAnimation>
+                </div>}
+            </ScrollAnimation>
           </div>
-
-          {/* RIGHT: rectangular image (replaces the hexagon circle) */}
-          <div className="order-first lg:order-none">
-            <div className="w-full overflow-hidden rounded-2xl shadow-xl border border-slate-200">
-              {/* Replace src with your actual image path */}
-              <img
-                src="/amass.jpg"
-                alt="Global Consol operations"
-                className="w-full h-auto object-cover"
-                style={{ aspectRatio: "16 / 10" }} /* keeps a nice rectangle */
-              />
-            </div>
-            {/* Optional small caption under image */}
-            {/* <p className="mt-3 text-sm text-slate-500 text-center">Our network & operations</p> */}
+          <div className="order-1 lg:order-2">
+            <ScrollAnimation delay={200} className="relative">
+              <img alt="GC Logistics Operations" className="rounded-lg shadow-lg w-full object-cover" style={{
+              height: '400px'
+            }} src="/aboutus2.png" />
+            </ScrollAnimation>
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default AboutSection;

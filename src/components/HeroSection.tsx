@@ -26,42 +26,35 @@ const HeroSection: React.FC = () => {
     {
       icon: <Globe className="w-5 h-5" />,
       title: "Global Offices",
-      url: "/offices", // adjust to your route or external URL
+      url: "/offices", // update to your route
     },
   ];
 
   return (
     <section className="relative min-h-screen w-full overflow-hidden">
-      {/* Background video */}
+      {/* Full-screen video with NO gradient overlay */}
       <video
         className="absolute inset-0 w-full h-full object-cover"
-        src="/GC_promo_2.mp4"   // replace with your video file
+        src="/GC_promo_2.mp4"   // replace with your video
         autoPlay
         loop
         muted
         playsInline
       />
 
-      {/* Solid dark-blue overlay for contrast */}
-      <div className="absolute inset-0 bg-[#0b1f4d]/80" />
-
-      {/* Centered Buttons */}
-      <div className="relative z-10 flex items-center justify-center h-full px-4">
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 max-w-5xl w-full">
+      {/* Buttons Bar at the Bottom */}
+      <div className="absolute bottom-0 left-0 right-0 z-10 bg-[#0b1f4d]/90 backdrop-blur-sm">
+        <div className="max-w-7xl mx-auto px-4 py-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
           {portalLinks.map((link, i) => (
             <a
               key={i}
               href={link.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex flex-col items-center justify-center gap-2 p-4 rounded-xl bg-[#0b1f4d] text-white hover:bg-[#122a66] transition-transform transform hover:scale-105 shadow-lg border border-white/10"
+              className="flex flex-col items-center justify-center gap-2 py-3 rounded-md bg-[#0b1f4d] text-white hover:bg-[#122a66] transition-transform transform hover:scale-105 shadow-md border border-white/10"
             >
-              <div className="p-2 bg-white/20 rounded-full">
-                {link.icon}
-              </div>
-              <span className="text-sm font-semibold text-center">
-                {link.title}
-              </span>
+              <div className="p-2 bg-white/20 rounded-full">{link.icon}</div>
+              <span className="text-sm font-semibold text-center">{link.title}</span>
             </a>
           ))}
         </div>

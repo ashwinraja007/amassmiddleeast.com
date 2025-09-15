@@ -11,7 +11,6 @@ import WhatMakesUsUniqueSection from "@/components/WhatMakesUsUniqueSection";
 import GlobalPresence from "@/components/GlobalPresence";
 import ServicesSection from "@/components/ServicesSection";
 import WorkflowSection from "@/components/WorkflowSection";
-import StatsSection from "@/components/StatsSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import UpdatesSection from "@/components/UpdatesSection";
 import ContactForm from "@/components/ContactForm";

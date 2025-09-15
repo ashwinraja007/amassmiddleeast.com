@@ -17,30 +17,32 @@ const BRAND = {
 const allOffices = {
   UAE: [{
     name: "Head Office",
-    address: "202, Sultan Business centre\nOud Metha, P.O.Box 33463\nDubai - UAE",
+    address: "202, Sultan Business Centre\nOud Metha, P.O. Box 33463\nDubai – UAE",
     phones: ["+971 4 3575508"],
+    fax: "+971 4 2221794",
     emails: ["contact@dxb.amassfreight.com"]
   }, {
     name: "CFS",
     address: "Plot No S20312,\nJafza South,\nJebel Ali, Dubai – UAE",
-    phones: ["+971 4 3575508"],
+    phones: ["+971 4 3400298", "+971 4 3575508"],
+    fax: "+971 4 8831004",
     emails: ["contact@dxb.amassfreight.com"]
   }],
   "Saudi Arabia": [{
-    name: "Dammam - Head Office",
-    address: "RASHIDIYA BUSINESS CENTER\nBUILD NO:7257 ROOM 308, 3RD FLOOR - AL AMAMRAH\nDAMMAM – 32415 - KSA",
-    phones: ["+966 13 8331234"],
-    emails: ["contact@amassfreight.com"]
+    name: "Dammam – Head Office",
+    address: "Rashidiya Business Center\nBuild No: 7257 Room 308, 3rd Floor – Al Amamrah\nDammam – 32415 – KSA",
+    phones: ["+966 13 849 8637"],
+    emails: ["contact@dxb.amassfreight.com"]
   }, {
     name: "Jeddah",
     address: "Room No. 408, Saudi Business Centre\n7859 Al Madinah Al Munawarah Road\nAl Sharafeyah, Jeddah 4542-22234",
-    phones: ["+966 12 6789012"],
-    emails: ["jeddah@amassfreight.com"]
+    phones: ["+966 12 578 0874"],
+    emails: ["contact@dxb.amassfreight.com"]
   }, {
     name: "Riyadh",
-    address: "ROOM NO. 20, AL MALAZ\nBLDG. NO. 104, 2 FLOOR AL QIRAWANI ST.\nAL MALAZ DISTRICT RIYADH 11332, K.S.A.",
-    phones: ["+966 11 4567890"],
-    emails: ["riyadh@amassfreight.com"]
+    address: "Room No. 20, Al Malaz\nBldg. No. 104, 2 Floor Al Qirawani St.\nAl Malaz District Riyadh 11332, K.S.A",
+    phones: ["+966 13 849 8630"],
+    emails: ["contact@dxb.amassfreight.com"]
   }]
 };
 const locationOptions = Object.keys(allOffices);

@@ -18,7 +18,6 @@ const services: ServiceCard[] = [{
   description: "Amass Freight, Dubai is one of the leading logistics providers in the region providing Less-Than Container load (LCL) for the ultimate convenience of our customers to help in transporting their products to any location required.",
   slug: "lcl",
   image: "/lcl1.JPG",
-  // e.g. /public/images/lcl-hero.jpg
   delay: 0,
   Icon: Boxes,
   tag: "Less-Than Container Load"

@@ -47,6 +47,8 @@ import ProjectCargo from '@/pages/services/ProjectCargo';
 import LiquidCargo from '@/pages/services/LiquidCargo';
 import ThirdPartyLogistics from '@/pages/services/ThirdPartyLogistics';
 import LinerAgency from '@/pages/services/LinerAgency';
+import LCL from '@/pages/services/LCL';
+import CFS from '@/pages/services/CFS';
 
 import { AuthProvider } from '@/contexts/AuthContext';
 import ProtectedRoute from '@/components/ProtectedRoute';
@@ -92,6 +94,8 @@ const serviceRoutes: ServiceRoute[] = [
   { path: 'liquid-cargo', component: LiquidCargo },
   { path: 'third-party-logistics', component: ThirdPartyLogistics },
   { path: 'liner-agency', component: LinerAgency },
+  { path: 'lcl', component: LCL },
+  { path: 'cfs', component: CFS },
 ];
 
 // Country prefixes

@@ -1,198 +1,182 @@
-import React, { useMemo, useRef, useState, useEffect, useCallback } from "react";
-import {
-  Trophy,
-  Globe2,
-  Plane,
-  Boxes,
-  Building2,
-  MapPinned,
-  Package,
-  ArrowLeft,
-  ArrowRight,
-} from "lucide-react";
+// src/components/AboutWithKPI.tsx
+import React, { useEffect, useRef, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { getCurrentCountryFromPath } from "@/services/countryDetection";
 
-/** ----- Your stats (can be imported from elsewhere) ----- */
-const STATS = [
-  { title: "NO. 1", value: 1, caption: "Domestic LCL Market • Undisputed Leader", Icon: Trophy, tone: "gold" as const },
-  { title: "Countries & Regions", value: 200, caption: "Global coverage", Icon: Globe2, tone: "blue" as const },
-  { title: "Weekly Direct Service", value: 1000, caption: "High-frequency schedules", Icon: Plane, tone: "blue" as const },
-  { title: "Cubic Meters • Global Export LCL Freight", value: 3_000_000, caption: "Proven consolidation capacity", Icon: Boxes, tone: "red" as const },
-  { title: "Branches & Offices", value: 84, caption: "On-ground expertise", Icon: Building2, tone: "blue" as const },
-  { title: "Destinations", value: 20_000, caption: "Door-to-door reach", Icon: MapPinned, tone: "gold" as const },
-  { title: "Shipments / Year", value: 555_000, caption: "Trusted by shippers worldwide", Icon: Package, tone: "red" as const },
-];
+/** ---------- Count-up (no libs) ---------- */
+function useCountUp(end: number, startOnVisible = true, duration = 1400) {
+  const [value, setValue] = useState(0);
+  const ref = useRef<HTMLDivElement | null>(null);
+  const [started, setStarted] = useState(!startOnVisible);
 
-type Tone = "gold" | "blue" | "red";
-const toneBg: Record<Tone, string> = { gold: "#FFD70033", blue: "#3B82F633", red: "#EF444433" };
-const toneText: Record<Tone, string> = { gold: "text-yellow-500", blue: "text-blue-600", red: "text-red-500" };
+  useEffect(() => {
+    if (!startOnVisible) return;
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setStarted(true);
+          io.disconnect();
+        }
+      },
+      { threshold: 0.25 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [startOnVisible]);
 
-type StatsCarouselProps = {
-  title?: string;             // Section heading (e.g., "Expertise")
-  items?: typeof STATS;       // Defaults to STATS above
+  useEffect(() => {
+    if (!started) return;
+    const start = performance.now();
+    const from = 0;
+    const diff = end - from;
+
+    const step = (t: number) => {
+      const p = Math.min(1, (t - start) / duration);
+      const eased = 1 - Math.pow(1 - p, 3); // easeOutCubic
+      setValue(Math.round(from + diff * eased));
+      if (p < 1) requestAnimationFrame(step);
+    };
+    const id = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(id);
+  }, [end, duration, started]);
+
+  return { ref, value };
+}
+
+/** ---------- Data ---------- */
+type Tone = "gold" | "blue" | "red" | "sky" | "gray";
+
+const TILE_COLORS: Record<Tone, { bg: string; text: string }> = {
+  gold: { bg: "bg-[#1D2A61]", text: "text-[#D4AF37]" }, // dark blue base, gold text for “NO.1” block
+  blue: { bg: "bg-[#1D2A61]", text: "text-[#D2B77E]" }, // royal blue with warm-gold text
+  red:  { bg: "bg-[#C62828]", text: "text-white" },     // red bar
+  sky:  { bg: "bg-[#46B9DB]", text: "text-white" },     // light blue bar
+  gray: { bg: "bg-[#BDBDBD]", text: "text-white" },     // grey bar
 };
 
-const StatsCarousel: React.FC<StatsCarouselProps> = ({ title = "Expertise", items = STATS }) => {
-  const trackRef = useRef<HTMLDivElement>(null);
-  const [active, setActive] = useState(0);
+const STATS = [
+  { title: "NO.", value: 1, caption: "DOMESTIC LCL MARKET • UNDISPUTED LEADER", tone: "gold" as Tone },
+  { title: "", value: 200, caption: "COUNTRIES & REGIONS", tone: "blue" as Tone },
+  { title: "", value: 1_000, caption: "WEEKLY DIRECT SERVICE", tone: "blue" as Tone },
+  { title: "", value: 3_000_000, caption: "CUBIC METERS • GLOBAL EXPORT LCL FREIGHT", tone: "red" as Tone },
+  { title: "", value: 84, caption: "BRANCHES & OFFICES", tone: "blue" as Tone },
+  { title: "", value: 20_000, caption: "DESTINATIONS", tone: "sky" as Tone },
+  { title: "", value: 555_000, caption: "SHIPMENTS / YEAR", tone: "gray" as Tone },
+];
 
-  // Each slide width (including gap) for programmatic scroll
-  const getSlideWidth = useCallback(() => {
-    const el = trackRef.current;
-    if (!el) return 0;
-    const slide = el.querySelector<HTMLDivElement>("[data-slide]");
-    if (!slide) return 0;
-    // slide width + column-gap
-    const styles = window.getComputedStyle(el);
-    const gap = parseFloat(styles.columnGap || "0");
-    return slide.getBoundingClientRect().width + gap;
-  }, []);
-
-  const slideTo = (index: number) => {
-    const el = trackRef.current;
-    if (!el) return;
-    const clamped = Math.max(0, Math.min(index, items.length - 1));
-    const w = getSlideWidth();
-    el.scrollTo({ left: clamped * w, behavior: "smooth" });
-  };
-
-  const next = () => slideTo(active + 1);
-  const prev = () => slideTo(active - 1);
-
-  // Update active index while scrolling (snap-aware)
-  useEffect(() => {
-    const el = trackRef.current;
-    if (!el) return;
-    let rAF = 0;
-    const handler = () => {
-      rAF = requestAnimationFrame(() => {
-        const w = getSlideWidth() || 1;
-        const idx = Math.round(el.scrollLeft / w);
-        setActive(Math.max(0, Math.min(idx, items.length - 1)));
-      });
-    };
-    el.addEventListener("scroll", handler, { passive: true });
-    return () => {
-      el.removeEventListener("scroll", handler);
-      cancelAnimationFrame(rAF);
-    };
-  }, [getSlideWidth, items.length]);
-
-  const dots = useMemo(() => new Array(items.length).fill(0), [items.length]);
+/** ---------- Tile ---------- */
+const KpiTile: React.FC<{
+  title?: string;
+  value: number;
+  caption: string;
+  tone: Tone;
+  big?: boolean;
+}> = ({ title = "", value, caption, tone, big }) => {
+  const { ref, value: count } = useCountUp(value);
 
   return (
-    <section className="relative bg-white">
-      <div className="container mx-auto px-4 md:px-6 py-12">
-        {/* Section heading like the reference */}
-        <div className="flex items-end justify-between mb-4">
-          <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900">
-            {title}
-          </h2>
+    <div
+      className={[
+        "relative rounded-md overflow-hidden",
+        TILE_COLORS[tone].bg,
+        "shadow-lg",
+        big ? "py-6 px-6" : "py-4 px-5",
+      ].join(" ")}
+    >
+      {/* subtle decorative sprinkles */}
+      <div className="pointer-events-none absolute inset-0 opacity-10 [background:radial-gradient(circle_at_20%_-10%,white_2px,transparent_2px)_0_0/28px_28px]"></div>
 
-          {/* Prev / Next controls (desktop) */}
-          <div className="hidden md:flex items-center gap-2 text-sm">
-            <button
-              onClick={prev}
-              className="inline-flex items-center gap-1 px-3 py-1.5 rounded-md border border-slate-200 text-slate-700 hover:bg-slate-50 transition"
-              aria-label="Previous"
-              disabled={active === 0}
-            >
-              <ArrowLeft className="h-4 w-4" />
-              Previous
-            </button>
-            <button
-              onClick={next}
-              className="inline-flex items-center gap-1 px-3 py-1.5 rounded-md border border-slate-200 text-slate-700 hover:bg-slate-50 transition"
-              aria-label="Next"
-              disabled={active === items.length - 1}
-            >
-              Next
-              <ArrowRight className="h-4 w-4" />
-            </button>
+      <div className="relative z-10 flex items-center gap-4">
+        {/* Left small label (for the NO.1 block) */}
+        {title ? (
+          <div className="text-white/90 text-2xl font-extrabold leading-none pr-2 border-r border-white/20">
+            {title}
+          </div>
+        ) : null}
+
+        <div className="flex-1">
+          <div
+            ref={ref as any}
+            className={[
+              "font-extrabold leading-none",
+              TILE_COLORS[tone].text,
+              big ? "text-5xl md:text-6xl" : "text-4xl md:text-5xl",
+            ].join(" ")}
+          >
+            {count.toLocaleString()}
+          </div>
+          <div className="mt-1 text-white/95 text-xs md:text-sm font-semibold tracking-wide">
+            {caption}
           </div>
         </div>
+      </div>
+    </div>
+  );
+};
 
-        {/* Viewport frame (rounded like the screenshot) */}
-        <div className="rounded-2xl border border-black/10 shadow-[0_8px_28px_rgba(0,0,0,0.08)] overflow-hidden bg-white">
-          {/* Scrollable track */}
-          <div
-            ref={trackRef}
-            className="grid auto-cols-[85%] sm:auto-cols-[60%] md:auto-cols-[45%] lg:auto-cols-[33%] grid-flow-col gap-5 overflow-x-auto snap-x snap-mandatory scroll-smooth px-5 py-6"
-            style={{ scrollbarWidth: "none" }}
-          >
-            {items.map(({ title, value, caption, Icon, tone }, i) => (
-              <div
-                key={i}
-                data-slide
-                className="snap-start"
-                role="group"
-                aria-roledescription="slide"
-                aria-label={`${i + 1} of ${items.length}`}
-              >
-                <div className="h-full rounded-xl border border-black/5 bg-white shadow-[0_6px_18px_rgba(0,0,0,0.06)] p-5 hover:shadow-[0_10px_24px_rgba(0,0,0,0.09)] transition">
-                  {/* Icon badge */}
-                  <div
-                    className="mb-4 flex h-12 w-12 items-center justify-center rounded-full"
-                    style={{ backgroundColor: toneBg[tone] }}
-                  >
-                    <Icon className={`h-6 w-6 ${toneText[tone]}`} />
-                  </div>
+/** ---------- Section ---------- */
+const AboutWithKPI: React.FC = () => {
+  const location = useLocation();
+  const currentCountry = getCurrentCountryFromPath(location.pathname);
 
-                  <div className="text-xs uppercase tracking-wide text-slate-500 font-medium">
-                    {title}
-                  </div>
+  const getNavLink = (basePath: string) =>
+    currentCountry.code === "SG"
+      ? basePath
+      : `/${currentCountry.name.toLowerCase().replace(" ", "-")}${basePath}`;
 
-                  <div className="mt-1 text-2xl font-extrabold text-slate-900">
-                    {value.toLocaleString()}
-                  </div>
+  return (
+    <section className="bg-white py-12 md:py-16">
+      <div className="container mx-auto px-4 md:px-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+          {/* Left: Content */}
+          <div>
+            <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900">Who we are</h2>
 
-                  <p className="mt-2 text-sm text-slate-600 leading-relaxed">
-                    {caption}
-                  </p>
+            <p className="mt-5 text-slate-800">
+              <span className="font-semibold">Amass Middle East Shipping Services LLC</span>, a Neutral LCL
+              Consolidation Service Provider to serve the UAE market. Our Office is in Oudh Mehta–Dubai and
+              the CFS is in Jebel Ali.
+            </p>
 
-                  {/* Read more (optional) */}
-                  <div className="mt-4">
-                    <button className="text-fuchsia-600 font-semibold text-sm hover:underline">
-                      Read more
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
+            <p className="mt-4 text-slate-700">
+              As part of an expansion of our business all over the world, we have opened our branches in
+              Saudi Arabia with 3 branches in Dammam, Riyadh, and Jeddah; our headquarters is in Dammam, and
+              we have our own bonded warehouse facilities in Jeddah and Dammam.
+            </p>
+
+            <p className="mt-4 text-slate-700">
+              Our growth has been phenomenal in the last 9 years, and we are now one of the leading
+              consolidators in the region.
+            </p>
+
+            <p className="mt-4 text-slate-700">
+              The strength of any organization is its individuals, and we are no different. We have
+              approximately 40 staff members catering to the business needs of the market. The departments are
+              headed by professionals who have many years of experience in the logistics field. Amass China is
+              the founder of the CWN network, which has dedicated members worldwide.
+            </p>
+
+            <div className="mt-6">
+              <Link to={getNavLink("/about-us")}>
+                <Button className="bg-amass-blue hover:bg-amass-dark-blue text-white">Read More</Button>
+              </Link>
+            </div>
           </div>
 
-          {/* Bottom controls like the reference (mobile-friendly) */}
-          <div className="flex items-center justify-between px-5 pb-5">
-            <button
-              onClick={prev}
-              className="md:hidden inline-flex items-center gap-1 px-3 py-1.5 rounded-md border border-slate-200 text-slate-700 hover:bg-slate-50 transition"
-              aria-label="Previous"
-              disabled={active === 0}
-            >
-              <ArrowLeft className="h-4 w-4" />
-              Previous
-            </button>
-
-            {/* Dots */}
-            <div className="mx-auto md:mx-0 flex items-center gap-1.5">
-              {dots.map((_, idx) => (
-                <span
-                  key={idx}
-                  className={`h-1.5 rounded-full transition-all ${
-                    active === idx ? "w-6 bg-slate-700" : "w-1.5 bg-slate-300"
-                  }`}
-                />
-              ))}
+          {/* Right: KPI stack */}
+          <div className="flex flex-col gap-3">
+            <KpiTile title="NO." value={1} caption="DOMESTIC LCL MARKET • UNDISPUTED LEADER" tone="gold" />
+            <KpiTile value={200} caption="COUNTRIES & REGIONS" tone="blue" />
+            <KpiTile value={1_000} caption="WEEKLY DIRECT SERVICE" tone="blue" />
+            <KpiTile value={3_000_000} caption="CUBIC METERS • GLOBAL EXPORT LCL FREIGHT" tone="red" />
+            <div className="grid grid-cols-2 gap-3">
+              <KpiTile value={84} caption="BRANCHES & OFFICES" tone="blue" />
+              <KpiTile value={20_000} caption="DESTINATIONS" tone="sky" />
             </div>
-
-            <button
-              onClick={next}
-              className="md:hidden inline-flex items-center gap-1 px-3 py-1.5 rounded-md border border-slate-200 text-slate-700 hover:bg-slate-50 transition"
-              aria-label="Next"
-              disabled={active === items.length - 1}
-            >
-              Next
-              <ArrowRight className="h-4 w-4" />
-            </button>
+            <KpiTile value={555_000} caption="SHIPMENTS / YEAR" tone="gray" big />
           </div>
         </div>
       </div>
@@ -200,4 +184,4 @@ const StatsCarousel: React.FC<StatsCarouselProps> = ({ title = "Expertise", item
   );
 };
 
-export default StatsCarousel;
+export default AboutWithKPI;

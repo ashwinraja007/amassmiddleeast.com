@@ -1,62 +1,72 @@
-import { Link } from "react-router-dom";
-import ScrollAnimation from "./ScrollAnimation";
+// src/components/AboutSection.tsx
+import React from "react";
+import { Link, useLocation } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { getCurrentCountryFromPath } from "@/services/countryDetection";
 
-const twoServices = [
-  {
-    id: 1,
-    title: "LCL",
-    description:
-      "Amass Freight, Dubai is one of the leading logistics providers in the region providing Less-Than Container load (LCL) for the ultimate convenience of our customers to help in transporting their products to any location required.",
-    slug: "lcl",
-    delay: 0,
-  },
-  {
-    id: 2,
-    title: "CFS",
-    description:
-      "Take full advantage of our state-of-the-art CFS, which is equipped with the latest equipment, technology and staffed by experienced professionals at every level. Our warehouses are designed to handle your cargo efficiently across all regions.",
-    slug: "cfs",
-    delay: 100,
-  },
-];
+const AboutSection: React.FC = () => {
+  const location = useLocation();
+  const currentCountry = getCurrentCountryFromPath(location.pathname);
 
-const ServicesSection = () => {
+  const getNavLink = (p: string) =>
+    currentCountry.code === "SG"
+      ? p
+      : `/${currentCountry.name.toLowerCase().replace(" ", "-")}${p}`;
+
   return (
-    <section className="py-20 bg-slate-50">
-      <div className="container mx-auto px-4">
-        <ScrollAnimation className="text-center mb-16">
-          <p className="font-bold mb-4 text-kargon-blue text-5xl">Our Services</p>
-          <p className="mt-4 max-w-xl mx-auto text-lg text-slate-950">
-            Comprehensive logistics solutions to move your world efficiently and safely.
-          </p>
-        </ScrollAnimation>
+    <section className="bg-white py-14 md:py-20">
+      <div className="container mx-auto px-4 md:px-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+          {/* LEFT: clean text only (no colored sections before paragraphs) */}
+          <div>
+            <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900">
+              Who we are
+            </h2>
 
-        <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-2">
-          {twoServices.map((service) => (
-            <ScrollAnimation key={service.id} delay={service.delay}>
-              <div className="group bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
-                <div className="p-6">
-                  <h3 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-kargon-blue transition-colors duration-300">
-                    {service.title}
-                  </h3>
-                  <p className="text-gray-600 mb-4 leading-relaxed">
-                    {service.description}
-                  </p>
-                  <Link
-                    to={`/services/${service.slug}`}
-                    className="inline-flex items-center text-blue-600 font-semibold hover:text-blue-700 transition-colors duration-300"
-                  >
-                    Read more
-                    <span className="ml-2">→</span>
-                  </Link>
-                </div>
-              </div>
-            </ScrollAnimation>
-          ))}
+            <p className="mt-5 text-slate-800">
+              <span className="font-semibold">Amass Middle East Shipping Services LLC</span>, a Neutral
+              LCL Consolidation Service Provider to serve the UAE market. Our office is in Oudh
+              Mehta–Dubai and the CFS is in Jebel Ali.
+            </p>
+
+            <p className="mt-4 text-slate-700">
+              We have expanded globally with branches in Saudi Arabia (Dammam, Riyadh, Jeddah) and
+              bonded warehouses in Jeddah and Dammam. Our team of 40+ professionals brings decades of
+              logistics expertise.
+            </p>
+
+            <p className="mt-4 text-slate-700">
+              Amass China founded the CWN network with dedicated members worldwide, enabling our
+              phenomenal growth over the last 9 years to become a leading regional consolidator.
+            </p>
+
+            <div className="mt-6">
+              <Link to={getNavLink("/contact")}>
+                <Button className="bg-amass-blue hover:bg-amass-dark-blue text-white">
+                  Read More
+                </Button>
+              </Link>
+            </div>
+          </div>
+
+          {/* RIGHT: rectangular image (replaces the hexagon circle) */}
+          <div className="order-first lg:order-none">
+            <div className="w-full overflow-hidden rounded-2xl shadow-xl border border-slate-200">
+              {/* Replace src with your actual image path */}
+              <img
+                src="/about-right.jpg"
+                alt="Global Consol operations"
+                className="w-full h-auto object-cover"
+                style={{ aspectRatio: "16 / 10" }} /* keeps a nice rectangle */
+              />
+            </div>
+            {/* Optional small caption under image */}
+            {/* <p className="mt-3 text-sm text-slate-500 text-center">Our network & operations</p> */}
+          </div>
         </div>
       </div>
     </section>
   );
 };
 
-export default ServicesSection;
+export default AboutSection;

@@ -1,143 +1,127 @@
-// src/components/HeroSection.tsx
+// src/components/FeatureCards.tsx
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
-import {
-  Trophy,
-  Globe2,
-  Plane,
-  Boxes,
-  Building2,
-  MapPinned,
-  Package,
-  ArrowRight,
-} from "lucide-react";
-import ScrollAnimation from "./ScrollAnimation";
-import { getCurrentCountryFromPath } from "@/services/countryDetection";
+import { ClipboardList, Briefcase, Chess } from "lucide-react";
 
-// ---------- Stats Data ----------
-const ITEMS = [
-  
+type Feature = {
+  title: string;
+  description: string;
+  // Tailwind color or hex (used for the icon badge + grid tint)
+  accent?: string;   // e.g. "orange-500" or "#F59E0B"
+  Icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+};
+
+const features: Feature[] = [
+  {
+    title: "List Tracking",
+    description:
+      "We make smart tracking so simple you’ll actually use it. Even if you forget, our tracking reminders and site detection have your back.",
+    accent: "orange-500",
+    Icon: ClipboardList,
+  },
+  {
+    title: "Sales Track",
+    description:
+      "Know where every product stands, from leads to paychecks—clear steps and tasks to see what’s making you money.",
+    accent: "blue-500",
+    Icon: Briefcase,
+  },
+  {
+    title: "Strategy",
+    description:
+      "Start tracking in your browser, right from the sites you use—then review between the phone app, desktop, or dashboards.",
+    accent: "violet-500",
+    Icon: Chess,
+  },
 ];
 
-// ---------- Stats Grid ----------
-const StatsGrid: React.FC = () => (
-  <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-    {ITEMS.map(({ title, value, caption, Icon, tone }, idx) => (
-      <div
-        key={idx}
-        className="flex flex-col items-center rounded-2xl bg-white shadow-lg p-6 text-center transition-transform hover:-translate-y-1 hover:shadow-xl"
-      >
-        <div
-          className="mb-4 flex h-14 w-14 items-center justify-center rounded-full"
-          style={{
-            backgroundColor:
-              tone === "gold"
-                ? "#FFD70033"
-                : tone === "blue"
-                ? "#3B82F633"
-                : "#EF444433",
-          }}
-        >
-          <Icon
-            className={`h-7 w-7 ${
-              tone === "gold"
-                ? "text-yellow-500"
-                : tone === "blue"
-                ? "text-blue-600"
-                : "text-red-500"
-            }`}
-          />
-        </div>
-        <h3 className="text-lg font-bold text-gray-900">{title}</h3>
-        <p className="text-2xl font-extrabold text-gray-800 mt-1">
-          {value.toLocaleString()}
-        </p>
-        <p className="mt-2 text-sm text-gray-600">{caption}</p>
-      </div>
-    ))}
-  </div>
-);
+const getAccentClasses = (accent?: string) => {
+  // Accepts tailwind tokens like "orange-500" or raw hex
+  const badgeBg =
+    accent && accent.startsWith("#")
+      ? accent
+      : `hsl(var(--tw-${accent || "orange-500"}))`; // fallback
 
-// ---------- Hero / About Section ----------
-const HeroSection: React.FC = () => {
-  const location = useLocation();
-  const currentCountry = getCurrentCountryFromPath(location.pathname);
+  // Grid tint (very subtle)
+  const tint =
+    accent && accent.startsWith("#")
+      ? accent
+      : `var(--tw-${accent || "orange-500"})`;
 
-  const getNavLink = (basePath: string) =>
-    currentCountry.code === "SG"
-      ? basePath
-      : `/${currentCountry.name.toLowerCase().replace(" ", "-")}${basePath}`;
+  return { badgeBg, tint };
+};
+
+const FeatureCard: React.FC<Feature> = ({ title, description, Icon, accent }) => {
+  const { badgeBg, tint } = getAccentClasses(accent);
 
   return (
-    <section className="bg-slate-100 py-16">
-      <div className="container mx-auto px-4 md:px-6">
-        {/* Two-column promo layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-          {/* Left image */}
-          <div className="text-center order-2 lg:order-1">
-            <ScrollAnimation>
-              <img
-                src="/aboutus2.png" // replace with your own image
-                alt="Years Of Experience"
-                className="mx-auto max-h-[420px] w-auto object-contain rounded-lg shadow-lg"
-              />
-              <h5 className="mt-6 text-lg md:text-xl text-slate-700">
-                Years Of Experience With{" "}
-                <b className="text-slate-900">Creative Team</b>
-              </h5>
-            </ScrollAnimation>
-          </div>
+    <div className="relative rounded-2xl border border-black/[0.06] bg-white shadow-[0_8px_24px_rgba(0,0,0,0.06)] p-6 overflow-hidden hover:shadow-[0_12px_28px_rgba(0,0,0,0.09)] transition-shadow">
+      {/* Subtle grid background on top area */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -z-0 left-0 right-0 top-0 h-28"
+        style={{
+          backgroundImage: `
+            repeating-linear-gradient(
+              to right,
+              color-mix(in srgb, ${tint} 10%, transparent) 0,
+              color-mix(in srgb, ${tint} 10%, transparent) 1px,
+              transparent 1px,
+              transparent 24px
+            ),
+            repeating-linear-gradient(
+              to bottom,
+              color-mix(in srgb, ${tint} 10%, transparent) 0,
+              color-mix(in srgb, ${tint} 10%, transparent) 1px,
+              transparent 1px,
+              transparent 24px
+            )
+          `,
+        }}
+      />
 
-          {/* Right content */}
-          <div className="order-1 lg:order-2">
-            <ScrollAnimation delay={150}>
-              <div className="max-w-xl lg:ml-8">
-                <span className="inline-block text-sm font-medium tracking-wide uppercase text-amass-blue">
-                  Easily import the whole Industry
-                </span>
+      {/* Rounded inner “frame” look */}
+      <div className="absolute inset-0 rounded-2xl ring-1 ring-black/[0.04] pointer-events-none" />
 
-                <h1 className="mt-3 text-3xl md:text-5xl font-extrabold leading-tight text-slate-900">
-                  Amwerk is always interested.
-                </h1>
+      {/* Icon badge */}
+      <div
+        className="relative z-10 mx-auto -mt-2 mb-4 flex h-12 w-12 items-center justify-center rounded-full text-white"
+        style={{ background: badgeBg }}
+      >
+        <Icon className="h-6 w-6" />
+      </div>
 
-                <h4 className="mt-4 text-lg md:text-xl font-semibold text-slate-800">
-                  Capitalise on low hanging fruit to identify a ballpark value
-                  added activity to beta test.
-                </h4>
+      {/* Title */}
+      <h3 className="relative z-10 text-center text-[1.1rem] font-semibold text-slate-900">
+        {title}
+      </h3>
 
-                <p className="mt-4 text-slate-600 leading-relaxed">
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris.
-                </p>
+      {/* Description */}
+      <p className="relative z-10 mt-2 text-center text-sm leading-relaxed text-slate-600">
+        {description}
+      </p>
 
-                <div className="mt-8 flex flex-wrap gap-3">
-                  <Link
-                    to={getNavLink("/contact")}
-                    className="inline-flex items-center justify-center gap-2 rounded-md bg-amass-blue px-5 py-3 font-semibold text-white hover:bg-amass-dark-blue transition"
-                  >
-                    Get In Touch
-                    <ArrowRight className="w-5 h-5" />
-                  </Link>
+      {/* Optional “pager dots” like the reference (decorative) */}
+      <div className="relative z-10 mt-5 flex items-center justify-center gap-1.5">
+        <span className="h-1.5 w-1.5 rounded-full bg-slate-300" />
+        <span className="h-1.5 w-6 rounded-full bg-slate-400" />
+        <span className="h-1.5 w-1.5 rounded-full bg-slate-300" />
+      </div>
+    </div>
+  );
+};
 
-                  <Link
-                    to={getNavLink("/about-us")}
-                    className="inline-flex items-center justify-center gap-2 rounded-md border border-slate-300 px-5 py-3 font-semibold text-slate-700 hover:bg-slate-50 transition"
-                  >
-                    Know More
-                  </Link>
-                </div>
-              </div>
-            </ScrollAnimation>
-          </div>
+const FeatureCards: React.FC<{ items?: Feature[] }> = ({ items = features }) => {
+  return (
+    <section className="bg-white">
+      <div className="container mx-auto px-4 md:px-6 py-12">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {items.map((f, i) => (
+            <FeatureCard key={i} {...f} />
+          ))}
         </div>
-
-        {/* Stats grid below About content */}
-        <StatsGrid />
       </div>
     </section>
   );
 };
 
-export default HeroSection;
+export default FeatureCards;

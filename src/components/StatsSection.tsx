@@ -29,37 +29,56 @@ function useCountUp(end: number, duration = 1500) {
 
 const StatsSection: React.FC = () => {
   return (
-    <section className="relative py-16">
-      {/* Background image with dark overlay */}
+    <section className="relative py-10 md:py-14">
+      {/* Background image with dark gradient overlay (softer) */}
       <div className="absolute inset-0 z-0">
         <img
           src="/lovable-uploads/6fa84550-fe8c-4549-a9c9-c0f071c2cd75.png"
           alt="Logistics Background"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-kargon-dark/80" />
+        <div className="absolute inset-0 bg-gradient-to-b from-kargon-dark/70 via-kargon-dark/70 to-kargon-dark/80" />
       </div>
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <h2 className="text-4xl md:text-5xl font-bold text-white mb-10 text-center">
-          NO.1 <span className="text-kargon-red">DOMESTIC LCL MARKET / UNDISPUTED LEADER</span>
+        {/* Smaller responsive title */}
+        <h2
+          className="
+            mx-auto mb-6 md:mb-8 text-center font-extrabold leading-tight text-white
+            text-[clamp(1.25rem,3vw,2rem)]
+          "
+        >
+          <span className="opacity-90">NO.1</span>{" "}
+          <span className="text-kargon-red">
+            DOMESTIC LCL MARKET / UNDISPUTED LEADER
+          </span>
         </h2>
 
-        {/* Single horizontal row on md+ */}
-        <div className="grid grid-cols-1 md:grid-cols-6 gap-6">
+        {/* 1 × 6 on md+ */}
+        <div className="grid grid-cols-2 md:grid-cols-6 gap-4 md:gap-6">
           {RING.map((item, idx) => {
             const count = useCountUp(item.value);
             return (
               <ScrollAnimation
                 key={idx}
-                delay={idx * 120}
-                className="bg-white/20 backdrop-blur-lg border border-white/10 rounded-xl shadow-xl p-6 text-center"
+                delay={idx * 100}
+                className="
+                  rounded-2xl border border-white/10 bg-white/12 backdrop-blur
+                  shadow-[0_6px_20px_rgba(0,0,0,.15)] p-4 md:p-5 text-center
+                  hover:bg-white/16 transition
+                "
               >
-                {/* 🔢 animated running number */}
-                <div className="text-4xl font-bold text-white mb-2 tabular-nums">
+                {/* number */}
+                <div
+                  className="
+                    tabular-nums font-extrabold text-white mb-1
+                    text-2xl sm:text-3xl lg:text-4xl
+                  "
+                >
                   {count.toLocaleString()}
                 </div>
-                <div className="text-sm font-medium text-white/80">
+                {/* label */}
+                <div className="text-[10px] sm:text-xs md:text-sm font-medium text-white/85 leading-snug">
                   {item.label}
                 </div>
               </ScrollAnimation>

@@ -42,7 +42,7 @@ const StatsSection: React.FC = () => {
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <h2 className="text-4xl md:text-5xl font-bold text-white mb-10 text-center">
-          NO.1 DOMESTIC LCL MARKET / UNDISPUTED LEADER
+          NO.1 <span className="text-kargon-red">DOMESTIC LCL MARKET / UNDISPUTED LEADER</span>
         </h2>
 
         {/* Single horizontal row on md+ */}

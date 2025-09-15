@@ -1,9 +1,4 @@
-import React from "react";
-import { Link, useLocation } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import ScrollAnimation from "@/components/ScrollAnimation";
-import { getCurrentCountryFromPath } from "@/services/countryDetection";
-
+import React, { useMemo, useRef, useState, useEffect, useCallback } from "react";
 import {
   Trophy,
   Globe2,
@@ -12,161 +7,192 @@ import {
   Building2,
   MapPinned,
   Package,
+  ArrowLeft,
+  ArrowRight,
 } from "lucide-react";
 
-// --- Stats data ---
+/** ----- Your stats (can be imported from elsewhere) ----- */
 const STATS = [
-  {
-    title: "NO. 1",
-    value: 1,
-    caption: "Domestic LCL Market • Undisputed Leader",
-    Icon: Trophy,
-    tone: "gold" as const,
-  },
-  {
-    title: "Countries & Regions",
-    value: 200,
-    caption: "Global coverage",
-    Icon: Globe2,
-    tone: "blue" as const,
-  },
-  {
-    title: "Weekly Direct Service",
-    value: 1000,
-    caption: "High-frequency schedules",
-    Icon: Plane,
-    tone: "blue" as const,
-  },
-  {
-    title: "Cubic Meters • Global Export LCL Freight",
-    value: 3_000_000,
-    caption: "Proven consolidation capacity",
-    Icon: Boxes,
-    tone: "red" as const,
-  },
-  {
-    title: "Branches & Offices",
-    value: 84,
-    caption: "On-ground expertise",
-    Icon: Building2,
-    tone: "blue" as const,
-  },
-  {
-    title: "Destinations",
-    value: 20_000,
-    caption: "Door-to-door reach",
-    Icon: MapPinned,
-    tone: "gold" as const,
-  },
-  {
-    title: "Shipments / Year",
-    value: 555_000,
-    caption: "Trusted by shippers worldwide",
-    Icon: Package,
-    tone: "red" as const,
-  },
+  { title: "NO. 1", value: 1, caption: "Domestic LCL Market • Undisputed Leader", Icon: Trophy, tone: "gold" as const },
+  { title: "Countries & Regions", value: 200, caption: "Global coverage", Icon: Globe2, tone: "blue" as const },
+  { title: "Weekly Direct Service", value: 1000, caption: "High-frequency schedules", Icon: Plane, tone: "blue" as const },
+  { title: "Cubic Meters • Global Export LCL Freight", value: 3_000_000, caption: "Proven consolidation capacity", Icon: Boxes, tone: "red" as const },
+  { title: "Branches & Offices", value: 84, caption: "On-ground expertise", Icon: Building2, tone: "blue" as const },
+  { title: "Destinations", value: 20_000, caption: "Door-to-door reach", Icon: MapPinned, tone: "gold" as const },
+  { title: "Shipments / Year", value: 555_000, caption: "Trusted by shippers worldwide", Icon: Package, tone: "red" as const },
 ];
 
-const toneBg: Record<"gold" | "blue" | "red", string> = {
-  gold: "#FFD70033",
-  blue: "#3B82F633",
-  red: "#EF444433",
-};
-const toneText: Record<"gold" | "blue" | "red", string> = {
-  gold: "text-yellow-500",
-  blue: "text-blue-600",
-  red: "text-red-500",
+type Tone = "gold" | "blue" | "red";
+const toneBg: Record<Tone, string> = { gold: "#FFD70033", blue: "#3B82F633", red: "#EF444433" };
+const toneText: Record<Tone, string> = { gold: "text-yellow-500", blue: "text-blue-600", red: "text-red-500" };
+
+type StatsCarouselProps = {
+  title?: string;             // Section heading (e.g., "Expertise")
+  items?: typeof STATS;       // Defaults to STATS above
 };
 
-const AboutSection: React.FC = () => {
-  const location = useLocation();
-  const currentCountry = getCurrentCountryFromPath(location.pathname);
+const StatsCarousel: React.FC<StatsCarouselProps> = ({ title = "Expertise", items = STATS }) => {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [active, setActive] = useState(0);
 
-  const getNavLink = (basePath: string) =>
-    currentCountry.code === "SG"
-      ? basePath
-      : `/${currentCountry.name.toLowerCase().replace(" ", "-")}${basePath}`;
+  // Each slide width (including gap) for programmatic scroll
+  const getSlideWidth = useCallback(() => {
+    const el = trackRef.current;
+    if (!el) return 0;
+    const slide = el.querySelector<HTMLDivElement>("[data-slide]");
+    if (!slide) return 0;
+    // slide width + column-gap
+    const styles = window.getComputedStyle(el);
+    const gap = parseFloat(styles.columnGap || "0");
+    return slide.getBoundingClientRect().width + gap;
+  }, []);
+
+  const slideTo = (index: number) => {
+    const el = trackRef.current;
+    if (!el) return;
+    const clamped = Math.max(0, Math.min(index, items.length - 1));
+    const w = getSlideWidth();
+    el.scrollTo({ left: clamped * w, behavior: "smooth" });
+  };
+
+  const next = () => slideTo(active + 1);
+  const prev = () => slideTo(active - 1);
+
+  // Update active index while scrolling (snap-aware)
+  useEffect(() => {
+    const el = trackRef.current;
+    if (!el) return;
+    let rAF = 0;
+    const handler = () => {
+      rAF = requestAnimationFrame(() => {
+        const w = getSlideWidth() || 1;
+        const idx = Math.round(el.scrollLeft / w);
+        setActive(Math.max(0, Math.min(idx, items.length - 1)));
+      });
+    };
+    el.addEventListener("scroll", handler, { passive: true });
+    return () => {
+      el.removeEventListener("scroll", handler);
+      cancelAnimationFrame(rAF);
+    };
+  }, [getSlideWidth, items.length]);
+
+  const dots = useMemo(() => new Array(items.length).fill(0), [items.length]);
 
   return (
-    <section className="bg-slate-50 py-16">
-      <div className="container mx-auto px-4 md:px-6">
-        {/* --- About text & image --- */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-          <div className="order-2 lg:order-1">
-            <ScrollAnimation>
-              <h2 className="text-3xl md:text-4xl font-bold mb-2 text-gray-900">
-                About Us
-              </h2>
-              <div className="w-16 h-1 bg-amass-blue mb-6"></div>
+    <section className="relative bg-white">
+      <div className="container mx-auto px-4 md:px-6 py-12">
+        {/* Section heading like the reference */}
+        <div className="flex items-end justify-between mb-4">
+          <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900">
+            {title}
+          </h2>
 
-              <p className="text-gray-700 leading-relaxed mb-6">
-                We are a neutral LCL consolidation partner dedicated to
-                providing global coverage and local accountability. With
-                branches across the Middle East and an expanding worldwide
-                network, we move cargo with precision—supported by modern
-                technology, transparent updates, and on-ground expertise.
-              </p>
-
-              <p className="text-gray-700 leading-relaxed mb-8">
-                Our mission is to empower freight forwarders with reliable
-                schedules, competitive rates, and seamless digital tools for
-                booking and tracking. From our Dubai headquarters to our growing
-                presence across Asia and beyond, we’re committed to operational
-                excellence and sustainability.
-              </p>
-
-              <div className="flex flex-wrap gap-4">
-                <Link to={getNavLink("/about-us")}>
-                  <Button className="bg-amass-blue hover:bg-amass-dark-blue text-white rounded-md px-6 py-3">
-                    Learn More
-                  </Button>
-                </Link>
-                <Link to={getNavLink("/contact")}>
-                  <Button variant="secondary" className="px-6 py-3">
-                    Contact Us
-                  </Button>
-                </Link>
-              </div>
-            </ScrollAnimation>
-          </div>
-
-          <div className="order-1 lg:order-2">
-            <ScrollAnimation delay={150}>
-              <img
-                src="/aboutus2.png" // replace with your own image
-                alt="Our Operations"
-                className="rounded-xl shadow-lg w-full object-cover"
-              />
-            </ScrollAnimation>
+          {/* Prev / Next controls (desktop) */}
+          <div className="hidden md:flex items-center gap-2 text-sm">
+            <button
+              onClick={prev}
+              className="inline-flex items-center gap-1 px-3 py-1.5 rounded-md border border-slate-200 text-slate-700 hover:bg-slate-50 transition"
+              aria-label="Previous"
+              disabled={active === 0}
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Previous
+            </button>
+            <button
+              onClick={next}
+              className="inline-flex items-center gap-1 px-3 py-1.5 rounded-md border border-slate-200 text-slate-700 hover:bg-slate-50 transition"
+              aria-label="Next"
+              disabled={active === items.length - 1}
+            >
+              Next
+              <ArrowRight className="h-4 w-4" />
+            </button>
           </div>
         </div>
 
-        {/* --- Stats Grid --- */}
-        <div className="mt-16">
-          <ScrollAnimation>
-            <h3 className="text-2xl md:text-3xl font-bold text-center text-gray-900 mb-10">
-              Our Global Impact
-            </h3>
-          </ScrollAnimation>
-
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {STATS.map(({ title, value, caption, Icon, tone }, idx) => (
-              <ScrollAnimation key={idx} delay={idx * 60}>
-                <div className="flex flex-col items-center rounded-2xl bg-white shadow-lg p-6 text-center transition-transform hover:-translate-y-1 hover:shadow-xl">
+        {/* Viewport frame (rounded like the screenshot) */}
+        <div className="rounded-2xl border border-black/10 shadow-[0_8px_28px_rgba(0,0,0,0.08)] overflow-hidden bg-white">
+          {/* Scrollable track */}
+          <div
+            ref={trackRef}
+            className="grid auto-cols-[85%] sm:auto-cols-[60%] md:auto-cols-[45%] lg:auto-cols-[33%] grid-flow-col gap-5 overflow-x-auto snap-x snap-mandatory scroll-smooth px-5 py-6"
+            style={{ scrollbarWidth: "none" }}
+          >
+            {items.map(({ title, value, caption, Icon, tone }, i) => (
+              <div
+                key={i}
+                data-slide
+                className="snap-start"
+                role="group"
+                aria-roledescription="slide"
+                aria-label={`${i + 1} of ${items.length}`}
+              >
+                <div className="h-full rounded-xl border border-black/5 bg-white shadow-[0_6px_18px_rgba(0,0,0,0.06)] p-5 hover:shadow-[0_10px_24px_rgba(0,0,0,0.09)] transition">
+                  {/* Icon badge */}
                   <div
-                    className="mb-4 flex h-14 w-14 items-center justify-center rounded-full"
+                    className="mb-4 flex h-12 w-12 items-center justify-center rounded-full"
                     style={{ backgroundColor: toneBg[tone] }}
                   >
-                    <Icon className={`h-7 w-7 ${toneText[tone]}`} />
+                    <Icon className={`h-6 w-6 ${toneText[tone]}`} />
                   </div>
-                  <h4 className="text-sm font-semibold text-gray-900">{title}</h4>
-                  <p className="text-2xl font-extrabold text-gray-800 mt-1">
+
+                  <div className="text-xs uppercase tracking-wide text-slate-500 font-medium">
+                    {title}
+                  </div>
+
+                  <div className="mt-1 text-2xl font-extrabold text-slate-900">
                     {value.toLocaleString()}
+                  </div>
+
+                  <p className="mt-2 text-sm text-slate-600 leading-relaxed">
+                    {caption}
                   </p>
-                  <p className="mt-2 text-sm text-gray-600">{caption}</p>
+
+                  {/* Read more (optional) */}
+                  <div className="mt-4">
+                    <button className="text-fuchsia-600 font-semibold text-sm hover:underline">
+                      Read more
+                    </button>
+                  </div>
                 </div>
-              </ScrollAnimation>
+              </div>
             ))}
+          </div>
+
+          {/* Bottom controls like the reference (mobile-friendly) */}
+          <div className="flex items-center justify-between px-5 pb-5">
+            <button
+              onClick={prev}
+              className="md:hidden inline-flex items-center gap-1 px-3 py-1.5 rounded-md border border-slate-200 text-slate-700 hover:bg-slate-50 transition"
+              aria-label="Previous"
+              disabled={active === 0}
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Previous
+            </button>
+
+            {/* Dots */}
+            <div className="mx-auto md:mx-0 flex items-center gap-1.5">
+              {dots.map((_, idx) => (
+                <span
+                  key={idx}
+                  className={`h-1.5 rounded-full transition-all ${
+                    active === idx ? "w-6 bg-slate-700" : "w-1.5 bg-slate-300"
+                  }`}
+                />
+              ))}
+            </div>
+
+            <button
+              onClick={next}
+              className="md:hidden inline-flex items-center gap-1 px-3 py-1.5 rounded-md border border-slate-200 text-slate-700 hover:bg-slate-50 transition"
+              aria-label="Next"
+              disabled={active === items.length - 1}
+            >
+              Next
+              <ArrowRight className="h-4 w-4" />
+            </button>
           </div>
         </div>
       </div>
@@ -174,4 +200,4 @@ const AboutSection: React.FC = () => {
   );
 };
 
-export default AboutSection;
+export default StatsCarousel;

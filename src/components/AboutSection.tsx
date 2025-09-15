@@ -16,55 +16,7 @@ import { getCurrentCountryFromPath } from "@/services/countryDetection";
 
 // ---------- Stats Data ----------
 const ITEMS = [
-  {
-    title: "NO. 1",
-    value: 1,
-    caption: "Domestic LCL Market • Undisputed Leader",
-    Icon: Trophy,
-    tone: "gold",
-  },
-  {
-    title: "Countries & Regions",
-    value: 200,
-    caption: "Global coverage",
-    Icon: Globe2,
-    tone: "blue",
-  },
-  {
-    title: "Weekly Direct Service",
-    value: 1000,
-    caption: "High-frequency schedules",
-    Icon: Plane,
-    tone: "blue",
-  },
-  {
-    title: "Cubic Meters • Global Export LCL Freight",
-    value: 3_000_000,
-    caption: "Proven consolidation capacity",
-    Icon: Boxes,
-    tone: "red",
-  },
-  {
-    title: "Branches & Offices",
-    value: 84,
-    caption: "On-ground expertise",
-    Icon: Building2,
-    tone: "blue",
-  },
-  {
-    title: "Destinations",
-    value: 20_000,
-    caption: "Door-to-door reach",
-    Icon: MapPinned,
-    tone: "gold",
-  },
-  {
-    title: "Shipments / Year",
-    value: 555_000,
-    caption: "Trusted by shippers worldwide",
-    Icon: Package,
-    tone: "red",
-  },
+  
 ];
 
 // ---------- Stats Grid ----------

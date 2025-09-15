@@ -1,65 +1,86 @@
-import { Button } from "@/components/ui/button";
-import { CheckCircle } from "lucide-react";
-import ScrollAnimation from "./ScrollAnimation";
+// src/components/HeroSection.tsx
+import React from "react";
 import { Link, useLocation } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
+import ScrollAnimation from "./ScrollAnimation";
 import { getCurrentCountryFromPath } from "@/services/countryDetection";
-const AboutSection = () => {
+
+// Optional: replace with your own image import or public path
+// import HeroImg from "@/assets/img/age.png";
+
+const HeroSection: React.FC = () => {
   const location = useLocation();
   const currentCountry = getCurrentCountryFromPath(location.pathname);
+
   const getNavLink = (basePath: string) => {
     if (currentCountry.code === "SG") return basePath;
     return `/${currentCountry.name.toLowerCase().replace(" ", "-")}${basePath}`;
   };
-  const isSriLanka = currentCountry.code === "LK";
-  return <section className="bg-slate-100 py-[114px]">
-      <div className="container mx-auto px-4 md:px-6">
+
+  return (
+    <section className="bg-white">
+      <div className="container mx-auto px-4 md:px-6 py-14 md:py-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-          <div className="order-2 lg:order-1">
+          {/* Left: Image (like Promo) */}
+          <div className="text-center order-2 lg:order-1">
             <ScrollAnimation>
-              <h2 className="text-3xl md:text-4xl font-bold mb-2 text-gray-900">About Us</h2>
-              <div className="w-16 h-1 bg-amass-blue mb-6"></div>
-              <div className="space-y-6 mb-8">
-                <div className="flex items-start">
-                  <CheckCircle className="text-amass-blue shrink-0 mr-3 mt-1" size={20} />
-                  <div>
-                    <h3 className="font-semibold text-xl mb-3 text-gray-900">15 Years Excellence in Logistics Industry</h3>
-                    <p className="text-gray-700 leading-relaxed">
-                      Amass Middle East Shipping Services LLC, a Neutral LCL Consolidation Service Provider to serve the UAE market. Our Office is in Oudh Metha-Dubai and the CFS is in Jebel Ali. As part of our business expansion, we have opened branches in Saudi Arabia with offices in Dammam, Riyadh, and Jeddah.
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-wrap gap-4">
-                <Link to={getNavLink("/about-us")}>
-                  <Button className="bg-amass-blue hover:bg-amass-dark-blue text-white rounded-md px-6 py-3">
-                    Know More
-                  </Button>
-                </Link>
-                <Link to={getNavLink("/contact")}>
-                  
-                </Link>
-              </div>
-              
-              {/* Sri Lanka specific images */}
-              {isSriLanka && <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <ScrollAnimation delay={300} className="relative">
-                    <img alt="GC Sri Lanka Operations" className="rounded-lg shadow-lg w-full object-cover h-48" src="/warehousing.png" />
-                  </ScrollAnimation>
-                  <ScrollAnimation delay={400} className="relative">
-                    <img alt="GC Sri Lanka Services" className="rounded-lg shadow-lg w-full object-cover h-48" src="/oceanfreight.png" />
-                  </ScrollAnimation>
-                </div>}
+              <img
+                // src={HeroImg}
+                src="/aboutus2.png" // swap to your preferred image
+                alt="Years Of Experience"
+                className="mx-auto max-h-[420px] w-auto object-contain"
+              />
+              <h5 className="mt-6 text-lg md:text-xl text-slate-700">
+                Years Of Experience With <b className="text-slate-900">Creative Team</b>
+              </h5>
             </ScrollAnimation>
           </div>
+
+          {/* Right: Text block (like Promo) */}
           <div className="order-1 lg:order-2">
-            <ScrollAnimation delay={200} className="relative">
-              <img alt="GC Logistics Operations" className="rounded-lg shadow-lg w-full object-cover" style={{
-              height: '400px'
-            }} src="/aboutus2.png" />
+            <ScrollAnimation delay={150}>
+              <div className="max-w-xl lg:ml-8">
+                <span className="inline-block text-sm font-medium tracking-wide uppercase text-amass-blue">
+                  Easily import the whole Industry
+                </span>
+
+                <h1 className="mt-3 text-3xl md:text-5xl font-extrabold leading-tight text-slate-900">
+                  Amwerk is always interested.
+                </h1>
+
+                <h4 className="mt-4 text-lg md:text-xl font-semibold text-slate-800">
+                  Capitalise on low hanging fruit to identify a ballpark value added activity to beta test.
+                </h4>
+
+                <p className="mt-4 text-slate-600 leading-relaxed">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
+                  labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.
+                </p>
+
+                <div className="mt-8 flex flex-wrap gap-3">
+                  <Link
+                    to={getNavLink("/contact")}
+                    className="inline-flex items-center justify-center gap-2 rounded-md bg-amass-blue px-5 py-3 font-semibold text-white hover:bg-amass-dark-blue transition"
+                  >
+                    Get In Touch
+                    <ArrowRight className="w-5 h-5" />
+                  </Link>
+
+                  {/* Optional secondary button */}
+                  <Link
+                    to={getNavLink("/about-us")}
+                    className="inline-flex items-center justify-center gap-2 rounded-md border border-slate-300 px-5 py-3 font-semibold text-slate-700 hover:bg-slate-50 transition"
+                  >
+                    Know More
+                  </Link>
+                </div>
+              </div>
             </ScrollAnimation>
           </div>
         </div>
       </div>
-    </section>;
+    </section>
+  );
 };
-export default AboutSection;
+
+export default HeroSection;

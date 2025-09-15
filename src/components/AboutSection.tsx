@@ -1,127 +1,177 @@
-// src/components/FeatureCards.tsx
 import React from "react";
-import { ClipboardList, Briefcase, Chess } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import ScrollAnimation from "@/components/ScrollAnimation";
+import { getCurrentCountryFromPath } from "@/services/countryDetection";
 
-type Feature = {
-  title: string;
-  description: string;
-  // Tailwind color or hex (used for the icon badge + grid tint)
-  accent?: string;   // e.g. "orange-500" or "#F59E0B"
-  Icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
-};
+import {
+  Trophy,
+  Globe2,
+  Plane,
+  Boxes,
+  Building2,
+  MapPinned,
+  Package,
+} from "lucide-react";
 
-const features: Feature[] = [
+// --- Stats data ---
+const STATS = [
   {
-    title: "List Tracking",
-    description:
-      "We make smart tracking so simple you’ll actually use it. Even if you forget, our tracking reminders and site detection have your back.",
-    accent: "orange-500",
-    Icon: ClipboardList,
+    title: "NO. 1",
+    value: 1,
+    caption: "Domestic LCL Market • Undisputed Leader",
+    Icon: Trophy,
+    tone: "gold" as const,
   },
   {
-    title: "Sales Track",
-    description:
-      "Know where every product stands, from leads to paychecks—clear steps and tasks to see what’s making you money.",
-    accent: "blue-500",
-    Icon: Briefcase,
+    title: "Countries & Regions",
+    value: 200,
+    caption: "Global coverage",
+    Icon: Globe2,
+    tone: "blue" as const,
   },
   {
-    title: "Strategy",
-    description:
-      "Start tracking in your browser, right from the sites you use—then review between the phone app, desktop, or dashboards.",
-    accent: "violet-500",
-    Icon: Chess,
+    title: "Weekly Direct Service",
+    value: 1000,
+    caption: "High-frequency schedules",
+    Icon: Plane,
+    tone: "blue" as const,
+  },
+  {
+    title: "Cubic Meters • Global Export LCL Freight",
+    value: 3_000_000,
+    caption: "Proven consolidation capacity",
+    Icon: Boxes,
+    tone: "red" as const,
+  },
+  {
+    title: "Branches & Offices",
+    value: 84,
+    caption: "On-ground expertise",
+    Icon: Building2,
+    tone: "blue" as const,
+  },
+  {
+    title: "Destinations",
+    value: 20_000,
+    caption: "Door-to-door reach",
+    Icon: MapPinned,
+    tone: "gold" as const,
+  },
+  {
+    title: "Shipments / Year",
+    value: 555_000,
+    caption: "Trusted by shippers worldwide",
+    Icon: Package,
+    tone: "red" as const,
   },
 ];
 
-const getAccentClasses = (accent?: string) => {
-  // Accepts tailwind tokens like "orange-500" or raw hex
-  const badgeBg =
-    accent && accent.startsWith("#")
-      ? accent
-      : `hsl(var(--tw-${accent || "orange-500"}))`; // fallback
-
-  // Grid tint (very subtle)
-  const tint =
-    accent && accent.startsWith("#")
-      ? accent
-      : `var(--tw-${accent || "orange-500"})`;
-
-  return { badgeBg, tint };
+const toneBg: Record<"gold" | "blue" | "red", string> = {
+  gold: "#FFD70033",
+  blue: "#3B82F633",
+  red: "#EF444433",
+};
+const toneText: Record<"gold" | "blue" | "red", string> = {
+  gold: "text-yellow-500",
+  blue: "text-blue-600",
+  red: "text-red-500",
 };
 
-const FeatureCard: React.FC<Feature> = ({ title, description, Icon, accent }) => {
-  const { badgeBg, tint } = getAccentClasses(accent);
+const AboutSection: React.FC = () => {
+  const location = useLocation();
+  const currentCountry = getCurrentCountryFromPath(location.pathname);
+
+  const getNavLink = (basePath: string) =>
+    currentCountry.code === "SG"
+      ? basePath
+      : `/${currentCountry.name.toLowerCase().replace(" ", "-")}${basePath}`;
 
   return (
-    <div className="relative rounded-2xl border border-black/[0.06] bg-white shadow-[0_8px_24px_rgba(0,0,0,0.06)] p-6 overflow-hidden hover:shadow-[0_12px_28px_rgba(0,0,0,0.09)] transition-shadow">
-      {/* Subtle grid background on top area */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -z-0 left-0 right-0 top-0 h-28"
-        style={{
-          backgroundImage: `
-            repeating-linear-gradient(
-              to right,
-              color-mix(in srgb, ${tint} 10%, transparent) 0,
-              color-mix(in srgb, ${tint} 10%, transparent) 1px,
-              transparent 1px,
-              transparent 24px
-            ),
-            repeating-linear-gradient(
-              to bottom,
-              color-mix(in srgb, ${tint} 10%, transparent) 0,
-              color-mix(in srgb, ${tint} 10%, transparent) 1px,
-              transparent 1px,
-              transparent 24px
-            )
-          `,
-        }}
-      />
+    <section className="bg-slate-50 py-16">
+      <div className="container mx-auto px-4 md:px-6">
+        {/* --- About text & image --- */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+          <div className="order-2 lg:order-1">
+            <ScrollAnimation>
+              <h2 className="text-3xl md:text-4xl font-bold mb-2 text-gray-900">
+                About Us
+              </h2>
+              <div className="w-16 h-1 bg-amass-blue mb-6"></div>
 
-      {/* Rounded inner “frame” look */}
-      <div className="absolute inset-0 rounded-2xl ring-1 ring-black/[0.04] pointer-events-none" />
+              <p className="text-gray-700 leading-relaxed mb-6">
+                We are a neutral LCL consolidation partner dedicated to
+                providing global coverage and local accountability. With
+                branches across the Middle East and an expanding worldwide
+                network, we move cargo with precision—supported by modern
+                technology, transparent updates, and on-ground expertise.
+              </p>
 
-      {/* Icon badge */}
-      <div
-        className="relative z-10 mx-auto -mt-2 mb-4 flex h-12 w-12 items-center justify-center rounded-full text-white"
-        style={{ background: badgeBg }}
-      >
-        <Icon className="h-6 w-6" />
-      </div>
+              <p className="text-gray-700 leading-relaxed mb-8">
+                Our mission is to empower freight forwarders with reliable
+                schedules, competitive rates, and seamless digital tools for
+                booking and tracking. From our Dubai headquarters to our growing
+                presence across Asia and beyond, we’re committed to operational
+                excellence and sustainability.
+              </p>
 
-      {/* Title */}
-      <h3 className="relative z-10 text-center text-[1.1rem] font-semibold text-slate-900">
-        {title}
-      </h3>
+              <div className="flex flex-wrap gap-4">
+                <Link to={getNavLink("/about-us")}>
+                  <Button className="bg-amass-blue hover:bg-amass-dark-blue text-white rounded-md px-6 py-3">
+                    Learn More
+                  </Button>
+                </Link>
+                <Link to={getNavLink("/contact")}>
+                  <Button variant="secondary" className="px-6 py-3">
+                    Contact Us
+                  </Button>
+                </Link>
+              </div>
+            </ScrollAnimation>
+          </div>
 
-      {/* Description */}
-      <p className="relative z-10 mt-2 text-center text-sm leading-relaxed text-slate-600">
-        {description}
-      </p>
+          <div className="order-1 lg:order-2">
+            <ScrollAnimation delay={150}>
+              <img
+                src="/aboutus2.png" // replace with your own image
+                alt="Our Operations"
+                className="rounded-xl shadow-lg w-full object-cover"
+              />
+            </ScrollAnimation>
+          </div>
+        </div>
 
-      {/* Optional “pager dots” like the reference (decorative) */}
-      <div className="relative z-10 mt-5 flex items-center justify-center gap-1.5">
-        <span className="h-1.5 w-1.5 rounded-full bg-slate-300" />
-        <span className="h-1.5 w-6 rounded-full bg-slate-400" />
-        <span className="h-1.5 w-1.5 rounded-full bg-slate-300" />
-      </div>
-    </div>
-  );
-};
+        {/* --- Stats Grid --- */}
+        <div className="mt-16">
+          <ScrollAnimation>
+            <h3 className="text-2xl md:text-3xl font-bold text-center text-gray-900 mb-10">
+              Our Global Impact
+            </h3>
+          </ScrollAnimation>
 
-const FeatureCards: React.FC<{ items?: Feature[] }> = ({ items = features }) => {
-  return (
-    <section className="bg-white">
-      <div className="container mx-auto px-4 md:px-6 py-12">
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {items.map((f, i) => (
-            <FeatureCard key={i} {...f} />
-          ))}
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {STATS.map(({ title, value, caption, Icon, tone }, idx) => (
+              <ScrollAnimation key={idx} delay={idx * 60}>
+                <div className="flex flex-col items-center rounded-2xl bg-white shadow-lg p-6 text-center transition-transform hover:-translate-y-1 hover:shadow-xl">
+                  <div
+                    className="mb-4 flex h-14 w-14 items-center justify-center rounded-full"
+                    style={{ backgroundColor: toneBg[tone] }}
+                  >
+                    <Icon className={`h-7 w-7 ${toneText[tone]}`} />
+                  </div>
+                  <h4 className="text-sm font-semibold text-gray-900">{title}</h4>
+                  <p className="text-2xl font-extrabold text-gray-800 mt-1">
+                    {value.toLocaleString()}
+                  </p>
+                  <p className="mt-2 text-sm text-gray-600">{caption}</p>
+                </div>
+              </ScrollAnimation>
+            ))}
+          </div>
         </div>
       </div>
     </section>
   );
 };
 
-export default FeatureCards;
+export default AboutSection;

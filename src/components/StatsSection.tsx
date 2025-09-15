@@ -50,7 +50,7 @@ const StatsSection: React.FC = () => {
         >
           <span className="opacity-90">NO.1</span>{" "}
           <span className="text-kargon-red">
-            DOMESTIC LCL MARKET / UNDISPUTED LEADER
+            Domestic LCL Market Undisputed Leader
           </span>
         </h2>
 

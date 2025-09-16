@@ -104,7 +104,7 @@ const CFS = () => {
                 className="relative"
               >
                 <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-                  <img alt="CFS Warehouse" loading="lazy" className="w-full h-96 object-cover" src="/warehousing.png" />
+                  <img alt="CFS Warehouse" loading="lazy" className="w-full h-96 object-cover" src="/container.jpg" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
                 </div>
                 <div className="absolute -bottom-6 -right-6 p-4 rounded-xl shadow-lg bg-kargon-red">

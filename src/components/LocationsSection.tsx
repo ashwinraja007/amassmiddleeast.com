@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
@@ -19,24 +18,28 @@ type LocationsData = {
 const allLocations: LocationsData = {
   UAE: {
     "Head Office": {
-      map: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3608.2!2d55.3!3d25.2!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjXCsDE0JzA0LjAiTiA1NcKwMTcnNDguMCJF!5e0!3m2!1sen!2sae!4v1234567890123!5m2!1sen!2sae",
+      // ✅ Updated to your My Maps embed
+      map: "https://www.google.com/maps/d/embed?mid=1ZxPAULjAWy996Ko2I-INOx4KZVyxwz0&ehbc=2E312F&noprof=1",
       address: "202, Sultan Business Centre\nOud Metha, P.O. Box 33463\nDubai – UAE",
       phone: "+971 4 3575508\nFax: +971 4 2221794\ncontact@dxb.amassfreight.com",
     },
     "CFS": {
-      map: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3614.7!2d55.1!3d25.0!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjXCsDAyJzQ4LjAiTiA1NcKwMDYnMzYuMCJF!5e0!3m2!1sen!2sae!4v1234567890123!5m2!1sen!2sae",
+      // ✅ Updated to your My Maps embed
+      map: "https://www.google.com/maps/d/embed?mid=12VFJg6YBwuqjx5QGoyFa4gN4o0N9zv0&ehbc=2E312F&noprof=1",
       address: "Plot No S20312,\nJafza South,\nJebel Ali, Dubai – UAE",
       phone: "+971 4 3400298\n+971 4 3575508\nFax: +971 4 8831004\ncontact@dxb.amassfreight.com",
     },
   },
   "Saudi Arabia": {
     "Dammam – Head Office": {
-      map: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3579.8!2d50.1!3d26.4!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjbCsDI0JzM2LjAiTiA1MMKwMDYnMzYuMCJF!5e0!3m2!1sen!2ssa!4v1234567890123!5m2!1sen!2ssa",
+      // ✅ Updated to your My Maps embed
+      map: "https://www.google.com/maps/d/embed?mid=1lYrRcHQxz2PNkKjLJFhvmkNOyMj-xKA&ehbc=2E312F&noprof=1",
       address: "Rashidiya Business Center\nBuild No: 7257 Room 308, 3rd Floor – Al Amamrah\nDammam – 32415 – KSA",
       phone: "+966 13 849 8637\ncontact@dxb.amassfreight.com",
     },
     "Jeddah": {
-      map: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3710.3!2d39.2!3d21.5!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjHCsDMwJzAwLjAiTiAzOcKwMTInMDAuMCJF!5e0!3m2!1sen!2ssa!4v1234567890123!5m2!1sen!2ssa",
+      // ✅ Updated to your My Maps embed
+      map: "https://www.google.com/maps/d/embed?mid=1vrlsL0ACTChy50rWZCiqqYvfOvIqLdQ&ehbc=2E312F&noprof=1",
       address: "Room No. 408, Saudi Business Centre\n7859 Al Madinah Al Munawarah Road\nAl Sharafeyah, Jeddah 4542-22234",
       phone: "+966 12 578 0874\ncontact@dxb.amassfreight.com",
     },
@@ -45,10 +48,11 @@ const allLocations: LocationsData = {
 
 const LocationsSection: React.FC = () => {
   const { pathname } = useLocation();
-  
-  // Extract country from pathname
+
+  // Detect country from URL (supports /saudi and /saudi-arabia)
   const getCountryFromPath = (path: string): keyof LocationsData => {
-    if (path.includes('/saudi-arabia')) return "Saudi Arabia";
+    const p = path.toLowerCase();
+    if (p.includes("/saudi-arabia") || p.includes("/saudi")) return "Saudi Arabia";
     return "UAE";
   };
 
@@ -70,7 +74,7 @@ const LocationsSection: React.FC = () => {
     <div className="px-4 py-8 max-w-7xl mx-auto">
       <div className="mb-6">
         <h2 className="text-3xl font-bold mb-4 text-center">Our Office Locations</h2>
-        
+
         {/* Country Selector */}
         <div className="text-center mb-4">
           <div className="inline-flex bg-gray-100 rounded-lg p-1">
@@ -118,12 +122,12 @@ const LocationsSection: React.FC = () => {
               {locations[selectedLocation].address}
             </p>
             <h3 className="text-xl font-bold mb-2">Phone</h3>
-            <p>{locations[selectedLocation].phone}</p>
+            <p className="whitespace-pre-line">{locations[selectedLocation].phone}</p>
           </div>
 
           <div className="relative rounded-lg overflow-hidden h-[400px] shadow-lg">
             <div className="absolute top-0 left-0 w-full text-white text-center py-2 bg-red-600 font-semibold z-10">
-             {selectedLocation}
+              {selectedLocation}
             </div>
             <iframe
               src={locations[selectedLocation].map}
@@ -134,7 +138,7 @@ const LocationsSection: React.FC = () => {
               allowFullScreen
               loading="lazy"
               title={`${selectedLocation} Map`}
-            ></iframe>
+            />
           </div>
         </div>
       </div>

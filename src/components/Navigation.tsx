@@ -80,6 +80,11 @@ const Navigation = () => {
             <Link to={getNavLink("/global-presence")} className={`nav-link font-medium text-sm xl:text-base transition-colors ${isActive(getNavLink("/global-presence")) ? "text-kargon-red" : "text-black hover:text-kargon-red"}`}>
               Global Presence
             </Link>
+            
+            <Link to={getNavLink("/contact")} className={`nav-link font-medium text-sm xl:text-base transition-colors ${isActive(getNavLink("/global-presence")) ? "text-kargon-red" : "text-black hover:text-kargon-red"}`}>
+             Contact
+            </Link>
+
           </div>
 
           {/* Right side (Country + CTA + Socials) */}

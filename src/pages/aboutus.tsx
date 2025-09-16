@@ -123,7 +123,7 @@ const AboutUs = () => {
               once: true
             }} className="relative">
                 <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-                  <img alt="Amass Operations" loading="lazy" className="w-full h-96 object-cover" src="/lovable-uploads/a44481e1-bf8c-43ab-b259-b833b252e1ed.png" />
+                  <img alt="Amass Operations" loading="lazy" className="w-full h-96 object-cover" src="/amass.jpg" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
                 </div>
                 <div className="absolute -bottom-6 -right-6 p-4 rounded-xl shadow-lg bg-kargon-red">
@@ -211,54 +211,7 @@ const AboutUs = () => {
 
         {/* Stats Section */}
         <section className="py-20 bg-slate-50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <motion.div initial={{
-              opacity: 0,
-              y: 30
-            }} whileInView={{
-              opacity: 1,
-              y: 0
-            }} transition={{
-              duration: 0.8
-            }} viewport={{
-              once: true
-            }} className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-kargon-blue mb-6">Our Achievements</h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                Leading consolidator in the region with phenomenal growth and trusted partnerships
-              </p>
-            </motion.div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {stats.map((stat, index) => (
-                <motion.div
-                  key={index}
-                  initial={{
-                    opacity: 0,
-                    y: 30
-                  }}
-                  whileInView={{
-                    opacity: 1,
-                    y: 0
-                  }}
-                  transition={{
-                    duration: 0.8,
-                    delay: index * 0.1
-                  }}
-                  viewport={{
-                    once: true
-                  }}
-                  className="text-center bg-white rounded-2xl p-8 shadow-lg"
-                >
-                  <div className="w-16 h-16 bg-kargon-blue/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <stat.icon className="w-8 h-8 text-kargon-blue" />
-                  </div>
-                  <div className="text-4xl font-bold text-kargon-blue mb-2">{stat.number}</div>
-                  <div className="text-gray-600 font-medium">{stat.label}</div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
+         
         </section>
       </main>
 

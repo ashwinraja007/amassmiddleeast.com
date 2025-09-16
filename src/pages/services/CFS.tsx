@@ -176,7 +176,7 @@ const CFS = () => {
         </section>
 
         {/* Contact Section */}
-        <ContactForm />
+        
       </main>
 
       <Footer />

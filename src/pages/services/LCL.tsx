@@ -168,7 +168,7 @@ const LCL = () => {
         </section>
 
         {/* Contact Section */}
-        <ContactForm />
+        
       </main>
 
       <Footer />

@@ -74,7 +74,7 @@ const Contact: React.FC = () => {
         </section>
 
         <section className="py-16 bg-white" id="contact-form">
-         <ContactForm.tsx />
+         <ContactForm />
         </section>
       </main>
 

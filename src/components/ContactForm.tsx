@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -93,7 +93,15 @@ const ContactForm: React.FC = () => {
     setSelectedLocation(getCurrentCountry());
   }, [location.pathname]);
 
-  const currentOffices = allOffices[selectedLocation] || [];
+  // Build prioritized list: selected location first, then others — capped at 4
+  const topFourOffices = useMemo(() => {
+    const withCountry = Object.entries(allOffices).flatMap(([country, offices]) =>
+      offices.map((o) => ({ ...o, country }))
+    );
+    const primary = withCountry.filter((o) => o.country === selectedLocation);
+    const others = withCountry.filter((o) => o.country !== selectedLocation);
+    return [...primary, ...others].slice(0, 4);
+  }, [selectedLocation]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -144,203 +152,101 @@ const ContactForm: React.FC = () => {
 
         {/* Content */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
-          {/* ===== Office List (Selected first + All Offices) ===== */}
-          <div className="space-y-8">
+          {/* ===== Office List (Only 4 addresses) ===== */}
+          <div className="space-y-6">
             <h3
               className="text-2xl font-bold flex items-center gap-2"
               style={{ color: BRAND.blue }}
             >
               <Building2 className="w-6 h-6" style={{ color: BRAND.gold }} />
-              Our Offices
+              Our Offices (4)
             </h3>
 
-            {/* Selected location offices (top) */}
-            <div className="space-y-6">
-              <h4 className="text-lg font-semibold" style={{ color: BRAND.black }}>
-                {selectedLocation} Offices
-              </h4>
+            <p className="text-sm -mt-2" style={{ color: BRAND.black }}>
+              Showing <strong>{selectedLocation}</strong> first, then nearby key offices.
+            </p>
 
-              {(currentOffices.length > 0 ? currentOffices : []).map(
-                (office, idx) => (
-                  <motion.div
-                    key={`sel-${selectedLocation}-${office.name}-${idx}`}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4 + idx * 0.1 }}
-                    viewport={{ once: true }}
-                    className="p-6 rounded-xl shadow-lg"
-                    style={{ border: `2px solid ${BRAND.gold}`, background: "#fff" }}
-                  >
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              {topFourOffices.map((office, idx) => (
+                <motion.div
+                  key={`${office.country}-${office.name}-${idx}`}
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.35 }}
+                  viewport={{ once: true }}
+                  className="p-5 rounded-xl shadow-md border bg-white"
+                  style={{ borderColor: BRAND.gold }}
+                >
+                  <div className="flex items-center justify-between mb-2">
                     <h5
-                      className="text-base md:text-lg font-semibold mb-3 flex items-center gap-2"
+                      className="text-base font-semibold flex items-center gap-2"
                       style={{ color: BRAND.blue }}
                     >
                       <span
-                        className="w-3 h-3 rounded-full"
+                        className="w-2.5 h-2.5 rounded-full"
                         style={{ background: BRAND.gold }}
                       />
                       {office.name}
                     </h5>
-
-                    <div className="space-y-3">
-                      <div className="flex items-start gap-3">
-                        <MapPin className="w-5 h-5" style={{ color: BRAND.gold }} />
-                        <p
-                          className="text-sm whitespace-pre-line"
-                          style={{ color: BRAND.black }}
-                        >
-                          {office.address}
-                        </p>
-                      </div>
-
-                      {office.phones?.map((phone, i) => (
-                        <div key={i} className="flex items-center gap-3">
-                          <Phone className="w-5 h-5" style={{ color: BRAND.gold }} />
-                          <a
-                            href={`tel:${phone.replace(/[^+\d]/g, "")}`}
-                            className="text-sm hover:underline"
-                            style={{ color: BRAND.black }}
-                          >
-                            {phone}
-                          </a>
-                        </div>
-                      ))}
-
-                      {office.fax && (
-                        <div className="flex items-center gap-3">
-                          <Phone className="w-5 h-5" style={{ color: BRAND.gold }} />
-                          <span className="text-sm" style={{ color: BRAND.black }}>
-                            Fax: {office.fax}
-                          </span>
-                        </div>
-                      )}
-
-                      {office.emails?.map((email, i) => (
-                        <div key={i} className="flex items-center gap-3">
-                          <Mail className="w-5 h-5" style={{ color: BRAND.gold }} />
-                          <a
-                            href={`mailto:${email}`}
-                            className="text-sm hover:underline"
-                            style={{ color: BRAND.black }}
-                          >
-                            {email}
-                          </a>
-                        </div>
-                      ))}
-                    </div>
-                  </motion.div>
-                )
-              )}
-            </div>
-
-            {/* Divider */}
-            <div className="h-px w-full bg-slate-200" />
-
-            {/* All offices grouped by country */}
-            <div className="space-y-6">
-              <h4 className="text-lg font-semibold" style={{ color: BRAND.black }}>
-                All Offices
-              </h4>
-
-              {Object.entries(allOffices).map(([country, offices]) => (
-                <div key={country} className="space-y-4">
-                  <div className="flex items-center gap-2">
                     <span
-                      className="inline-block px-2 py-1 rounded-full text-xs font-semibold"
+                      className="text-[11px] px-2 py-0.5 rounded-full"
                       style={{
-                        background: "#fff",
                         border: `1px solid ${BRAND.gold}`,
                         color: BRAND.black,
+                        background: "#fff",
                       }}
                     >
-                      {country}
+                      {office.country}
                     </span>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    {offices.map((office, idx) => (
-                      <motion.div
-                        key={`${country}-${office.name}-${idx}`}
-                        initial={{ opacity: 0, y: 16 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.35 }}
-                        viewport={{ once: true }}
-                        className="p-5 rounded-xl shadow-md border bg-white"
-                        style={{ borderColor: BRAND.gold }}
+                  <div className="space-y-3">
+                    <div className="flex items-start gap-3">
+                      <MapPin className="w-5 h-5" style={{ color: BRAND.gold }} />
+                      <p
+                        className="text-sm whitespace-pre-line"
+                        style={{ color: BRAND.black }}
                       >
-                        <h5
-                          className="text-base font-semibold mb-2 flex items-center gap-2"
-                          style={{ color: BRAND.blue }}
+                        {office.address}
+                      </p>
+                    </div>
+
+                    {office.phones?.map((phone, i) => (
+                      <div key={i} className="flex items-center gap-3">
+                        <Phone className="w-5 h-5" style={{ color: BRAND.gold }} />
+                        <a
+                          href={`tel:${phone.replace(/[^+\d]/g, "")}`}
+                          className="text-sm hover:underline"
+                          style={{ color: BRAND.black }}
                         >
-                          <span
-                            className="w-2.5 h-2.5 rounded-full"
-                            style={{ background: BRAND.gold }}
-                          />
-                          {office.name}
-                        </h5>
+                          {phone}
+                        </a>
+                      </div>
+                    ))}
 
-                        <div className="space-y-3">
-                          <div className="flex items-start gap-3">
-                            <MapPin
-                              className="w-5 h-5"
-                              style={{ color: BRAND.gold }}
-                            />
-                            <p
-                              className="text-sm whitespace-pre-line"
-                              style={{ color: BRAND.black }}
-                            >
-                              {office.address}
-                            </p>
-                          </div>
+                    {office.fax && (
+                      <div className="flex items-center gap-3">
+                        <Phone className="w-5 h-5" style={{ color: BRAND.gold }} />
+                        <span className="text-sm" style={{ color: BRAND.black }}>
+                          Fax: {office.fax}
+                        </span>
+                      </div>
+                    )}
 
-                          {office.phones?.map((phone, i) => (
-                            <div key={i} className="flex items-center gap-3">
-                              <Phone
-                                className="w-5 h-5"
-                                style={{ color: BRAND.gold }}
-                              />
-                              <a
-                                href={`tel:${phone.replace(/[^+\d]/g, "")}`}
-                                className="text-sm hover:underline"
-                                style={{ color: BRAND.black }}
-                              >
-                                {phone}
-                              </a>
-                            </div>
-                          ))}
-
-                          {office.fax && (
-                            <div className="flex items-center gap-3">
-                              <Phone
-                                className="w-5 h-5"
-                                style={{ color: BRAND.gold }}
-                              />
-                              <span className="text-sm" style={{ color: BRAND.black }}>
-                                Fax: {office.fax}
-                              </span>
-                            </div>
-                          )}
-
-                          {office.emails?.map((email, i) => (
-                            <div key={i} className="flex items-center gap-3">
-                              <Mail
-                                className="w-5 h-5"
-                                style={{ color: BRAND.gold }}
-                              />
-                              <a
-                                href={`mailto:${email}`}
-                                className="text-sm hover:underline"
-                                style={{ color: BRAND.black }}
-                              >
-                                {email}
-                              </a>
-                            </div>
-                          ))}
-                        </div>
-                      </motion.div>
+                    {office.emails?.map((email, i) => (
+                      <div key={i} className="flex items-center gap-3">
+                        <Mail className="w-5 h-5" style={{ color: BRAND.gold }} />
+                        <a
+                          href={`mailto:${email}`}
+                          className="text-sm hover:underline"
+                          style={{ color: BRAND.black }}
+                        >
+                          {email}
+                        </a>
+                      </div>
                     ))}
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>

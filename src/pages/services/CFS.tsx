@@ -152,6 +152,29 @@ const CFS = () => {
           </div>
         </section>
 
+        {/* CTA Section */}
+        <section className="py-16 bg-kargon-blue text-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="text-3xl md:text-4xl font-bold mb-6">Need CFS Storage Solutions?</h2>
+              <p className="text-xl mb-8 text-white/90 max-w-2xl mx-auto">
+                Contact us to learn more about our advanced warehouse facilities and services
+              </p>
+              <Link 
+                to="/contact" 
+                className="inline-flex items-center bg-white text-kargon-blue px-8 py-4 rounded-xl font-semibold text-lg hover:bg-gray-100 transition-colors duration-300"
+              >
+                Contact Us
+              </Link>
+            </motion.div>
+          </div>
+        </section>
+
         {/* Contact Section */}
         <ContactForm />
       </main>

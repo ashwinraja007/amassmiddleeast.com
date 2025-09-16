@@ -17,44 +17,28 @@ type LocationsData = {
 };
 
 const allLocations: LocationsData = {
-  Singapore: {
-    Singapore: {
-      map: "https://www.google.com/maps/d/u/0/embed?mid=1U_72YwJ_4E6SQSrx2E6eWegoUTQesgo&ehbc=2E312F&noprof=1",
-      address: "Blk 511 Kampong Bahru Road, #03-01 Keppel Distripark, Singapore 099447",
-      phone: "+65 6224 1338 / +65 6224 1336",
+  UAE: {
+    "Head Office": {
+      map: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3608.2!2d55.3!3d25.2!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjXCsDE0JzA0LjAiTiA1NcKwMTcnNDguMCJF!5e0!3m2!1sen!2sae!4v1234567890123!5m2!1sen!2sae",
+      address: "202, Sultan Business Centre\nOud Metha, P.O. Box 33463\nDubai – UAE",
+      phone: "+971 4 3575508\nFax: +971 4 2221794\ncontact@dxb.amassfreight.com",
+    },
+    "CFS": {
+      map: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3614.7!2d55.1!3d25.0!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjXCsDAyJzQ4LjAiTiA1NcKwMDYnMzYuMCJF!5e0!3m2!1sen!2sae!4v1234567890123!5m2!1sen!2sae",
+      address: "Plot No S20312,\nJafza South,\nJebel Ali, Dubai – UAE",
+      phone: "+971 4 3400298\n+971 4 3575508\nFax: +971 4 8831004\ncontact@dxb.amassfreight.com",
     },
   },
-  "Sri Lanka": {
-    Colombo: {
-      map: "https://www.google.com/maps/d/u/0/embed?mid=1Nt9tx3aLmBNO-Sf6oJxm3WxfmbDIF0I&ehbc=2E312F&noprof=1",
-      address: "Ceylinco House, 9th Floor, No. 69, Janadhipathi Mawatha, Colombo 01, Sri Lanka",
-      phone: "+94 114477499 / +94 114477494",
+  "Saudi Arabia": {
+    "Dammam – Head Office": {
+      map: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3579.8!2d50.1!3d26.4!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjbCsDI0JzM2LjAiTiA1MMKwMDYnMzYuMCJF!5e0!3m2!1sen!2ssa!4v1234567890123!5m2!1sen!2ssa",
+      address: "Rashidiya Business Center\nBuild No: 7257 Room 308, 3rd Floor – Al Amamrah\nDammam – 32415 – KSA",
+      phone: "+966 13 849 8637\ncontact@dxb.amassfreight.com",
     },
-  },
-  Myanmar: {
-    Yangon: {
-      map: "https://www.google.com/maps/d/u/0/embed?mid=1S0BF3WzohAIQGBr9w6ryuexAnYj8AVc&ehbc=2E312F&noprof=1",
-      address: "No.608, Room 8B, Bo Soon Pat Tower, Merchant Street, Pabedan Township, Yangon, Myanmar",
-      phone: "+951 243158 / +951 377985",
-    },
-  },
-  Bangladesh: {
-    Dhaka: {
-      map: "https://www.google.com/maps/d/u/0/embed?mid=1X0GsrCFJRFoj6Q67PJztKAAzkDlKkXY&ehbc=2E312F&noprof=1",
-      address: "ID #9-N (New), 9-M(Old-N), 9th floor, Tower 1, Police Plaza Concord No.2, Road # 144, Gulshan Model Town, Dhaka 1215, Bangladesh",
-      phone: "+880 1716 620989",
-    },
-  },
-  Pakistan: {
-    Karachi: {
-      map: "https://www.google.com/maps/d/u/0/embed?mid=1reXoq38Nt5GKCCpv-f_cb1UwG-Ko30o&ehbc=2E312F&noprof=1",
-      address: "Suite No.301, 3rd Floor, Fortune Center, Shahrah-e-Faisal, Block 6, PECHS, Karachi, Pakistan",
-      phone: "+92-300-8282511 / +92-21-34302281-5",
-    },
-    Lahore: {
-      map: "https://www.google.com/maps/d/u/0/embed?mid=1ObHyVRDeNaWR7qOyMHKqqvqWbqjsCVk&ehbc=2E312F&noprof=1",
-      address: "Office # 301, 3rd Floor, Gulberg Arcade Main Market, Gulberg 2, Lahore, Pakistan",
-      phone: "+92 42-35782306/07/08",
+    "Jeddah": {
+      map: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3710.3!2d39.2!3d21.5!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjHCsDMwJzAwLjAiTiAzOcKwMTInMDAuMCJF!5e0!3m2!1sen!2ssa!4v1234567890123!5m2!1sen!2ssa",
+      address: "Room No. 408, Saudi Business Centre\n7859 Al Madinah Al Munawarah Road\nAl Sharafeyah, Jeddah 4542-22234",
+      phone: "+966 12 578 0874\ncontact@dxb.amassfreight.com",
     },
   },
 };
@@ -64,11 +48,8 @@ const LocationsSection: React.FC = () => {
   
   // Extract country from pathname
   const getCountryFromPath = (path: string): keyof LocationsData => {
-    if (path.includes('/sri-lanka')) return "Sri Lanka";
-    if (path.includes('/myanmar')) return "Myanmar";
-    if (path.includes('/bangladesh')) return "Bangladesh";
-    if (path.includes('/pakistan')) return "Pakistan";
-    return "Singapore";
+    if (path.includes('/saudi-arabia')) return "Saudi Arabia";
+    return "UAE";
   };
 
   const currentCountry = getCountryFromPath(pathname);
@@ -89,8 +70,27 @@ const LocationsSection: React.FC = () => {
     <div className="px-4 py-8 max-w-7xl mx-auto">
       <div className="mb-6">
         <h2 className="text-3xl font-bold mb-4 text-center">Our Office Locations</h2>
-        <div className="text-center text-xl font-semibold py-2 px-4 bg-red-600 text-white rounded inline-block">
-          {selectedCountry}
+        
+        {/* Country Selector */}
+        <div className="text-center mb-4">
+          <div className="inline-flex bg-gray-100 rounded-lg p-1">
+            {Object.keys(allLocations).map((country) => (
+              <button
+                key={country}
+                className={`px-4 py-2 rounded-md font-semibold transition-all ${
+                  selectedCountry === country
+                    ? "bg-red-600 text-white"
+                    : "text-gray-600 hover:text-gray-800"
+                }`}
+                onClick={() => {
+                  setSelectedCountry(country as keyof LocationsData);
+                  setSelectedLocation(Object.keys(allLocations[country as keyof LocationsData])[0]);
+                }}
+              >
+                {country}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 

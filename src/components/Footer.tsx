@@ -1,13 +1,13 @@
 import { motion } from "framer-motion";
 import { MapPin, Phone, Mail, ArrowRight, ChevronRight } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 type Office = {
   name: string;
   address: string;      // multi-line with \n
   phone?: string;
-  fax?: string;         // NEW: optional fax
+  fax?: string;         // optional fax
   email?: string;
   map?: string;
   country?: string;     // filled later
@@ -15,7 +15,7 @@ type Office = {
 
 const Footer = () => {
   const location = useLocation();
-  const [currentAddressIndex, setCurrentAddressIndex] = useState(0);
+  const [page, setPage] = useState(0);
   const [isAutoScrolling, setIsAutoScrolling] = useState(true);
 
   const footerAnimation = {
@@ -23,15 +23,14 @@ const Footer = () => {
     visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
   };
 
-  // --- UPDATED ADDRESSES (from the screenshot) ---
+  // --- ADDRESSES ---
   const keyAddresses: { country: string; offices: Office[] }[] = [
     {
       country: "UAE",
       offices: [
         {
           name: "Head Office",
-          address:
-            "202, Sultan Business Centre\nOud Metha, P.O.Box 33463\nDubai – UAE",
+          address: "202, Sultan Business Centre\nOud Metha, P.O.Box 33463\nDubai – UAE",
           phone: "+971 4 3575508",
           fax: "+971 4 2221794",
           email: "contact@dxb.amassfreight.com",
@@ -39,8 +38,7 @@ const Footer = () => {
         },
         {
           name: "CFS",
-          address:
-            "Plot No S20312,\nJafza South,\nJebel Ali, Dubai – UAE",
+          address: "Plot No S20312,\nJafza South,\nJebel Ali, Dubai – UAE",
           phone: "+971 4 3400298",
           fax: "+971 4 8831004",
           email: "contact@dxb.amassfreight.com",
@@ -78,43 +76,52 @@ const Footer = () => {
       ],
     },
   ];
-  // -----------------------------------------------
+  // -----------------
 
-  // Detect current country (kept your logic, just a tiny improvement to match both slugs)
   const getCurrentCountryFromUrl = () => {
     const pathname = location.pathname.toLowerCase();
-    if (pathname.includes("/saudi")) return "Saudi Arabia";
-    if (pathname.includes("/saudi-arabia")) return "Saudi Arabia";
+    if (pathname.includes("/saudi") || pathname.includes("/saudi-arabia")) return "Saudi Arabia";
     return "UAE";
   };
 
-  // Filter addresses for current route
-  const getFilteredAddresses = () => {
-    const currentCountry = getCurrentCountryFromUrl();
-    return keyAddresses.filter((addr) => addr.country === currentCountry);
-  };
+  // Flat list w/ country field
+  const allOffices = useMemo(() => {
+    return keyAddresses.flatMap((c) => c.offices.map((o) => ({ ...o, country: c.country })));
+  }, []);
 
-  const filteredAddresses = getFilteredAddresses();
-  const allOffices: Office[] = filteredAddresses.flatMap((country) =>
-    country.offices.map((office) => ({ ...office, country: country.country }))
-  );
+  // Prefer the current country first, then others (so you always have up to 4 cards)
+  const prioritized = useMemo(() => {
+    const current = getCurrentCountryFromUrl();
+    const primary = allOffices.filter((o) => o.country === current);
+    const others = allOffices.filter((o) => o.country !== current);
+    return [...primary, ...others];
+  }, [location.pathname, allOffices]);
 
-  // Auto-scroll between offices
+  // Pagination (4 per page)
+  const pageSize = 4;
+  const totalPages = Math.max(1, Math.ceil(prioritized.length / pageSize));
+
+  // Keep page within bounds when route changes
   useEffect(() => {
-    if (isAutoScrolling && allOffices.length > 1) {
-      const interval = setInterval(() => {
-        setCurrentAddressIndex((prev) => (prev + 1) % allOffices.length);
-      }, 4000);
-      return () => clearInterval(interval);
-    }
-  }, [isAutoScrolling, allOffices.length]);
+    setPage(0);
+  }, [location.pathname]);
 
-  const handleNextAddress = () => {
+  // Auto-advance pages
+  useEffect(() => {
+    if (!isAutoScrolling || totalPages <= 1) return;
+    const id = setInterval(() => setPage((p) => (p + 1) % totalPages), 5000);
+    return () => clearInterval(id);
+  }, [isAutoScrolling, totalPages]);
+
+  const visibleOffices = useMemo(() => {
+    const start = page * pageSize;
+    return prioritized.slice(start, start + pageSize);
+  }, [prioritized, page]);
+
+  const handleNextPage = () => {
     setIsAutoScrolling(false);
-    setCurrentAddressIndex((prev) => (prev + 1) % allOffices.length);
+    setPage((p) => (p + 1) % totalPages);
   };
-
-  const currentOffice = allOffices[currentAddressIndex];
 
   return (
     <footer className="pt-16 pb-8 text-white bg-blue-950">
@@ -148,15 +155,9 @@ const Footer = () => {
 
             <div className="space-y-2 text-sm text-white/80">
               <h4 className="font-medium text-slate-50">DO Counter & CFS Timings</h4>
-              <p className="text-slate-50">
-                Monday to Thursday: 8.00 AM to 12.30 PM, 2.00 PM to 4.00 PM
-              </p>
-              <p className="text-slate-50">
-                Friday: 8.00 AM to 12.00 PM, 2.00 PM to 4.30 PM
-              </p>
-              <p className="text-xs text-slate-50">
-                (12.00 PM to 2.00 PM – Friday Prayer and Lunch Break)
-              </p>
+              <p className="text-slate-50">Monday to Thursday: 8.00 AM to 12.30 PM, 2.00 PM to 4.00 PM</p>
+              <p className="text-slate-50">Friday: 8.00 AM to 12.00 PM, 2.00 PM to 4.30 PM</p>
+              <p className="text-xs text-slate-50">(12.00 PM to 2.00 PM – Friday Prayer and Lunch Break)</p>
               <p className="text-slate-50">Saturday & Sunday CLOSED</p>
             </div>
           </motion.div>
@@ -192,85 +193,84 @@ const Footer = () => {
             </div>
           </motion.div>
 
-          {/* Column 3: Contact Info (auto-rotating by country) */}
+          {/* Column 3: Contact Info — FOUR CARDS per page */}
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             variants={footerAnimation}
             transition={{ delay: 0.4 }}
-            className="flex flex-col items-start md:items-end lg:items-start lg:pl-10"
+            className="flex flex-col items-start md:items-end lg:items-start lg:pl-10 w-full"
           >
             <div className="flex items-center justify-between w-full mb-4">
               <h3 className="font-bold text-xl text-gc-gold">Contact Us</h3>
-              {allOffices.length > 1 && (
+              {totalPages > 1 && (
                 <button
-                  onClick={handleNextAddress}
+                  onClick={handleNextPage}
                   className="bg-gc-gold text-gc-dark-blue p-1.5 rounded-full hover:bg-gc-light-gold transition-colors"
-                  title="Next Address"
+                  title="Next"
                 >
                   <ChevronRight size={16} />
                 </button>
               )}
             </div>
 
-            {currentOffice && (
-              <motion.div
-                key={currentAddressIndex}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5 }}
-                className="space-y-4 text-white/90"
-              >
-                <div className="flex items-start gap-2">
-                  <MapPin size={18} className="text-gc-gold mt-1 flex-shrink-0" />
-                  <div>
-                    <p className="font-semibold text-gc-gold mb-1">
-                      {currentOffice.name} - {currentOffice.country}
-                    </p>
+            {/* GRID of up to 4 offices */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
+              {visibleOffices.map((office, i) => (
+                <motion.div
+                  key={`${page}-${office.name}-${i}`}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.35 }}
+                  className="rounded-lg border border-gc-gold/20 bg-white/5 p-3"
+                >
+                  <p className="font-semibold text-gc-gold mb-1">
+                    {office.name} • {office.country}
+                  </p>
+                  <div className="flex items-start gap-2 mb-2">
+                    <MapPin size={16} className="text-gc-gold mt-1 flex-shrink-0" />
                     <p className="whitespace-pre-line text-sm leading-relaxed text-slate-50">
-                      {currentOffice.address}
+                      {office.address}
                     </p>
                   </div>
-                </div>
 
-                {currentOffice.phone && (
-                  <div className="flex items-center gap-2">
-                    <Phone size={18} className="text-gc-gold flex-shrink-0" />
-                    <p className="text-sm text-slate-50">{currentOffice.phone}</p>
-                  </div>
-                )}
+                  {office.phone && (
+                    <div className="flex items-center gap-2 text-slate-50 text-sm">
+                      <Phone size={16} className="text-gc-gold flex-shrink-0" />
+                      <span>{office.phone}</span>
+                    </div>
+                  )}
+                  {office.fax && (
+                    <div className="flex items-center gap-2 text-slate-50 text-sm">
+                      <Phone size={16} className="text-gc-gold flex-shrink-0" />
+                      <span>Fax: {office.fax}</span>
+                    </div>
+                  )}
+                  {office.email && (
+                    <div className="flex items-center gap-2 text-slate-50 text-sm">
+                      <Mail size={16} className="text-gc-gold flex-shrink-0" />
+                      <span>{office.email}</span>
+                    </div>
+                  )}
+                </motion.div>
+              ))}
+            </div>
 
-                {currentOffice.fax && (
-                  <div className="flex items-center gap-2">
-                    <Phone size={18} className="text-gc-gold flex-shrink-0" />
-                    <p className="text-sm text-slate-50">Fax: {currentOffice.fax}</p>
-                  </div>
-                )}
-
-                {currentOffice.email && (
-                  <div className="flex items-center gap-2">
-                    <Mail size={18} className="text-gc-gold flex-shrink-0" />
-                    <p className="text-sm text-slate-50">{currentOffice.email}</p>
-                  </div>
-                )}
-              </motion.div>
-            )}
-
-            {allOffices.length > 1 && (
-              <div className="flex justify-center mt-4 space-x-2">
-                {allOffices.map((_, index) => (
+            {/* Page dots */}
+            {totalPages > 1 && (
+              <div className="flex justify-center mt-4 space-x-2 w-full">
+                {Array.from({ length: totalPages }).map((_, idx) => (
                   <button
-                    key={index}
+                    key={idx}
                     onClick={() => {
-                      setCurrentAddressIndex(index);
                       setIsAutoScrolling(false);
+                      setPage(idx);
                     }}
                     className={`w-2 h-2 rounded-full transition-colors ${
-                      index === currentAddressIndex
-                        ? "bg-gc-gold"
-                        : "bg-white/30 hover:bg-white/50"
+                      idx === page ? "bg-gc-gold" : "bg-white/30 hover:bg-white/50"
                     }`}
+                    aria-label={`Go to page ${idx + 1}`}
                   />
                 ))}
               </div>

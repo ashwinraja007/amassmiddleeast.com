@@ -134,7 +134,7 @@ const Services: React.FC = () => {
               transition={{ duration: 0.5 }}
               className="text-center max-w-4xl mx-auto"
             >
-              <h1 className="text-4xl md:text-6xl font-bold mb-4 text-white mt-7">
+              <h1 className="text-4xl md:text-6xl font-bold mb-4 text-black mt-7">
                 Our Logistics Services
               </h1>
               <div className="w-20 h-1 bg-gc-gold mx-auto mb-6"></div>

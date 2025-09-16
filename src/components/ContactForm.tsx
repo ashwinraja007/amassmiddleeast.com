@@ -159,11 +159,11 @@ const ContactForm: React.FC = () => {
               style={{ color: BRAND.blue }}
             >
               <Building2 className="w-6 h-6" style={{ color: BRAND.gold }} />
-              Our Offices (4)
+              Our Offices 
             </h3>
 
             <p className="text-sm -mt-2" style={{ color: BRAND.black }}>
-              Showing <strong>{selectedLocation}</strong> first, then nearby key offices.
+             
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">

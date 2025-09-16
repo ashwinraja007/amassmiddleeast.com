@@ -2,27 +2,108 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- Charset & Viewport -->
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GC</title>
-    <meta name="description" content="OECL - Reliable and efficient logistics solutions tailored to your business needs." />
-    <meta name="author" content="OECL" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
 
-    <meta property="og:title" content="OECL - Logistics & Transportation" />
-    <meta property="og:description" content="Reliable and efficient logistics solutions tailored to your business needs." />
+    <!-- Primary Meta -->
+    <title>Amass Middle East Shipping Services LLC — Neutral LCL Consolidation</title>
+    <meta
+      name="description"
+      content="Amass Middle East Shipping Services LLC is a neutral LCL consolidation provider serving the UAE from Oud Metha, Dubai with CFS in Jebel Ali. Expanded across Saudi Arabia (Dammam, Riyadh, Jeddah) with bonded warehouses in Jeddah & Dammam. Backed by 40+ professionals and the CWN global network."
+    />
+    <meta name="author" content="Amass Middle East Shipping Services LLC" />
+
+    <!-- Canonical (set VITE_SITE_URL in your .env) -->
+    <link rel="canonical" href="%VITE_SITE_URL%" />
+
+    <!-- Favicons / PWA -->
+    <link rel="icon" href="/favicon.svg" sizes="any" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="icon" href="/favicon-192.png" sizes="192x192" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0b3c6f" />
+    <meta name="msapplication-TileColor" content="#0b3c6f" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Theme Colors (light/dark) -->
+    <meta name="theme-color" content="#0b3c6f" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0a2540" media="(prefers-color-scheme: dark)" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Amass Middle East — Neutral LCL Consolidation" />
+    <meta
+      property="og:description"
+      content="Oud Metha, Dubai HQ with CFS in Jebel Ali. Branches in Dammam, Riyadh, Jeddah; bonded warehouses in Jeddah & Dammam. 40+ professionals. Powered by the CWN network."
+    />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content="%VITE_SITE_URL%" />
+    <meta property="og:image" content="%VITE_SITE_URL%/og.jpg" />
+    <meta property="og:image:alt" content="Amass Middle East logistics network map" />
 
+    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@oecl" />
-    <meta name="twitter:image" content="" />
-    
-    <link rel="icon" href="/logo.png" type="image/png" />
+    <meta name="twitter:title" content="Amass Middle East — Neutral LCL Consolidation" />
+    <meta
+      name="twitter:description"
+      content="Neutral LCL specialist serving UAE & KSA. Dubai office (Oud Metha), Jebel Ali CFS, KSA branches & bonded warehouses. CWN network backed."
+    />
+    <meta name="twitter:image" content="%VITE_SITE_URL%/og.jpg" />
+
+    <!-- Robots & Discovery -->
+    <meta name="robots" content="index,follow" />
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
+
+    <!-- Fonts (optional) -->
+    <!--
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    -->
+
+    <!-- Structured Data: Organization -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Amass Middle East Shipping Services LLC",
+        "url": "%VITE_SITE_URL%",
+        "logo": "%VITE_SITE_URL%/logo.png",
+        "description": "Neutral LCL consolidation provider serving the UAE from Oud Metha, Dubai with CFS in Jebel Ali. Expanded across Saudi Arabia (Dammam, Riyadh, Jeddah) with bonded warehouses in Jeddah and Dammam. Backed by 40+ logistics professionals and the CWN network.",
+        "foundingDate": "2016",
+        "areaServed": ["AE", "SA"],
+        "contactPoint": [{
+          "@type": "ContactPoint",
+          "telephone": "+971-4-357-5508",
+          "contactType": "customer service",
+          "areaServed": "AE",
+          "availableLanguage": ["en", "ar"]
+        }],
+        "department": [{
+          "@type": "Organization",
+          "name": "CFS Jebel Ali",
+          "areaServed": "AE"
+        }],
+        "subOrganization": [{
+          "@type": "Organization",
+          "name": "Amass KSA — Dammam, Riyadh, Jeddah",
+          "areaServed": "SA"
+        }]
+      }
+    </script>
   </head>
 
   <body>
     <div id="root"></div>
+
     <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
     <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
+
+    <!-- Vite entry -->
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
+

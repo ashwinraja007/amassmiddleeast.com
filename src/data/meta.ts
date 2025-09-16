@@ -6,159 +6,235 @@ interface MetaInfo {
 
 const meta: Record<string, MetaInfo> = {
   '/': {
-    title: 'OECL - Logistics & Transportation',
-    description: 'Reliable and efficient logistics solutions tailored to your business needs.',
-    keywords: 'logistics, shipping, OECL, transportation, global consolidators',
+    title: 'Amass Middle East Shipping Services LLC – Neutral LCL Consolidation',
+    description:
+      'Neutral LCL consolidation provider based in Oud Metha, Dubai with CFS in Jebel Ali. Expanded to Saudi Arabia (Dammam, Riyadh, Jeddah) with bonded warehouses in Jeddah & Dammam. Backed by 40+ professionals and the CWN global network.',
+    keywords:
+      'Amass Middle East, neutral LCL, consolidation, Jebel Ali CFS, Oud Metha Dubai, bonded warehouse, Dammam, Riyadh, Jeddah, CWN network, logistics UAE KSA',
   },
+
   '/contact': {
-    title: 'Contact OECL',
-    description: 'Get in touch with OECL for inquiries about our logistics services.',
-    keywords: 'contact, OECL, logistics, support',
+    title: 'Contact Amass Middle East',
+    description:
+      'Get in touch with Amass Middle East for neutral LCL consolidation, CFS operations, and regional logistics support across the UAE and Saudi Arabia.',
+    keywords:
+      'contact Amass, logistics support, UAE logistics, Saudi logistics, LCL, CFS',
   },
+
   '/services': {
-    title: 'OECL Services',
-    description: 'Explore OECL’s comprehensive range of logistics and transportation services.',
-    keywords: 'services, logistics, transportation, OECL',
+    title: 'Amass Services',
+    description:
+      'Explore Amass Middle East’s core services including neutral LCL consolidation, CFS operations, warehousing, project cargo and more.',
+    keywords:
+      'Amass services, neutral LCL, CFS, warehousing, project cargo, logistics',
   },
+
+  // --- Your primary services (added) ---
+  '/services/lcl': {
+    title: 'LCL Consolidation – Amass Middle East',
+    description:
+      'Neutral LCL consolidation with reliable sailings, competitive rates, and CWN-backed global reach from Dubai and KSA.',
+    keywords:
+      'LCL, less than container load, neutral consolidator, Dubai LCL, Jebel Ali LCL, CWN',
+  },
+  '/services/cfs': {
+    title: 'CFS Operations – Amass Middle East',
+    description:
+      'Modern CFS at Jebel Ali supported by bonded warehouses in Jeddah and Dammam for faster throughput and reliable schedules.',
+    keywords:
+      'CFS, container freight station, Jebel Ali, bonded warehouse, Jeddah, Dammam',
+  },
+
+  // --- Keep existing routes (rebranded text) ---
   '/services/sea-freight': {
-    title: 'Sea Freight Services - OECL',
-    description: 'Cost-effective sea freight solutions for global cargo movement.',
-    keywords: 'sea freight, ocean shipping, logistics',
+    title: 'Sea Freight – Amass Middle East',
+    description:
+      'Cost-effective FCL/LCL sea freight with dependable schedules across major tradelanes.',
+    keywords:
+      'sea freight, ocean shipping, FCL, LCL, logistics UAE, logistics KSA',
   },
   '/services/air-freight': {
-    title: 'Air Freight Services - OECL',
-    description: 'Fast and reliable air freight services to meet urgent shipping needs.',
-    keywords: 'air freight, air cargo, logistics',
+    title: 'Air Freight – Amass Middle East',
+    description:
+      'Fast and reliable air cargo solutions for time-critical shipments, backed by regional expertise.',
+    keywords:
+      'air freight, air cargo, express shipping, UAE, KSA',
   },
   '/services/customs-clearance': {
-    title: 'Customs Clearance - OECL',
-    description: 'Efficient customs clearance services ensuring smooth cargo handling.',
-    keywords: 'customs clearance, import export, logistics',
+    title: 'Customs Clearance – Amass Middle East',
+    description:
+      'Efficient customs brokerage and documentation across UAE and Saudi Arabia.',
+    keywords:
+      'customs clearance, brokerage, import export, GCC compliance',
   },
   '/services/warehousing': {
-    title: 'Warehousing Solutions - OECL',
-    description: 'Secure and scalable warehousing solutions for your supply chain.',
-    keywords: 'warehousing, storage, logistics',
+    title: 'Warehousing – Amass Middle East',
+    description:
+      'Secure storage, inventory control, and value-added services with bonded options in Jeddah and Dammam.',
+    keywords:
+      'warehousing, bonded warehouse, storage, VAS, Jeddah, Dammam',
   },
   '/services/consolidation': {
-    title: 'Cargo Consolidation - OECL',
-    description: 'Optimize shipments with OECL’s cargo consolidation services.',
-    keywords: 'cargo consolidation, logistics, shipping',
+    title: 'Cargo Consolidation – Amass Middle East',
+    description:
+      'Optimize shipments with multi-origin consolidation and hub-and-spoke solutions.',
+    keywords:
+      'cargo consolidation, multi-origin, hub and spoke, LCL',
   },
   '/services/project-cargo': {
-    title: 'Project Cargo Handling - OECL',
-    description: 'Specialized project cargo services for oversized and heavy shipments.',
-    keywords: 'project cargo, heavy lift, logistics',
+    title: 'Project Cargo – Amass Middle East',
+    description:
+      'End-to-end handling for oversized and complex moves across the region.',
+    keywords:
+      'project cargo, heavy lift, OOG, logistics projects',
   },
   '/services/liquid-cargo': {
-    title: 'Liquid Cargo Transport - OECL',
-    description: 'Safe and efficient transportation solutions for liquid cargo.',
-    keywords: 'liquid cargo, bulk liquids, logistics',
+    title: 'Liquid Cargo – Amass Middle East',
+    description:
+      'Safe and compliant liquid cargo transport with specialized handling.',
+    keywords:
+      'liquid cargo, ISO tank, bulk liquids, chemical logistics',
   },
   '/services/third-party-logistics': {
-    title: 'Third Party Logistics - OECL',
-    description: 'Comprehensive 3PL services tailored to your business.',
-    keywords: '3PL, third-party logistics, supply chain',
+    title: 'Third-Party Logistics (3PL) – Amass Middle East',
+    description:
+      'Flexible 3PL solutions integrating warehousing, distribution, and value-added services.',
+    keywords:
+      '3PL, third party logistics, fulfillment, distribution',
   },
   '/services/liner-agency': {
-    title: 'Liner Agency Services - OECL',
-    description: 'Professional liner agency services supporting global shipping lines.',
-    keywords: 'liner agency, shipping lines, logistics',
+    title: 'Liner Agency – Amass Middle East',
+    description:
+      'Professional liner representation and port operations support across key GCC gateways.',
+    keywords:
+      'liner agency, port operations, shipping lines, GCC',
   },
+
   '/global-presence': {
-    title: 'OECL Global Presence',
-    description: 'Discover OECL’s growing global footprint and regional offices.',
-    keywords: 'global presence, offices, logistics network',
+    title: 'Amass Global Presence',
+    description:
+      'Our footprint spans the UAE and Saudi Arabia with CWN network coverage worldwide.',
+    keywords:
+      'global presence, UAE, Saudi Arabia, CWN, logistics network',
   },
+
   '/about-us': {
-    title: 'About OECL',
-    description: 'Learn more about OECL’s mission, vision, and experienced team.',
-    keywords: 'about OECL, company info, logistics',
+    title: 'About Amass Middle East',
+    description:
+      'Neutral LCL specialist headquartered in Oud Metha, Dubai with CFS in Jebel Ali. 40+ professionals and 9 years of growth powered by the CWN network.',
+    keywords:
+      'about Amass, neutral LCL, Jebel Ali CFS, CWN network, Dubai logistics',
   },
+
   '/gallery': {
-    title: 'OECL Gallery',
-    description: 'Browse images showcasing OECL’s operations and services.',
-    keywords: 'gallery, images, OECL',
+    title: 'Gallery – Amass Middle East',
+    description:
+      'A look at our consolidation, CFS operations, and project handling in the region.',
+    keywords:
+      'gallery, logistics images, CFS, LCL operations',
   },
+
   '/career': {
-    title: 'Careers at OECL',
-    description: 'Join OECL’s team and advance your career in logistics.',
-    keywords: 'careers, jobs, OECL',
+    title: 'Careers – Amass Middle East',
+    description:
+      'Join a growing regional consolidator and build your logistics career with Amass.',
+    keywords:
+      'careers, logistics jobs, UAE jobs, Saudi jobs',
   },
+
   '/blog': {
-    title: 'OECL Blog',
-    description: 'Latest insights and updates from OECL’s logistics experts.',
-    keywords: 'blog, logistics news, OECL',
+    title: 'Amass Insights',
+    description:
+      'Logistics insights, updates, and regional trade news from Amass Middle East.',
+    keywords:
+      'logistics blog, trade updates, shipping news',
   },
+
   '/news': {
-    title: 'OECL News',
-    description: 'Company news and industry updates from OECL.',
-    keywords: 'news, updates, OECL',
+    title: 'News – Amass Middle East',
+    description:
+      'Company announcements and regional logistics updates from Amass.',
+    keywords:
+      'Amass news, logistics news, GCC updates',
   },
+
   '/projects': {
-    title: 'OECL Projects',
-    description: 'Explore notable logistics projects handled by OECL.',
-    keywords: 'projects, case studies, logistics',
+    title: 'Projects – Amass Middle East',
+    description:
+      'Selected logistics projects and case studies showcasing our regional capabilities.',
+    keywords:
+      'projects, case studies, logistics projects',
   },
+
   '/privacy-policy': {
-    title: 'Privacy Policy - OECL',
-    description: 'Read OECL’s commitment to protecting your privacy.',
-    keywords: 'privacy policy, data protection, OECL',
+    title: 'Privacy Policy – Amass Middle East',
+    description:
+      'Read how Amass Middle East protects your data and privacy.',
+    keywords:
+      'privacy policy, data protection, Amass Middle East',
   },
+
   '/terms-and-conditions': {
-    title: 'Terms & Conditions - OECL',
-    description: 'Review the terms and conditions for using OECL services.',
-    keywords: 'terms and conditions, policies, OECL',
+    title: 'Terms & Conditions – Amass Middle East',
+    description:
+      'Terms for using Amass Middle East services and this website.',
+    keywords:
+      'terms and conditions, policies, Amass Middle East',
   },
+
   '/login': {
-    title: 'OECL Login',
-    description: 'Access your OECL account.',
-    keywords: 'login, account, OECL',
+    title: 'Login – Amass Middle East',
+    description: 'Access your Amass account and shipment information.',
+    keywords: 'login, account, Amass',
   },
   '/signup': {
-    title: 'OECL Signup',
-    description: 'Create an account with OECL to manage your shipments.',
-    keywords: 'signup, register, OECL',
+    title: 'Sign Up – Amass Middle East',
+    description: 'Create your Amass account to manage bookings and documents.',
+    keywords: 'signup, register, Amass account',
   },
   '/forgot-password': {
-    title: 'Forgot Password - OECL',
-    description: 'Reset your OECL account password.',
-    keywords: 'password reset, account recovery, OECL',
+    title: 'Forgot Password – Amass Middle East',
+    description: 'Reset your Amass account password.',
+    keywords: 'password reset, account recovery, Amass',
   },
+
   '/dashboard': {
-    title: 'OECL Dashboard',
-    description: 'Manage your shipments, documents, and payments in the OECL dashboard.',
-    keywords: 'dashboard, shipments, OECL',
+    title: 'Dashboard – Amass Middle East',
+    description: 'Manage shipments, documents, and invoices in your Amass dashboard.',
+    keywords: 'dashboard, shipments, documents, Amass',
   },
+
   '/admin-login': {
-    title: 'Admin Login - OECL',
-    description: 'Administrative access to OECL’s management tools.',
-    keywords: 'admin login, OECL',
+    title: 'Admin Login – Amass Middle East',
+    description: 'Administrative access to Amass Middle East systems.',
+    keywords: 'admin login, Amass admin',
   },
   '/admin-dashboard': {
-    title: 'OECL Admin Dashboard',
-    description: 'Administration panel for managing OECL operations.',
-    keywords: 'admin dashboard, management, OECL',
+    title: 'Admin Dashboard – Amass Middle East',
+    description: 'Administration panel for Amass operations.',
+    keywords: 'admin dashboard, management, Amass',
   },
   '/admin': {
-    title: 'OECL Admin Dashboard',
-    description: 'Administration panel for managing OECL operations.',
-    keywords: 'admin dashboard, management, OECL',
+    title: 'Admin Dashboard – Amass Middle East',
+    description: 'Administration panel for Amass operations.',
+    keywords: 'admin dashboard, management, Amass',
   },
+
   '/blog-editor': {
-    title: 'OECL Blog Editor',
-    description: 'Create and edit blog posts for OECL.',
-    keywords: 'blog editor, content management, OECL',
+    title: 'Blog Editor – Amass Middle East',
+    description: 'Create and edit Amass blog posts.',
+    keywords: 'blog editor, CMS, Amass',
   },
   '/blog-admin': {
-    title: 'OECL Blog Admin',
-    description: 'Administer blog content at OECL.',
-    keywords: 'blog admin, content, OECL',
+    title: 'Blog Admin – Amass Middle East',
+    description: 'Administer blog content for Amass Middle East.',
+    keywords: 'blog admin, content management, Amass',
   },
+
   '/not-found': {
-    title: 'Page Not Found - OECL',
-    description: 'The page you are looking for could not be found.',
-    keywords: '404, not found, OECL',
+    title: 'Page Not Found – Amass Middle East',
+    description: 'The page you’re looking for could not be found.',
+    keywords: '404, not found, Amass',
   },
 };
 

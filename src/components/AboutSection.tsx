@@ -18,9 +18,8 @@ const AboutSection: React.FC = () => {
 
   // Put your images in /public and reference with leading slashes
   const images = [
-    "/jebelali.jpg",
+    "/Dubai.jpg",
     "/jebelali1.png",
-    "/Dubai.jpg",          // make sure filename & case match exactly
     "/burj-khalifa.jpg",
   ];
 

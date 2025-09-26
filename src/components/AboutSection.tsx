@@ -1,8 +1,8 @@
-// src/components/AboutSection.tsx
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { getCurrentCountryFromPath } from "@/services/countryDetection";
+import { motion } from "framer-motion";
 
 const AboutSection: React.FC = () => {
   const location = useLocation();
@@ -13,11 +13,28 @@ const AboutSection: React.FC = () => {
       ? p
       : `/${currentCountry.name.toLowerCase().replace(" ", "-")}${p}`;
 
+  // ⬇️ Hard-coded image list
+  const images = [
+    "/amass1.jpg",
+    "/amass2.jpg",
+    "/amass3.jpg",
+    "/amass4.jpg",
+  ];
+
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setIndex((i) => (i + 1) % images.length);
+    }, 4000); // 4-second interval
+    return () => clearInterval(id);
+  }, [images.length]);
+
   return (
     <section className="bg-white py-14 md:py-20">
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-          {/* LEFT: clean text only (no colored sections before paragraphs) */}
+          {/* LEFT: text */}
           <div>
             <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900">
               Who we are
@@ -49,19 +66,22 @@ const AboutSection: React.FC = () => {
             </div>
           </div>
 
-          {/* RIGHT: rectangular image (replaces the hexagon circle) */}
+          {/* RIGHT: auto-scrolling images */}
           <div className="order-first lg:order-none">
-            <div className="w-full overflow-hidden rounded-2xl shadow-xl border border-slate-200">
-              {/* Replace src with your actual image path */}
-              <img
-                src="/amass.jpg"
-                alt="Global Consol operations"
-                className="w-full h-auto object-cover"
-                style={{ aspectRatio: "16 / 10" }} /* keeps a nice rectangle */
-              />
+            <div className="relative w-full overflow-hidden rounded-2xl shadow-xl border border-slate-200">
+              {images.map((src, i) => (
+                <motion.img
+                  key={src}
+                  src={src}
+                  alt={`slide-${i}`}
+                  className="absolute inset-0 w-full h-full object-cover"
+                  style={{ aspectRatio: "16 / 10" }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: i === index ? 1 : 0 }}
+                  transition={{ duration: 0.8 }}
+                />
+              ))}
             </div>
-            {/* Optional small caption under image */}
-            {/* <p className="mt-3 text-sm text-slate-500 text-center">Our network & operations</p> */}
           </div>
         </div>
       </div>

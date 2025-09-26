@@ -47,8 +47,8 @@ const StatsSection: React.FC = () => {
         />
         {/* Soft overlays for readability */}
         <div className="absolute inset-0 bg-gradient-to-b from-kargon-dark/75 via-kargon-dark/70 to-kargon-dark/80" />
-        {/* Decorative radial glows */}
-        <div className="pointer-events-none absolute -top-24 -left-24 h-72 w-72 rounded-full bg-kargon-red/20 blur-3xl" />
+        {/* Decorative radial glows (blue) */}
+        <div className="pointer-events-none absolute -top-24 -left-24 h-72 w-72 rounded-full bg-amass-blue/20 blur-3xl" />
         <div className="pointer-events-none absolute -bottom-24 -right-24 h-80 w-80 rounded-full bg-white/10 blur-3xl" />
         {/* Subtle grid pattern */}
         <div className="absolute inset-0 [mask-image:radial-gradient(transparent,black_70%)] opacity-[0.06] bg-[linear-gradient(to_right,rgba(255,255,255,0.4)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.4)_1px,transparent_1px)] bg-[size:28px_28px]" />
@@ -63,7 +63,7 @@ const StatsSection: React.FC = () => {
           "
         >
           <span className="opacity-90">NO.1</span>{" "}
-          <span className="text-kargon-red">
+          <span className="text-amass-blue">
             Domestic LCL Market Undisputed Leader
           </span>
         </h2>
@@ -96,8 +96,8 @@ const StatsSection: React.FC = () => {
                     group-hover:-translate-y-0.5 transition
                   "
                 >
-                  {/* subtle top accent line */}
-                  <div className="absolute top-0 left-1/2 -translate-x-1/2 h-0.5 w-16 rounded-full bg-kargon-red/60 group-hover:w-20 transition-all" />
+                  {/* top accent line (blue) */}
+                  <div className="absolute top-0 left-1/2 -translate-x-1/2 h-0.5 w-16 rounded-full bg-amass-blue/70 group-hover:w-20 transition-all" />
 
                   {/* number */}
                   <div

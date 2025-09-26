@@ -147,10 +147,11 @@ const Navigation = () => {
               Global Presence
             </Link>
 
+            {/* FIXED: was checking /global-presence by mistake */}
             <Link
               to={getNavLink("/contact")}
               className={`nav-link font-medium text-base xl:text-lg transition-colors ${
-                isActive(getNavLink("/global-presence"))
+                isActive(getNavLink("/contact"))
                   ? "text-amass-blue"
                   : "text-black"
               }`}

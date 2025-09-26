@@ -15,10 +15,10 @@ const AboutSection: React.FC = () => {
 
   // ⬇️ Hard-coded image list
   const images = [
-    "/amass1.jpg",
-    "/amass2.jpg",
-    "/amass3.jpg",
-    "/amass4.jpg",
+"/jebelali.jpg",
+"/jebelali1.png",
+"/Dubai.jpg",
+"/burj-khalifa.jpg",
   ];
 
   const [index, setIndex] = useState(0);

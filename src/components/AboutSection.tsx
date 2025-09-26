@@ -13,12 +13,12 @@ const AboutSection: React.FC = () => {
       ? p
       : `/${currentCountry.name.toLowerCase().replace(" ", "-")}${p}`;
 
-  // ⬇️ Hard-coded image list
+  // If using /public, prefix with BASE_URL so it also works under subpaths
   const images = [
-"/jebelali.jpg",
-"/jebelali1.png",
-"/Dubai.jpg",
-"/burj-khalifa.jpg",
+    new URL("/jebelali.jpg", import.meta.env.BASE_URL).toString(),
+    new URL("/jebelali1.png", import.meta.env.BASE_URL).toString(),
+    new URL("/Dubai.jpg", import.meta.env.BASE_URL).toString(),       // check exact case
+    new URL("/burj-khalifa.jpg", import.meta.env.BASE_URL).toString()
   ];
 
   const [index, setIndex] = useState(0);
@@ -26,7 +26,7 @@ const AboutSection: React.FC = () => {
   useEffect(() => {
     const id = setInterval(() => {
       setIndex((i) => (i + 1) % images.length);
-    }, 4000); // 4-second interval
+    }, 4000);
     return () => clearInterval(id);
   }, [images.length]);
 
@@ -36,9 +36,7 @@ const AboutSection: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
           {/* LEFT: text */}
           <div>
-            <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900">
-              Who we are
-            </h2>
+            <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900">Who we are</h2>
 
             <p className="mt-5 text-slate-800">
               <span className="font-semibold">Amass Middle East Shipping Services LLC</span>, a Neutral
@@ -68,17 +66,21 @@ const AboutSection: React.FC = () => {
 
           {/* RIGHT: auto-scrolling images */}
           <div className="order-first lg:order-none">
-            <div className="relative w-full overflow-hidden rounded-2xl shadow-xl border border-slate-200">
+            {/* Give the wrapper height via aspect ratio */}
+            <div className="relative w-full aspect-[16/10] overflow-hidden rounded-2xl shadow-xl border border-slate-200">
               {images.map((src, i) => (
                 <motion.img
                   key={src}
                   src={src}
                   alt={`slide-${i}`}
                   className="absolute inset-0 w-full h-full object-cover"
-                  style={{ aspectRatio: "16 / 10" }}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: i === index ? 1 : 0 }}
                   transition={{ duration: 0.8 }}
+                  onError={(e) => {
+                    // optional: show a neutral bg if an image path is wrong
+                    (e.currentTarget as HTMLImageElement).style.display = "none";
+                  }}
                 />
               ))}
             </div>

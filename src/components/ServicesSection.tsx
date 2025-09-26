@@ -32,7 +32,7 @@ const services: ServiceCard[] = [{
   tag: "Container Freight Station"
 }];
 export default function ServicesSection() {
-  return <section className="py-10 bg-slate-50">
+  return <section className="py-20 bg-slate-50">
       <div className="container mx-auto px-4">
         <ScrollAnimation className="text-center mb-14">
           <h2 className="font-bold text-kargon-blue text-4xl md:text-5xl">

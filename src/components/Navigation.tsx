@@ -140,8 +140,8 @@ const Navigation = () => {
               to={getNavLink("/global-presence")}
               className={`nav-link font-medium text-base xl:text-lg transition-colors ${
                 isActive(getNavLink("/global-presence"))
-                  ? "text-kargon-red"
-                  : "text-black hover:text-kargon-red"
+                  ? "text-amass-blue"
+                  : "text-black"
               }`}
             >
               Global Presence
@@ -151,8 +151,8 @@ const Navigation = () => {
               to={getNavLink("/contact")}
               className={`nav-link font-medium text-base xl:text-lg transition-colors ${
                 isActive(getNavLink("/global-presence"))
-                  ? "text-kargon-red"
-                  : "text-black hover:text-kargon-red"
+                  ? "text-amass-blue"
+                  : "text-black"
               }`}
             >
               Contact

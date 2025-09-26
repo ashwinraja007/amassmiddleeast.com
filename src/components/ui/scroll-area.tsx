@@ -62,7 +62,7 @@ const ScrollBar = React.forwardRef<
     >
       <ScrollAreaPrimitive.ScrollAreaThumb
         className="relative flex-1 rounded-full"
-        style={{ backgroundColor: "#2a05fc" }}
+        style={{ backgroundColor: "#4e9ff5" }}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}

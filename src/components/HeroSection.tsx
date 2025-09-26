@@ -30,7 +30,7 @@ const HeroSection: React.FC = () => {
       {/* Buttons Bar at the Bottom */}
       <div className="absolute bottom-0 left-0 right-0 z-10  bg-inherit">
         <div className="max-w-7xl mx-auto px-4 py-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
-          {portalLinks.map((link, i) => <a key={i} href={link.url} target="_blank" rel="noopener noreferrer" className="flex flex-col items-center justify-center gap-2 py-3 rounded-md bg-[#0b1f4d] text-white hover:bg-[#122a66] transition-transform transform hover:scale-105 shadow-md border border-white/10">
+          {portalLinks.map((link, i) => <a key={i} href={link.url} target="_blank" rel="noopener noreferrer" className="flex flex-col items-center justify-center gap-1 py-1 rounded-md bg-[#0b1f4d] text-white hover:bg-[#122a66] transition-transform transform hover:scale-105 shadow-md border border-white/10">
               <div className="p-2 bg-white/20 rounded-full">{link.icon}</div>
               <span className="text-sm font-semibold text-center">{link.title}</span>
             </a>)}

@@ -6,24 +6,28 @@ import { motion } from "framer-motion";
 
 const AboutSection: React.FC = () => {
   const location = useLocation();
-  const currentCountry = getCurrentCountryFromPath(location.pathname);
+
+  // Defensive fallback in case countryDetection returns null/undefined
+  const detected = getCurrentCountryFromPath(location.pathname);
+  const currentCountry = detected ?? { code: "SG", name: "Singapore" };
 
   const getNavLink = (p: string) =>
-    currentCountry.code === "SG"
+    currentCountry?.code === "SG"
       ? p
-      : `/${currentCountry.name.toLowerCase().replace(" ", "-")}${p}`;
+      : `/${(currentCountry?.name ?? "Singapore").toLowerCase().replace(/\s+/g, "-")}${p}`;
 
-  // If using /public, prefix with BASE_URL so it also works under subpaths
+  // Put your images in /public and reference with leading slashes
   const images = [
-    new URL("/jebelali.jpg", import.meta.env.BASE_URL).toString(),
-    new URL("/jebelali1.png", import.meta.env.BASE_URL).toString(),
-    new URL("/Dubai.jpg", import.meta.env.BASE_URL).toString(),       // check exact case
-    new URL("/burj-khalifa.jpg", import.meta.env.BASE_URL).toString()
+    "/jebelali.jpg",
+    "/jebelali1.png",
+    "/Dubai.jpg",          // make sure filename & case match exactly
+    "/burj-khalifa.jpg",
   ];
 
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
+    if (!images.length) return;
     const id = setInterval(() => {
       setIndex((i) => (i + 1) % images.length);
     }, 4000);
@@ -36,7 +40,9 @@ const AboutSection: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
           {/* LEFT: text */}
           <div>
-            <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900">Who we are</h2>
+            <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900">
+              Who we are
+            </h2>
 
             <p className="mt-5 text-slate-800">
               <span className="font-semibold">Amass Middle East Shipping Services LLC</span>, a Neutral
@@ -66,8 +72,8 @@ const AboutSection: React.FC = () => {
 
           {/* RIGHT: auto-scrolling images */}
           <div className="order-first lg:order-none">
-            {/* Give the wrapper height via aspect ratio */}
-            <div className="relative w-full aspect-[16/10] overflow-hidden rounded-2xl shadow-xl border border-slate-200">
+            {/* Ensure visible height with aspect ratio (or replace with fixed h-[...]) */}
+            <div className="relative w-full aspect-[16/10] overflow-hidden rounded-2xl shadow-xl border border-slate-200 bg-slate-100">
               {images.map((src, i) => (
                 <motion.img
                   key={src}
@@ -78,7 +84,7 @@ const AboutSection: React.FC = () => {
                   animate={{ opacity: i === index ? 1 : 0 }}
                   transition={{ duration: 0.8 }}
                   onError={(e) => {
-                    // optional: show a neutral bg if an image path is wrong
+                    // hide broken images so they don't block others
                     (e.currentTarget as HTMLImageElement).style.display = "none";
                   }}
                 />

@@ -143,48 +143,37 @@ const CountrySelector = () => {
         >
           <ScrollArea className="h-full w-full pr-2 custom-scrollbar">
             <div className="grid grid-cols-1 gap-1 p-1">
-              {sortedCountries.map(country => {
-                const isCurrent = country.country === currentCountryName;
-                return (
-                  <DropdownMenuItem
-                    key={`${country.country}-${country.company}`}
-                    onSelect={(e) => {
-                      e.preventDefault();
-                      handleCountrySelect(country);
-                    }}
-                    className={`cursor-pointer hover:bg-amber-50 py-4 px-3 min-h-[60px] rounded-md flex items-center gap-3 transition-all ${
-                      isCurrent ? 'ring-1 ring-amber-300' : ''
-                    }`}
-                  >
-                    <motion.div whileHover={{ scale: 1.05 }} className="flex items-center w-full">
-                      <div className="flex-shrink-0">
-                        {country.flag ? (
-                          <img
-                            src={country.flag}
-                            alt={`${country.country} flag`}
-                            className="w-6 h-6 rounded-sm shadow-sm object-cover"
-                          />
-                        ) : (
-                          <div className="w-6 h-6 bg-gray-200 rounded-sm flex items-center justify-center">
-                            <Globe className="w-6 h-6 text-[#F6B100]" />
-                          </div>
-                        )}
-                      </div>
-                      <div className="ml-3 flex-1">
-                        <div className="font-medium text-sm flex items-center gap-2">
-                          {country.country}
-                          <span className="text-xs text-gray-500">· {country.company}</span>
-                          {isCurrent && (
-                            <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-100 text-amber-700">
-                              Current
-                            </span>
-                          )}
+              {sortedCountries.map(country => (
+                <DropdownMenuItem
+                  key={`${country.country}-${country.company}`}
+                  onSelect={(e) => {
+                    e.preventDefault();
+                    handleCountrySelect(country);
+                  }}
+                  className="cursor-pointer hover:bg-amber-50 py-4 px-3 min-h-[60px] rounded-md flex items-center gap-3 transition-all"
+                >
+                  <motion.div whileHover={{ scale: 1.05 }} className="flex items-center w-full">
+                    <div className="flex-shrink-0">
+                      {country.flag ? (
+                        <img
+                          src={country.flag}
+                          alt={`${country.country} flag`}
+                          className="w-6 h-6 rounded-sm shadow-sm object-cover"
+                        />
+                      ) : (
+                        <div className="w-6 h-6 bg-gray-200 rounded-sm flex items-center justify-center">
+                          <Globe className="w-6 h-6 text-[#F6B100]" />
                         </div>
-                      </div>
-                    </motion.div>
-                  </DropdownMenuItem>
-                );
-              })}
+                      )}
+                    </div>
+                    <div className="ml-3 flex-1">
+                      {/* Country on top, company below (previous style) */}
+                      <div className="font-medium text-sm">{country.country}</div>
+                      <div className="text-xs text-gray-500">{country.company}</div>
+                    </div>
+                  </motion.div>
+                </DropdownMenuItem>
+              ))}
             </div>
           </ScrollArea>
         </DropdownMenuContent>

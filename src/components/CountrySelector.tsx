@@ -189,8 +189,6 @@ const CountrySelector = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
   return <div ref={dropdownRef} className="relative z-50 flex items-center gap-2">
-      {displayCountry?.flag}
-
       <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
         <DropdownMenuTrigger asChild>
           <Button variant="outline" className="bg-black text-white border-black hover:bg-black/90 px-4 py-2 rounded-full flex items-center gap-2">

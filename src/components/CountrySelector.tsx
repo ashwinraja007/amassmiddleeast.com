@@ -80,13 +80,7 @@ const countries: CountryData[] = [{
   website: "https://oecl.sg/india",
   priority: 8,
   flag: "/in.svg"
-}, {
-  country: "CHINA",
-  company: "Haixun",
-  website: "https://www.haixun.co/",
-  priority: 9,
-  flag: "/cn.svg"
-}, {
+},{
   country: "AUSTRALIA",
   company: "GGL",
   website: "https://www.gglaustralia.com/",

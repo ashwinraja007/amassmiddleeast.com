@@ -76,24 +76,16 @@ function useGeoCountry(defaultCountry: GeoCountry = { code: "AE", name: "United 
   return { geo, loading };
 }
 
-/* emoji fallback if svg missing */
-function isoToFlagEmoji(iso2?: string) {
-  if (!iso2 || iso2.length !== 2) return "🌐";
-  const A = 0x1f1e6;
-  const c = iso2.toUpperCase();
-  return String.fromCodePoint(A + (c.charCodeAt(0) - 65), A + (c.charCodeAt(1) - 65));
-}
-
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCompanyDropdownOpen, setIsCompanyDropdownOpen] = useState(false);
   const location = useLocation();
   const { user } = useAuth();
 
-  // Path-based country still used for building links
+  // Used for building links only
   const currentCountry = getCurrentCountryFromPath(location.pathname);
 
-  // IP-based flag (SVG or emoji)
+  // IP-based flag
   const { geo, loading } = useGeoCountry({ code: "AE", name: "United Arab Emirates" });
   const [svgError, setSvgError] = useState(false);
   const code2 = (geo.code || "AE").toLowerCase();
@@ -140,7 +132,8 @@ const Navigation = () => {
               to={getNavLink("/home")}
               className={`nav-link font-medium text-base xl:text-lg hover:text-amass-blue transition-colors ${
                 isActive(getNavLink("/home")) || (currentCountry.code === "SG" && isActive("/"))
-                  ? "text-amass-blue" : "text-black"
+                  ? "text-amass-blue"
+                  : "text-black"
               }`}
             >
               Home
@@ -211,11 +204,27 @@ const Navigation = () => {
             </Link>
           </div>
 
-          {/* Right side: Flag (no text) + CountrySelector + Socials */}
-         
-            
+          {/* Right side: [flag ONLY] + CountrySelector + Socials (no text before selector) */}
+          <div className="hidden md:flex items-center gap-2 lg:gap-3">
+            {/* Small flag image; if loading/error, show neutral box (no text) */}
+            <div className="flex items-center justify-center h-6 w-8">
+              {!loading && !svgError ? (
+                <img
+                  src={flagSrc}
+                  alt=""           /* decorative */
+                  aria-hidden="true"
+                  className="h-5 w-7 object-contain rounded-[2px]"
+                  onError={() => setSvgError(true)}
+                />
+              ) : (
+                <span
+                  aria-hidden="true"
+                  className="block h-5 w-7 rounded-[2px] bg-gray-200"
+                />
+              )}
+            </div>
 
-            {/* Country selector back in place */}
+            {/* Country selector immediately after the flag */}
             <CountrySelector />
 
             {/* Social Icons */}
@@ -250,17 +259,6 @@ const Navigation = () => {
       {isMenuOpen && (
         <div className="lg:hidden absolute top-full left-0 right-0 bg-white py-4 shadow-md animate-fade-in border-t max-h-[calc(100vh-80px)] overflow-y-auto">
           <div className="container mx-auto px-4">
-            {/* Mobile: tiny flag row (no text) */}
-            <div className="flex items-center gap-2 pb-3 mb-3 border-b border-gray-200">
-              {loading ? (
-                <span className="text-lg">🌐</span>
-              ) : svgError ? (
-                <span className="text-lg">{isoToFlagEmoji(geo.code)}</span>
-              ) : (
-                <img src={flagSrc} alt="" aria-hidden className="h-5 w-7 object-contain rounded-[2px]" />
-              )}
-            </div>
-
             <nav className="flex flex-col space-y-4">
               {[
                 { label: "HOME", path: "/home" },
@@ -277,7 +275,8 @@ const Navigation = () => {
                   className={`font-medium py-2 text-lg hover:text-amass-blue transition-colors ${
                     isActive(item.path === "/gallery" ? "/gallery" : getNavLink(item.path)) ||
                     (item.path === "/home" && currentCountry.code === "SG" && isActive("/"))
-                      ? "text-amass-blue" : "text-black"
+                      ? "text-amass-blue"
+                      : "text-black"
                   }`}
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -285,9 +284,22 @@ const Navigation = () => {
                 </Link>
               ))}
 
-              {/* Mobile CountrySelector */}
+              {/* Inline: flag + CountrySelector (no text) */}
               <div className="pt-4 border-t border-gray-200">
-                <CountrySelector />
+                <div className="flex items-center gap-2">
+                  {!loading && !svgError ? (
+                    <img
+                      src={flagSrc}
+                      alt=""
+                      aria-hidden="true"
+                      className="h-5 w-7 object-contain rounded-[2px]"
+                      onError={() => setSvgError(true)}
+                    />
+                  ) : (
+                    <span aria-hidden="true" className="block h-5 w-7 rounded-[2px] bg-gray-200" />
+                  )}
+                  <CountrySelector />
+                </div>
               </div>
 
               <Link

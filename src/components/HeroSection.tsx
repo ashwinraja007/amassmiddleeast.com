@@ -3,24 +3,20 @@ import { Users, UserCircle, SearchCode, Ship, Globe } from "lucide-react";
 const HeroSection: React.FC = () => {
   const portalLinks = [{
     icon: <Users className="w-5 h-5" />,
-    title: "Customer Portal",
-    url: "https://cp.onlinetracking.co/#/login/1"
+    title: "Consolmate",
+    url: "https://consolmate.com/auth/login/5"
   }, {
     icon: <UserCircle className="w-5 h-5" />,
     title: "Partner Portal",
-    url: "https://pp.onlinetracking.co/auth/login/1"
+    url: "https://pp.onlinetracking.co/auth/login/5"
   }, {
     icon: <SearchCode className="w-5 h-5" />,
     title: "Tracking",
-    url: "http://ec2-13-229-38-56.ap-southeast-1.compute.amazonaws.com:8081/ords/f?p=107:102:::::P0_GROUP_RID:54"
+    url: "http://ec2-13-229-38-56.ap-southeast-1.compute.amazonaws.com:8081/ords/f?p=107:102:::::P0_GROUP_RID:250"
   }, {
     icon: <Ship className="w-5 h-5" />,
-    title: "Sailing Schedule",
-    url: "http://ec2-13-229-38-56.ap-southeast-1.compute.amazonaws.com:8081/ords/f?p=107:104:::::P0_GROUP_RID:54"
-  }, {
-    icon: <Globe className="w-5 h-5" />,
-    title: "Global Offices",
-    url: "/offices" // update to your route
+    title: "Container Enquiry",
+    url: "https://dubaitrade.ae/en/container-enquiry-introduction"
   }];
   return <section className="relative min-h-screen w-full overflow-hidden">
       {/* Full-screen video with NO gradient overlay */}

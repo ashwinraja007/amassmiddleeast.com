@@ -106,9 +106,7 @@ const LCL = () => {
                   <img alt="LCL Shipping" loading="lazy" className="w-full h-96 object-cover" src="/lcl1.JPG" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
                 </div>
-                <div className="absolute -bottom-6 -right-6 p-4 rounded-xl shadow-lg bg-kargon-red">
-                  <Ship className="w-8 h-8 text-white" />
-                </div>
+                
               </motion.div>
             </div>
           </div>

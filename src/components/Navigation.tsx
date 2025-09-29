@@ -212,22 +212,8 @@ const Navigation = () => {
           </div>
 
           {/* Right side: Flag (no text) + CountrySelector + Socials */}
-          <div className="hidden md:flex items-center gap-2 lg:gap-3">
-            {/* Flag only */}
-            <div className="flex items-center justify-center h-6 w-8">
-              {loading ? (
-                <span className="text-lg">🌐</span>
-              ) : svgError ? (
-                <span className="text-lg" title={geo.name}>{isoToFlagEmoji(geo.code)}</span>
-              ) : (
-                <img
-                  src={flagSrc}
-                  alt={geo.name}
-                  className="h-5 w-7 object-contain rounded-[2px]"
-                  onError={() => setSvgError(true)}
-                />
-              )}
-            </div>
+         
+            
 
             {/* Country selector back in place */}
             <CountrySelector />

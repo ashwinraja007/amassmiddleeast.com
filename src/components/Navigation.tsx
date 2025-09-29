@@ -22,7 +22,7 @@ function FlagIcon({
   className?: string;
 }) {
   const iso = (code || "").toLowerCase();
-  const src = `/flags/${iso}.svg`;
+  const src = `/${iso}.svg`;
   return (
     <img
       src={src}

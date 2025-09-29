@@ -107,19 +107,6 @@ const countries = [{
     address: "Office no: 48, 2nd Floor, Al matar Centre, Old Airport Road Doha",
     contacts: ["0974 33622555"]
   }]
-},{
-  code: "cn",
-  name: "China",
-    lat: 22.54262,
-    lng: 114.11696,
-  cities: [{
-    name: "China",
-    lat: 22.54262,
-    lng: 114.11696,
-    address: "13C02, Block A, Zhaoxin Huijin Plaza 3085 Shennan East Road, Luohu, Shenzhen.",
-    contacts: ["+86 75582222447"],
-    email: "helen@haixun.co"
-  }]
 }, {
   code: "sa",
   name: "Saudi Arabia",

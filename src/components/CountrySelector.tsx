@@ -76,8 +76,8 @@ const countries: CountryData[] = [{
   }
 }, {
   country: "INDIA",
-  company: "OECL",
-  website: "https://oecl.sg/india",
+  company: "GGL",
+  website: "https://gglindia.com",
   priority: 8,
   flag: "/in.svg"
 },{

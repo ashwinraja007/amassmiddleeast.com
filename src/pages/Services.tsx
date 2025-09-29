@@ -43,20 +43,21 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
       viewport={{ once: true }}
-      className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 group grid grid-cols-1 md:grid-cols-2 gap-y-0"
+      /* FLEX on md+: equal heights, no white strip */
+      className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 group md:flex md:items-stretch"
     >
       {/* Image side */}
-      <div className="relative w-full h-48 md:h-64 overflow-hidden flex">
+      <div className="relative w-full md:w-1/2 min-h-[12rem] md:min-h-[16rem]">
         <img
           src={image}
           alt={title}
           loading="lazy"
-          className="absolute inset-0 block align-top w-full h-full object-cover transition-transform duration-500 group-hover:scale-135"
+          className="absolute inset-0 block w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
       </div>
 
       {/* Content side */}
-      <div className="p-6 flex flex-col justify-center bg-gradient-to-br from-gc-light-gold/10 to-gc-gold/5 bg-stone-200">
+      <div className="w-full md:w-1/2 p-6 flex flex-col justify-center bg-gradient-to-br from-gc-light-gold/10 to-gc-gold/5 bg-stone-200">
         <div className="bg-blue-200 text-gc-dark-blue p-2 rounded-full inline-block mb-2 w-fit">
           <Icon className="w-5 h-5" />
         </div>
@@ -91,7 +92,7 @@ const Services: React.FC = () => {
     baseUrl = "/services";
   }
 
-  // ✅ Only two services (LCL & CFS)
+  // ✅ Only two services (LCL & CFS) with exact content + images
   const allServices: Service[] = [
     {
       id: 1,

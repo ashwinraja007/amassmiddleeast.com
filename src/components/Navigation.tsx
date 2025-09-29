@@ -3,7 +3,6 @@ import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
-import CountrySelector from "@/components/CountrySelector";
 import { getCurrentCountryFromPath } from "@/services/countryDetection";
 import {
   DropdownMenu,
@@ -13,7 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { FaFacebookF, FaLinkedinIn } from "react-icons/fa";
 
-/* ====== IP → Country (cached 24h) ====== */
+/* ===== IP → country (cached 24h) ===== */
 type GeoCountry = { code: string; name: string };
 const GEO_CACHE_KEY = "geoCountryCache:v1";
 const GEO_TTL_MS = 24 * 60 * 60 * 1000;
@@ -30,9 +29,8 @@ async function fetchGeo(): Promise<GeoCountry | null> {
     const r2 = await fetch("https://ipwho.is/", { cache: "no-store" });
     if (r2.ok) {
       const j2 = await r2.json();
-      if (j2?.success && j2?.country_code && j2?.country) {
+      if (j2?.success && j2?.country_code && j2?.country)
         return { code: j2.country_code, name: j2.country };
-      }
     }
   } catch {}
   return null;
@@ -68,6 +66,7 @@ function useGeoCountry(defaultCountry: GeoCountry = { code: "AE", name: "United 
         setLoading(false);
       }
     })();
+
     return () => {
       cancelled = true;
     };
@@ -76,18 +75,16 @@ function useGeoCountry(defaultCountry: GeoCountry = { code: "AE", name: "United 
   return { geo, loading };
 }
 
-/* ===================== Component ===================== */
-
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCompanyDropdownOpen, setIsCompanyDropdownOpen] = useState(false);
   const location = useLocation();
   const { user } = useAuth();
 
-  // Existing path-based country for link building
+  // still used to build links
   const currentCountry = getCurrentCountryFromPath(location.pathname);
 
-  // IP-based country for the small SVG flag
+  // flag from IP
   const { geo, loading } = useGeoCountry({ code: "AE", name: "United Arab Emirates" });
   const flagSrc = useMemo(() => `/flags/${(geo.code || "ae").toLowerCase()}.svg`, [geo.code]);
 
@@ -127,7 +124,8 @@ const Navigation = () => {
             <Link
               to={getNavLink("/home")}
               className={`nav-link font-medium text-base xl:text-lg hover:text-amass-blue transition-colors ${
-                isActive(getNavLink("/home")) || (currentCountry.code === "SG" && isActive("/"))
+                isActive(getNavLink("/home")) ||
+                (currentCountry.code === "SG" && isActive("/"))
                   ? "text-amass-blue" : "text-black"
               }`}
             >
@@ -181,7 +179,7 @@ const Navigation = () => {
             </Link>
 
             <Link
-              to={getNavLink("/global-presence"))}
+              to={getNavLink("/global-presence")}
               className={`nav-link font-medium text-base xl:text-lg transition-colors ${
                 isActive(getNavLink("/global-presence")) ? "text-amass-blue" : "text-black"
               }`}
@@ -199,31 +197,24 @@ const Navigation = () => {
             </Link>
           </div>
 
-          {/* Right side: ONLY the SVG flag + CountrySelector + Socials */}
+          {/* Right side: ONLY the IP-based SVG flag + socials */}
           <div className="hidden md:flex items-center gap-2 lg:gap-3">
-            {/* ---- Flag only (no text) ---- */}
             <div className="flex items-center">
               {!loading ? (
                 <img
                   src={flagSrc}
-                  alt="" /* decorative */
+                  alt="" /* decorative only */
                   aria-hidden="true"
                   className="h-5 w-7 object-contain rounded-[2px]"
                   onError={(e) => {
-                    // fallback to globe emoji if svg missing
+                    // hide if svg missing
                     (e.currentTarget as HTMLImageElement).style.display = "none";
-                    const span = document.createElement("span");
-                    span.textContent = "🌐";
-                    span.style.fontSize = "18px";
-                    e.currentTarget.parentElement?.appendChild(span);
                   }}
                 />
               ) : (
                 <span className="text-lg">🌐</span>
               )}
             </div>
-
-            <CountrySelector />
 
             {/* Social Icons */}
             <div className="ml-1 flex items-center gap-2">
@@ -243,7 +234,11 @@ const Navigation = () => {
           </div>
 
           {/* Mobile Toggle */}
-          <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="lg:hidden p-2" aria-label="Toggle Menu">
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="lg:hidden p-2"
+            aria-label="Toggle Menu"
+          >
             {isMenuOpen ? <X className="text-black" size={20} /> : <Menu className="text-black" size={20} />}
           </button>
         </div>
@@ -253,19 +248,13 @@ const Navigation = () => {
       {isMenuOpen && (
         <div className="lg:hidden absolute top-full left-0 right-0 bg-white py-4 shadow-md animate-fade-in border-t max-h-[calc(100vh-80px)] overflow-y-auto">
           <div className="container mx-auto px-4">
-            {/* Mobile: flag only row */}
+            {/* Mobile: small flag row (no text) */}
             <div className="flex items-center gap-2 pb-3 mb-3 border-b border-gray-200">
               {!loading ? (
-                <img
-                  src={flagSrc}
-                  alt=""
-                  aria-hidden="true"
-                  className="h-5 w-7 object-contain rounded-[2px]"
-                />
+                <img src={flagSrc} alt="" aria-hidden="true" className="h-5 w-7 object-contain rounded-[2px]" />
               ) : (
                 <span className="text-lg">🌐</span>
               )}
-              {/* no text */}
             </div>
 
             <nav className="flex flex-col space-y-4">
@@ -291,10 +280,6 @@ const Navigation = () => {
                   {item.label}
                 </Link>
               ))}
-
-              <div className="pt-4 border-t border-gray-200">
-                <CountrySelector />
-              </div>
 
               <Link
                 to={`${getNavLink("/contact")}#contact-form`}

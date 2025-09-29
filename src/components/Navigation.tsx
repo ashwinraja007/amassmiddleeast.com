@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X, ChevronDown } from "lucide-react";
@@ -37,37 +37,6 @@ const Navigation = () => {
     { name: "Facebook", href: "https://www.facebook.com/Amassmiddleeast?mibextid=ZbWKwL", Icon: FaFacebookF },
   ];
 
-  // --- Hide any broken flag img inside CountrySelector so its alt "/xx.svg" never shows ---
-  useEffect(() => {
-    const root = document.querySelector(".cs-hide-flag");
-    if (!root) return;
-
-    const hideIfBroken = (img: HTMLImageElement) => {
-      // If the image can't load, hide it so no alt text appears
-      img.style.fontSize = "0"; // suppress any alt text rendering size
-      if (!img.complete) {
-        img.addEventListener("error", () => (img.style.display = "none"));
-      } else if (img.naturalWidth === 0) {
-        img.style.display = "none";
-      }
-    };
-
-    // Handle current images
-    root.querySelectorAll("img").forEach(hideIfBroken);
-
-    // Watch for CountrySelector re-renders that add new <img>
-    const obs = new MutationObserver((muts) => {
-      muts.forEach((m) => {
-        m.addedNodes.forEach((n) => {
-          if (n instanceof HTMLImageElement) hideIfBroken(n);
-          if (n instanceof HTMLElement) n.querySelectorAll?.("img").forEach(hideIfBroken);
-        });
-      });
-    });
-    obs.observe(root, { childList: true, subtree: true });
-    return () => obs.disconnect();
-  }, []);
-
   return (
     <header className="fixed top-0 left-0 right-0 w-full z-50 shadow-md backdrop-blur supports-[backdrop-filter]:backdrop-blur transition-all duration-300 bg-slate-50">
       <div className="container mx-auto px-3 sm:px-4 md:px-6 py-2 sm:py-4 lg:py-[18px]">
@@ -86,10 +55,8 @@ const Navigation = () => {
             <Link
               to={getNavLink("/home")}
               className={`nav-link font-medium text-base xl:text-lg hover:text-amass-blue transition-colors ${
-                isActive(getNavLink("/home")) ||
-                (currentCountry.code === "SG" && isActive("/"))
-                  ? "text-amass-blue"
-                  : "text-black"
+                isActive(getNavLink("/home")) || (currentCountry.code === "SG" && isActive("/"))
+                  ? "text-amass-blue" : "text-black"
               }`}
             >
               Home
@@ -159,10 +126,10 @@ const Navigation = () => {
             </Link>
           </div>
 
-          {/* Right side: CountrySelector ONLY + Socials */}
+          {/* Right side: CountrySelector (clean) + Socials */}
           <div className="hidden md:flex items-center gap-2 lg:gap-3">
-            {/* Wrapper class lets us hide any broken flag inside selector */}
-            <div className="cs-hide-flag">
+            {/* IMPORTANT: wrapper ensures nothing else renders before the trigger */}
+            <div className="cs-clean-selector">
               <CountrySelector />
             </div>
 
@@ -213,8 +180,7 @@ const Navigation = () => {
                   className={`font-medium py-2 text-lg hover:text-amass-blue transition-colors ${
                     isActive(item.path === "/gallery" ? "/gallery" : getNavLink(item.path)) ||
                     (item.path === "/home" && currentCountry.code === "SG" && isActive("/"))
-                      ? "text-amass-blue"
-                      : "text-black"
+                      ? "text-amass-blue" : "text-black"
                   }`}
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -222,8 +188,10 @@ const Navigation = () => {
                 </Link>
               ))}
 
-              <div className="pt-4 border-t border-gray-200 cs-hide-flag">
-                <CountrySelector />
+              <div className="pt-4 border-t border-gray-200">
+                <div className="cs-clean-selector">
+                  <CountrySelector />
+                </div>
               </div>
 
               <Link

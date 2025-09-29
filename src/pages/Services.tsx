@@ -22,7 +22,6 @@ interface Service {
   image: string;
   slug: string;
 }
-
 interface ServiceCardProps extends Service {
   baseUrl: string;
 }
@@ -44,18 +43,19 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
       viewport={{ once: true }}
-      className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 group grid grid-cols-1 md:grid-cols-2"
+      className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 group grid grid-cols-1 md:grid-cols-2 gap-y-0"
     >
-      {/* UPDATED: image wrapper + img */}
-      <div className="relative w-full h-48 md:h-64 overflow-hidden">
+      {/* Image side */}
+      <div className="relative w-full h-48 md:h-64 overflow-hidden flex">
         <img
           src={image}
           alt={title}
           loading="lazy"
-          className="absolute inset-0 block w-full h-full object-cover transition-transform duration-500 group-hover:scale-135"
+          className="absolute inset-0 block align-top w-full h-full object-cover transition-transform duration-500 group-hover:scale-135"
         />
       </div>
 
+      {/* Content side */}
       <div className="p-6 flex flex-col justify-center bg-gradient-to-br from-gc-light-gold/10 to-gc-gold/5 bg-stone-200">
         <div className="bg-blue-200 text-gc-dark-blue p-2 rounded-full inline-block mb-2 w-fit">
           <Icon className="w-5 h-5" />
@@ -91,7 +91,7 @@ const Services: React.FC = () => {
     baseUrl = "/services";
   }
 
-  // ✅ Only two services (LCL & CFS) with exact content + images
+  // ✅ Only two services (LCL & CFS)
   const allServices: Service[] = [
     {
       id: 1,

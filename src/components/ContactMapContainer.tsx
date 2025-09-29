@@ -3,7 +3,7 @@ import { RefreshCw, Maximize2, Minimize2 } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { motion } from 'framer-motion';
 
-const MAP_URL = "https://www.google.com/maps/d/u/0/embed?mid=1rF5337I7j7xk98at6ZPdMul4aglzrLg&ehbc&ehbc=2E312F&hl=en&output=embed";
+const MAP_URL = "https://www.google.com/maps/d/embed?mid=16_2W0JMhfZhP2Dl8_HEfPCvoPt5eC-Y&ehbc=2E312";
 
 const ContactMapContainer = () => {
   const iframeRef = useRef<HTMLIFrameElement>(null);

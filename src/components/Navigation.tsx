@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import CountrySelector from "@/components/CountrySelector";
-import { getCurrentCountryFromPath } from "@/services/countryDetection";
+import { getCurrentCountryFromPath, detectCountryByIP } from "@/services/countryDetection";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -41,11 +41,30 @@ function FlagIcon({
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCompanyDropdownOpen, setIsCompanyDropdownOpen] = useState(false);
+  const [ipCountry, setIpCountry] = useState<{ code: string; name: string } | null>(null);
   const location = useLocation();
   const { user } = useAuth();
 
   // We use the URL to decide the current country flag
   const currentCountry = getCurrentCountryFromPath(location.pathname);
+
+  // Detect country by IP for flag display
+  useEffect(() => {
+    const detect = async () => {
+      try {
+        const saved = localStorage.getItem("preferredCountry");
+        if (saved) {
+          setIpCountry(JSON.parse(saved));
+          return;
+        }
+        const country = await detectCountryByIP();
+        setIpCountry({ code: country.code, name: country.name });
+      } catch {
+        setIpCountry(null);
+      }
+    };
+    detect();
+  }, []);
   const isActive = (path: string) => location.pathname === path;
 
   const getNavLink = (basePath: string) => {
@@ -158,8 +177,8 @@ const Navigation = () => {
 
           {/* Right side: FLAG (from public/flags) + CountrySelector + Socials */}
           <div className="hidden md:flex items-center gap-2 lg:gap-3">
-            {/* <-- Show the flag BEFORE the selector */}
-            <FlagIcon code={currentCountry.code} />
+            {/* <-- Show the flag BEFORE the selector based on IP */}
+            <FlagIcon code={ipCountry?.code || currentCountry.code} />
 
             <CountrySelector />
 
@@ -222,7 +241,7 @@ const Navigation = () => {
               {/* Mobile: flag + selector inline */}
               <div className="pt-4 border-t border-gray-200">
                 <div className="flex items-center gap-2">
-                  <FlagIcon code={currentCountry.code} />
+                  <FlagIcon code={ipCountry?.code || currentCountry.code} />
                   <CountrySelector />
                 </div>
               </div>

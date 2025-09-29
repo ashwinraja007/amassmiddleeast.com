@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X, ChevronDown } from "lucide-react";
@@ -13,13 +13,101 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { FaFacebookF, FaLinkedinIn } from "react-icons/fa";
 
+/* ========= Geo helpers (IP → country & emoji flag) ========= */
+
+type GeoCountry = { code: string; name: string };
+
+const GEO_CACHE_KEY = "geoCountryCache:v1";
+const GEO_TTL_MS = 24 * 60 * 60 * 1000; // 24h
+
+function isoToFlagEmoji(iso2?: string) {
+  if (!iso2 || iso2.length !== 2) return "🌐";
+  const A = 0x1f1e6;
+  const code = iso2.toUpperCase();
+  return String.fromCodePoint(
+    A + (code.charCodeAt(0) - 65),
+    A + (code.charCodeAt(1) - 65)
+  );
+}
+
+async function fetchGeo(): Promise<GeoCountry | null> {
+  // 1) ipapi.co
+  try {
+    const r = await fetch("https://ipapi.co/json/", { cache: "no-store" });
+    if (r.ok) {
+      const j = await r.json();
+      if (j?.country && j?.country_name) {
+        return { code: j.country, name: j.country_name };
+      }
+    }
+  } catch {}
+  // 2) ipwho.is fallback
+  try {
+    const r2 = await fetch("https://ipwho.is/", { cache: "no-store" });
+    if (r2.ok) {
+      const j2 = await r2.json();
+      if (j2?.success && j2?.country_code && j2?.country) {
+        return { code: j2.country_code, name: j2.country };
+      }
+    }
+  } catch {}
+  return null;
+}
+
+function useGeoCountry(defaultCountry: GeoCountry = { code: "AE", name: "United Arab Emirates" }) {
+  const [geo, setGeo] = useState<GeoCountry>(defaultCountry);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // read cache
+    try {
+      const raw = localStorage.getItem(GEO_CACHE_KEY);
+      if (raw) {
+        const { value, ts } = JSON.parse(raw) as { value: GeoCountry; ts: number };
+        if (Date.now() - ts < GEO_TTL_MS && value?.code) {
+          setGeo(value);
+          setLoading(false);
+          return;
+        }
+      }
+    } catch {}
+
+    let cancelled = false;
+    (async () => {
+      const res = await fetchGeo();
+      if (!cancelled) {
+        if (res) {
+          setGeo(res);
+          try {
+            localStorage.setItem(GEO_CACHE_KEY, JSON.stringify({ value: res, ts: Date.now() }));
+          } catch {}
+        }
+        setLoading(false);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  return { geo, loading };
+}
+
+/* ===================== Component ===================== */
+
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCompanyDropdownOpen, setIsCompanyDropdownOpen] = useState(false);
   const location = useLocation();
   const { user } = useAuth();
 
+  // Existing path-based country (for building links)
   const currentCountry = getCurrentCountryFromPath(location.pathname);
+
+  // New: IP-based country for flag display
+  const { geo, loading } = useGeoCountry({ code: "AE", name: "United Arab Emirates" });
+  const flagEmoji = useMemo(() => isoToFlagEmoji(geo.code), [geo.code]);
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -51,7 +139,7 @@ const Navigation = () => {
       {/* Main Nav Bar */}
       <div className="container mx-auto px-3 sm:px-4 md:px-6 py-2 sm:py-4 lg:py-[18px]">
         <div className="flex justify-between items-center">
-          {/* Logo (slightly smaller) */}
+          {/* Logo */}
           <div className="flex items-center">
             <img
               src="/lovable-uploads/a44481e1-bf8c-43ab-b259-b833b252e1ed.png"
@@ -147,7 +235,6 @@ const Navigation = () => {
               Global Presence
             </Link>
 
-            {/* FIXED: was checking /global-presence by mistake */}
             <Link
               to={getNavLink("/contact")}
               className={`nav-link font-medium text-base xl:text-lg transition-colors ${
@@ -160,8 +247,18 @@ const Navigation = () => {
             </Link>
           </div>
 
-          {/* Right side (Country + CTA + Socials) */}
+          {/* Right side (Country flag via IP + CountrySelector + Socials) */}
           <div className="hidden md:flex items-center gap-2 lg:gap-3">
+            {/* Flag from IP */}
+            <div className="flex items-center gap-2 pr-1">
+              <span className="text-2xl leading-none" title={geo.name}>
+                {loading ? "🌐" : flagEmoji}
+              </span>
+              <span className="text-xs sm:text-sm font-medium text-gray-700">
+                {loading ? "Detecting…" : geo.name}
+              </span>
+            </div>
+
             <CountrySelector />
 
             {/* Social Icons */}
@@ -200,6 +297,16 @@ const Navigation = () => {
       {isMenuOpen && (
         <div className="lg:hidden absolute top-full left-0 right-0 bg-white py-4 shadow-md animate-fade-in border-t max-h-[calc(100vh-80px)] overflow-y-auto">
           <div className="container mx-auto px-4">
+            {/* Mobile: flag row */}
+            <div className="flex items-center gap-2 pb-3 mb-3 border-b border-gray-200">
+              <span className="text-2xl leading-none" title={geo.name}>
+                {loading ? "🌐" : flagEmoji}
+              </span>
+              <span className="text-sm font-medium text-gray-700">
+                {loading ? "Detecting…" : geo.name}
+              </span>
+            </div>
+
             <nav className="flex flex-col space-y-4">
               {[
                 { label: "HOME", path: "/home" },
@@ -212,16 +319,10 @@ const Navigation = () => {
               ].map((item) => (
                 <Link
                   key={item.path}
-                  to={
-                    item.path === "/gallery"
-                      ? "/gallery"
-                      : getNavLink(item.path)
-                  }
+                  to={item.path === "/gallery" ? "/gallery" : getNavLink(item.path)}
                   className={`font-medium py-2 text-lg hover:text-amass-blue transition-colors ${
                     isActive(
-                      item.path === "/gallery"
-                        ? "/gallery"
-                        : getNavLink(item.path)
+                      item.path === "/gallery" ? "/gallery" : getNavLink(item.path)
                     ) ||
                     (item.path === "/home" &&
                       currentCountry.code === "SG" &&

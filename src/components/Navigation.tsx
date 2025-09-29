@@ -75,18 +75,28 @@ function useGeoCountry(defaultCountry: GeoCountry = { code: "AE", name: "United 
   return { geo, loading };
 }
 
+/* emoji fallback */
+function isoToFlagEmoji(iso2?: string) {
+  if (!iso2 || iso2.length !== 2) return "🌐";
+  const A = 0x1f1e6;
+  const c = iso2.toUpperCase();
+  return String.fromCodePoint(A + (c.charCodeAt(0) - 65), A + (c.charCodeAt(1) - 65));
+}
+
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCompanyDropdownOpen, setIsCompanyDropdownOpen] = useState(false);
   const location = useLocation();
   const { user } = useAuth();
 
-  // still used to build links
+  // used for building links only
   const currentCountry = getCurrentCountryFromPath(location.pathname);
 
-  // flag from IP
+  // flag from IP (SVG or emoji)
   const { geo, loading } = useGeoCountry({ code: "AE", name: "United Arab Emirates" });
-  const flagSrc = useMemo(() => `/flags/${(geo.code || "ae").toLowerCase()}.svg`, [geo.code]);
+  const [svgError, setSvgError] = useState(false);
+  const code2 = (geo.code || "AE").toLowerCase();
+  const flagSrc = useMemo(() => `/flags/${code2}.svg`, [code2]);
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -104,6 +114,11 @@ const Navigation = () => {
     { name: "LinkedIn", href: "https://www.linkedin.com/company/amassmiddleeast/", Icon: FaLinkedinIn },
     { name: "Facebook", href: "https://www.facebook.com/Amassmiddleeast?mibextid=ZbWKwL", Icon: FaFacebookF },
   ];
+
+  useEffect(() => {
+    setSvgError(false); // reset if country code changes
+    // console.log("[IP Country]", geo); // uncomment to debug
+  }, [code2]);
 
   return (
     <header className="fixed top-0 left-0 right-0 w-full z-50 shadow-md backdrop-blur supports-[backdrop-filter]:backdrop-blur transition-all duration-300 bg-slate-50">
@@ -124,9 +139,9 @@ const Navigation = () => {
             <Link
               to={getNavLink("/home")}
               className={`nav-link font-medium text-base xl:text-lg hover:text-amass-blue transition-colors ${
-                isActive(getNavLink("/home")) ||
-                (currentCountry.code === "SG" && isActive("/"))
-                  ? "text-amass-blue" : "text-black"
+                isActive(getNavLink("/home")) || (currentCountry.code === "SG" && isActive("/"))
+                  ? "text-amass-blue"
+                  : "text-black"
               }`}
             >
               Home
@@ -197,28 +212,29 @@ const Navigation = () => {
             </Link>
           </div>
 
-          {/* Right side: ONLY the IP-based SVG flag + socials */}
+          {/* Right side: ONLY the IP-based flag + socials */}
           <div className="hidden md:flex items-center gap-2 lg:gap-3">
-            <div className="flex items-center">
-              {!loading ? (
+            <div className="flex items-center justify-center h-6 w-8">
+              {loading ? (
+                <span className="text-lg">🌐</span>
+              ) : svgError ? (
+                <span className="text-lg" title={geo.name}>{isoToFlagEmoji(geo.code)}</span>
+              ) : (
                 <img
                   src={flagSrc}
-                  alt="" /* decorative only */
-                  aria-hidden="true"
+                  alt={geo.name}
                   className="h-5 w-7 object-contain rounded-[2px]"
-                  onError={(e) => {
-                    // hide if svg missing
-                    (e.currentTarget as HTMLImageElement).style.display = "none";
-                  }}
+                  onError={() => setSvgError(true)}
                 />
-              ) : (
-                <span className="text-lg">🌐</span>
               )}
             </div>
 
             {/* Social Icons */}
             <div className="ml-1 flex items-center gap-2">
-              {SOCIALS.map(({ name, href, Icon }) => (
+              {[
+                { name: "LinkedIn", href: "https://www.linkedin.com/company/amassmiddleeast/", Icon: FaLinkedinIn },
+                { name: "Facebook", href: "https://www.facebook.com/Amassmiddleeast?mibextid=ZbWKwL", Icon: FaFacebookF },
+              ].map(({ name, href, Icon }) => (
                 <a
                   key={name}
                   href={href}
@@ -248,12 +264,14 @@ const Navigation = () => {
       {isMenuOpen && (
         <div className="lg:hidden absolute top-full left-0 right-0 bg-white py-4 shadow-md animate-fade-in border-t max-h-[calc(100vh-80px)] overflow-y-auto">
           <div className="container mx-auto px-4">
-            {/* Mobile: small flag row (no text) */}
+            {/* Mobile: tiny flag row (no text) */}
             <div className="flex items-center gap-2 pb-3 mb-3 border-b border-gray-200">
-              {!loading ? (
-                <img src={flagSrc} alt="" aria-hidden="true" className="h-5 w-7 object-contain rounded-[2px]" />
-              ) : (
+              {loading ? (
                 <span className="text-lg">🌐</span>
+              ) : svgError ? (
+                <span className="text-lg">{isoToFlagEmoji(geo.code)}</span>
+              ) : (
+                <img src={flagSrc} alt="" aria-hidden className="h-5 w-7 object-contain rounded-[2px]" />
               )}
             </div>
 
@@ -273,7 +291,8 @@ const Navigation = () => {
                   className={`font-medium py-2 text-lg hover:text-amass-blue transition-colors ${
                     isActive(item.path === "/gallery" ? "/gallery" : getNavLink(item.path)) ||
                     (item.path === "/home" && currentCountry.code === "SG" && isActive("/"))
-                      ? "text-amass-blue" : "text-black"
+                      ? "text-amass-blue"
+                      : "text-black"
                   }`}
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -293,25 +312,10 @@ const Navigation = () => {
 
               {/* Mobile Social Icons */}
               <div className="pt-3 flex items-center gap-3">
-                {SOCIALS.map(({ name, href, Icon }) => (
+                {[
+                  { name: "LinkedIn", href: "https://www.linkedin.com/company/amassmiddleeast/", Icon: FaLinkedinIn },
+                  { name: "Facebook", href: "https://www.facebook.com/Amassmiddleeast?mibextid=ZbWKwL", Icon: FaFacebookF },
+                ].map(({ name, href, Icon }) => (
                   <a
                     key={name}
                     href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={name}
-                    className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 hover:border-amass-blue hover:text-amass-blue text-gray-700 transition-all"
-                  >
-                    <Icon className="h-5 w-5" />
-                  </a>
-                ))}
-              </div>
-            </nav>
-          </div>
-        </div>
-      )}
-    </header>
-  );
-};
-
-export default Navigation;

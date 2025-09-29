@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
@@ -7,7 +6,6 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Truck, Ship, Globe, Users, Award, TrendingUp, CheckCircle, Star } from "lucide-react";
 import { getCurrentCountryFromPath } from "@/services/countryDetection";
-
 const ScrollToTop = () => {
   const {
     pathname
@@ -20,17 +18,14 @@ const ScrollToTop = () => {
   }, [pathname]);
   return null;
 };
-
 const AboutUs = () => {
   const location = useLocation();
   const currentCountry = getCurrentCountryFromPath(location.pathname);
   const isSriLanka = currentCountry.code === "LK";
-  
   const getNavLink = (basePath: string) => {
     if (currentCountry.code === "SG") return basePath;
     return `/${currentCountry.name.toLowerCase().replace(" ", "-")}${basePath}`;
   };
-
   const stats = [{
     number: "9+",
     label: "Years of Growth",
@@ -49,7 +44,6 @@ const AboutUs = () => {
     icon: Award
   }];
   const features = ["Global freight forwarding expertise", "Reliable network of agents", "30+ years industry experience", "Dedicated warehouse facilities", "Own fleet of trucks", "Strategic location advantages"];
-  
   return <div className="bg-white text-gray-900 min-h-screen flex flex-col">
       <ScrollToTop />
       <Navigation />
@@ -138,33 +132,33 @@ const AboutUs = () => {
         <section className="py-20 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div initial={{
-              opacity: 0,
-              y: 30
-            }} whileInView={{
-              opacity: 1,
-              y: 0
-            }} transition={{
-              duration: 0.8
-            }} viewport={{
-              once: true
-            }} className="text-center mb-16">
+            opacity: 0,
+            y: 30
+          }} whileInView={{
+            opacity: 1,
+            y: 0
+          }} transition={{
+            duration: 0.8
+          }} viewport={{
+            once: true
+          }} className="text-center mb-16">
               <h2 className="text-4xl font-bold text-kargon-blue mb-6">Our Core Services</h2>
             </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
               {/* LCL Service */}
               <motion.div initial={{
-                opacity: 0,
-                x: -50
-              }} whileInView={{
-                opacity: 1,
-                x: 0
-              }} transition={{
-                duration: 0.8,
-                delay: 0.2
-              }} viewport={{
-                once: true
-              }} className="bg-slate-50 rounded-2xl p-8">
+              opacity: 0,
+              x: -50
+            }} whileInView={{
+              opacity: 1,
+              x: 0
+            }} transition={{
+              duration: 0.8,
+              delay: 0.2
+            }} viewport={{
+              once: true
+            }} className="rounded-2xl p-8 bg-slate-100">
                 <div className="flex items-center mb-6">
                   <div className="w-16 h-16 bg-kargon-blue rounded-full flex items-center justify-center mr-4">
                     <Ship className="w-8 h-8 text-white" />
@@ -181,17 +175,17 @@ const AboutUs = () => {
 
               {/* CFS Service */}
               <motion.div initial={{
-                opacity: 0,
-                x: 50
-              }} whileInView={{
-                opacity: 1,
-                x: 0
-              }} transition={{
-                duration: 0.8,
-                delay: 0.4
-              }} viewport={{
-                once: true
-              }} className="bg-slate-50 rounded-2xl p-8">
+              opacity: 0,
+              x: 50
+            }} whileInView={{
+              opacity: 1,
+              x: 0
+            }} transition={{
+              duration: 0.8,
+              delay: 0.4
+            }} viewport={{
+              once: true
+            }} className="rounded-2xl p-8 bg-slate-100">
                 <div className="flex items-center mb-6">
                   <div className="w-16 h-16 bg-kargon-blue rounded-full flex items-center justify-center mr-4">
                     <Truck className="w-8 h-8 text-white" />
@@ -218,5 +212,4 @@ const AboutUs = () => {
       <Footer />
     </div>;
 };
-
 export default AboutUs;

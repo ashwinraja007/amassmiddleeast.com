@@ -82,8 +82,8 @@ const countries: CountryData[] = [{
   flag: "/in.svg"
 }, {
   country: "CHINA",
-  company: "Amass",
-  website: "https://www.amassfreight.com/",
+  company: "Haixun",
+  website: "https://www.haixun.co/",
   priority: 9,
   flag: "/cn.svg"
 }, {

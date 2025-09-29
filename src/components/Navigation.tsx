@@ -135,9 +135,7 @@ const Navigation = () => {
           }, {
             label: "CONTACT",
             path: "/contact"
-          }].map(item => <Link key={item.path} to={item.path === "/gallery" ? "/gallery" : getNavLink(item.path)} className={`font-medium py-2 text-base hover:text-amass-blue transition-colors ${isActive(item.path === "/gallery" ? "/gallery" : getNavLink(item.path)) || item.path === "/home" && currentCountry.code === "SG" && isActive("/") ? "text-amass-blue" : "text-black"}`} onClick={() => setIsMenuOpen(false)}>
-                  {item.label}
-                </Link>)}
+          }].map(item => 
 
               <div className="pt-4 border-t border-gray-200">
                 <CountrySelector />

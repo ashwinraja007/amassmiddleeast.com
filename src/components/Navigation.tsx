@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
+import CountrySelector from "@/components/CountrySelector";
 import { getCurrentCountryFromPath } from "@/services/countryDetection";
 import {
   DropdownMenu,
@@ -75,7 +76,7 @@ function useGeoCountry(defaultCountry: GeoCountry = { code: "AE", name: "United 
   return { geo, loading };
 }
 
-/* emoji fallback */
+/* emoji fallback if svg missing */
 function isoToFlagEmoji(iso2?: string) {
   if (!iso2 || iso2.length !== 2) return "🌐";
   const A = 0x1f1e6;
@@ -89,10 +90,10 @@ const Navigation = () => {
   const location = useLocation();
   const { user } = useAuth();
 
-  // used for building links only
+  // Path-based country still used for building links
   const currentCountry = getCurrentCountryFromPath(location.pathname);
 
-  // flag from IP (SVG or emoji)
+  // IP-based flag (SVG or emoji)
   const { geo, loading } = useGeoCountry({ code: "AE", name: "United Arab Emirates" });
   const [svgError, setSvgError] = useState(false);
   const code2 = (geo.code || "AE").toLowerCase();
@@ -116,8 +117,7 @@ const Navigation = () => {
   ];
 
   useEffect(() => {
-    setSvgError(false); // reset if country code changes
-    // console.log("[IP Country]", geo); // uncomment to debug
+    setSvgError(false); // reset when ISO changes
   }, [code2]);
 
   return (
@@ -140,8 +140,7 @@ const Navigation = () => {
               to={getNavLink("/home")}
               className={`nav-link font-medium text-base xl:text-lg hover:text-amass-blue transition-colors ${
                 isActive(getNavLink("/home")) || (currentCountry.code === "SG" && isActive("/"))
-                  ? "text-amass-blue"
-                  : "text-black"
+                  ? "text-amass-blue" : "text-black"
               }`}
             >
               Home
@@ -212,8 +211,9 @@ const Navigation = () => {
             </Link>
           </div>
 
-          {/* Right side: ONLY the IP-based flag + socials */}
+          {/* Right side: Flag (no text) + CountrySelector + Socials */}
           <div className="hidden md:flex items-center gap-2 lg:gap-3">
+            {/* Flag only */}
             <div className="flex items-center justify-center h-6 w-8">
               {loading ? (
                 <span className="text-lg">🌐</span>
@@ -229,12 +229,12 @@ const Navigation = () => {
               )}
             </div>
 
+            {/* Country selector back in place */}
+            <CountrySelector />
+
             {/* Social Icons */}
             <div className="ml-1 flex items-center gap-2">
-              {[
-                { name: "LinkedIn", href: "https://www.linkedin.com/company/amassmiddleeast/", Icon: FaLinkedinIn },
-                { name: "Facebook", href: "https://www.facebook.com/Amassmiddleeast?mibextid=ZbWKwL", Icon: FaFacebookF },
-              ].map(({ name, href, Icon }) => (
+              {SOCIALS.map(({ name, href, Icon }) => (
                 <a
                   key={name}
                   href={href}
@@ -291,14 +291,18 @@ const Navigation = () => {
                   className={`font-medium py-2 text-lg hover:text-amass-blue transition-colors ${
                     isActive(item.path === "/gallery" ? "/gallery" : getNavLink(item.path)) ||
                     (item.path === "/home" && currentCountry.code === "SG" && isActive("/"))
-                      ? "text-amass-blue"
-                      : "text-black"
+                      ? "text-amass-blue" : "text-black"
                   }`}
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {item.label}
                 </Link>
               ))}
+
+              {/* Mobile CountrySelector */}
+              <div className="pt-4 border-t border-gray-200">
+                <CountrySelector />
+              </div>
 
               <Link
                 to={`${getNavLink("/contact")}#contact-form`}
@@ -312,10 +316,25 @@ const Navigation = () => {
 
               {/* Mobile Social Icons */}
               <div className="pt-3 flex items-center gap-3">
-                {[
-                  { name: "LinkedIn", href: "https://www.linkedin.com/company/amassmiddleeast/", Icon: FaLinkedinIn },
-                  { name: "Facebook", href: "https://www.facebook.com/Amassmiddleeast?mibextid=ZbWKwL", Icon: FaFacebookF },
-                ].map(({ name, href, Icon }) => (
+                {SOCIALS.map(({ name, href, Icon }) => (
                   <a
                     key={name}
                     href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={name}
+                    className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 hover:border-amass-blue hover:text-amass-blue text-gray-700 transition-all"
+                  >
+                    <Icon className="h-5 w-5" />
+                  </a>
+                ))}
+              </div>
+            </nav>
+          </div>
+        </div>
+      )}
+    </header>
+  );
+};
+
+export default Navigation;

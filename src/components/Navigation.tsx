@@ -13,35 +13,19 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { FaFacebookF, FaLinkedinIn } from "react-icons/fa";
 
-/* ========= Geo helpers (IP → country & emoji flag) ========= */
-
+/* ====== IP → Country (cached 24h) ====== */
 type GeoCountry = { code: string; name: string };
-
 const GEO_CACHE_KEY = "geoCountryCache:v1";
-const GEO_TTL_MS = 24 * 60 * 60 * 1000; // 24h
-
-function isoToFlagEmoji(iso2?: string) {
-  if (!iso2 || iso2.length !== 2) return "🌐";
-  const A = 0x1f1e6;
-  const code = iso2.toUpperCase();
-  return String.fromCodePoint(
-    A + (code.charCodeAt(0) - 65),
-    A + (code.charCodeAt(1) - 65)
-  );
-}
+const GEO_TTL_MS = 24 * 60 * 60 * 1000;
 
 async function fetchGeo(): Promise<GeoCountry | null> {
-  // 1) ipapi.co
   try {
     const r = await fetch("https://ipapi.co/json/", { cache: "no-store" });
     if (r.ok) {
       const j = await r.json();
-      if (j?.country && j?.country_name) {
-        return { code: j.country, name: j.country_name };
-      }
+      if (j?.country && j?.country_name) return { code: j.country, name: j.country_name };
     }
   } catch {}
-  // 2) ipwho.is fallback
   try {
     const r2 = await fetch("https://ipwho.is/", { cache: "no-store" });
     if (r2.ok) {
@@ -59,7 +43,6 @@ function useGeoCountry(defaultCountry: GeoCountry = { code: "AE", name: "United 
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // read cache
     try {
       const raw = localStorage.getItem(GEO_CACHE_KEY);
       if (raw) {
@@ -85,7 +68,6 @@ function useGeoCountry(defaultCountry: GeoCountry = { code: "AE", name: "United 
         setLoading(false);
       }
     })();
-
     return () => {
       cancelled = true;
     };
@@ -102,12 +84,12 @@ const Navigation = () => {
   const location = useLocation();
   const { user } = useAuth();
 
-  // Existing path-based country (for building links)
+  // Existing path-based country for link building
   const currentCountry = getCurrentCountryFromPath(location.pathname);
 
-  // New: IP-based country for flag display
+  // IP-based country for the small SVG flag
   const { geo, loading } = useGeoCountry({ code: "AE", name: "United Arab Emirates" });
-  const flagEmoji = useMemo(() => isoToFlagEmoji(geo.code), [geo.code]);
+  const flagSrc = useMemo(() => `/flags/${(geo.code || "ae").toLowerCase()}.svg`, [geo.code]);
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -122,16 +104,8 @@ const Navigation = () => {
     isActive(getNavLink("/career"));
 
   const SOCIALS = [
-    {
-      name: "LinkedIn",
-      href: "https://www.linkedin.com/company/amassmiddleeast/",
-      Icon: FaLinkedinIn,
-    },
-    {
-      name: "Facebook",
-      href: "https://www.facebook.com/Amassmiddleeast?mibextid=ZbWKwL",
-      Icon: FaFacebookF,
-    },
+    { name: "LinkedIn", href: "https://www.linkedin.com/company/amassmiddleeast/", Icon: FaLinkedinIn },
+    { name: "Facebook", href: "https://www.facebook.com/Amassmiddleeast?mibextid=ZbWKwL", Icon: FaFacebookF },
   ];
 
   return (
@@ -153,20 +127,15 @@ const Navigation = () => {
             <Link
               to={getNavLink("/home")}
               className={`nav-link font-medium text-base xl:text-lg hover:text-amass-blue transition-colors ${
-                isActive(getNavLink("/home")) ||
-                (currentCountry.code === "SG" && isActive("/"))
-                  ? "text-amass-blue"
-                  : "text-black"
+                isActive(getNavLink("/home")) || (currentCountry.code === "SG" && isActive("/"))
+                  ? "text-amass-blue" : "text-black"
               }`}
             >
               Home
             </Link>
 
             {/* Info Dropdown */}
-            <DropdownMenu
-              open={isCompanyDropdownOpen}
-              onOpenChange={setIsCompanyDropdownOpen}
-            >
+            <DropdownMenu open={isCompanyDropdownOpen} onOpenChange={setIsCompanyDropdownOpen}>
               <DropdownMenuTrigger
                 className={`nav-link font-medium text-base xl:text-lg flex items-center gap-1 hover:text-amass-blue transition-colors ${
                   isCompanyLinkActive() ? "text-amass-blue" : "text-black"
@@ -176,26 +145,17 @@ const Navigation = () => {
               </DropdownMenuTrigger>
               <DropdownMenuContent className="bg-white shadow-lg border rounded-md p-2 z-50">
                 <DropdownMenuItem asChild>
-                  <Link
-                    to={getNavLink("/about-us")}
-                    className="w-full px-3 py-2 text-base hover:bg-gray-100 rounded-md block"
-                  >
+                  <Link to={getNavLink("/about-us")} className="w-full px-3 py-2 text-base hover:bg-gray-100 rounded-md block">
                     About Us
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                  <Link
-                    to={getNavLink("/gallery")}
-                    className="w-full px-3 py-2 text-base hover:bg-gray-100 rounded-md block"
-                  >
+                  <Link to={getNavLink("/gallery")} className="w-full px-3 py-2 text-base hover:bg-gray-100 rounded-md block">
                     Gallery
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                  <Link
-                    to={getNavLink("/career")}
-                    className="w-full px-3 py-2 text-base hover:bg-gray-100 rounded-md block"
-                  >
+                  <Link to={getNavLink("/career")} className="w-full px-3 py-2 text-base hover:bg-gray-100 rounded-md block">
                     Career
                   </Link>
                 </DropdownMenuItem>
@@ -205,9 +165,7 @@ const Navigation = () => {
             <Link
               to={getNavLink("/services")}
               className={`nav-link font-medium text-base xl:text-lg hover:text-amass-blue transition-colors ${
-                isActive(getNavLink("/services"))
-                  ? "text-amass-blue"
-                  : "text-black"
+                isActive(getNavLink("/services")) ? "text-amass-blue" : "text-black"
               }`}
             >
               Services
@@ -216,20 +174,16 @@ const Navigation = () => {
             <Link
               to={getNavLink("/blog")}
               className={`nav-link font-medium text-base xl:text-lg hover:text-amass-blue transition-colors ${
-                isActive(getNavLink("/blog")) || isActive(getNavLink("/blogs"))
-                  ? "text-amass-blue"
-                  : "text-black"
+                isActive(getNavLink("/blog")) || isActive(getNavLink("/blogs")) ? "text-amass-blue" : "text-black"
               }`}
             >
               Blogs
             </Link>
 
             <Link
-              to={getNavLink("/global-presence")}
+              to={getNavLink("/global-presence"))}
               className={`nav-link font-medium text-base xl:text-lg transition-colors ${
-                isActive(getNavLink("/global-presence"))
-                  ? "text-amass-blue"
-                  : "text-black"
+                isActive(getNavLink("/global-presence")) ? "text-amass-blue" : "text-black"
               }`}
             >
               Global Presence
@@ -238,25 +192,35 @@ const Navigation = () => {
             <Link
               to={getNavLink("/contact")}
               className={`nav-link font-medium text-base xl:text-lg transition-colors ${
-                isActive(getNavLink("/contact"))
-                  ? "text-amass-blue"
-                  : "text-black"
+                isActive(getNavLink("/contact")) ? "text-amass-blue" : "text-black"
               }`}
             >
               Contact
             </Link>
           </div>
 
-          {/* Right side (Country flag via IP + CountrySelector + Socials) */}
+          {/* Right side: ONLY the SVG flag + CountrySelector + Socials */}
           <div className="hidden md:flex items-center gap-2 lg:gap-3">
-            {/* Flag from IP */}
-            <div className="flex items-center gap-2 pr-1">
-              <span className="text-2xl leading-none" title={geo.name}>
-                {loading ? "🌐" : flagEmoji}
-              </span>
-              <span className="text-xs sm:text-sm font-medium text-gray-700">
-                {loading ? "Detecting…" : geo.name}
-              </span>
+            {/* ---- Flag only (no text) ---- */}
+            <div className="flex items-center">
+              {!loading ? (
+                <img
+                  src={flagSrc}
+                  alt="" /* decorative */
+                  aria-hidden="true"
+                  className="h-5 w-7 object-contain rounded-[2px]"
+                  onError={(e) => {
+                    // fallback to globe emoji if svg missing
+                    (e.currentTarget as HTMLImageElement).style.display = "none";
+                    const span = document.createElement("span");
+                    span.textContent = "🌐";
+                    span.style.fontSize = "18px";
+                    e.currentTarget.parentElement?.appendChild(span);
+                  }}
+                />
+              ) : (
+                <span className="text-lg">🌐</span>
+              )}
             </div>
 
             <CountrySelector />
@@ -279,16 +243,8 @@ const Navigation = () => {
           </div>
 
           {/* Mobile Toggle */}
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="lg:hidden p-2"
-            aria-label="Toggle Menu"
-          >
-            {isMenuOpen ? (
-              <X className="text-black" size={20} />
-            ) : (
-              <Menu className="text-black" size={20} />
-            )}
+          <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="lg:hidden p-2" aria-label="Toggle Menu">
+            {isMenuOpen ? <X className="text-black" size={20} /> : <Menu className="text-black" size={20} />}
           </button>
         </div>
       </div>
@@ -297,14 +253,19 @@ const Navigation = () => {
       {isMenuOpen && (
         <div className="lg:hidden absolute top-full left-0 right-0 bg-white py-4 shadow-md animate-fade-in border-t max-h-[calc(100vh-80px)] overflow-y-auto">
           <div className="container mx-auto px-4">
-            {/* Mobile: flag row */}
+            {/* Mobile: flag only row */}
             <div className="flex items-center gap-2 pb-3 mb-3 border-b border-gray-200">
-              <span className="text-2xl leading-none" title={geo.name}>
-                {loading ? "🌐" : flagEmoji}
-              </span>
-              <span className="text-sm font-medium text-gray-700">
-                {loading ? "Detecting…" : geo.name}
-              </span>
+              {!loading ? (
+                <img
+                  src={flagSrc}
+                  alt=""
+                  aria-hidden="true"
+                  className="h-5 w-7 object-contain rounded-[2px]"
+                />
+              ) : (
+                <span className="text-lg">🌐</span>
+              )}
+              {/* no text */}
             </div>
 
             <nav className="flex flex-col space-y-4">
@@ -321,14 +282,9 @@ const Navigation = () => {
                   key={item.path}
                   to={item.path === "/gallery" ? "/gallery" : getNavLink(item.path)}
                   className={`font-medium py-2 text-lg hover:text-amass-blue transition-colors ${
-                    isActive(
-                      item.path === "/gallery" ? "/gallery" : getNavLink(item.path)
-                    ) ||
-                    (item.path === "/home" &&
-                      currentCountry.code === "SG" &&
-                      isActive("/"))
-                      ? "text-amass-blue"
-                      : "text-black"
+                    isActive(item.path === "/gallery" ? "/gallery" : getNavLink(item.path)) ||
+                    (item.path === "/home" && currentCountry.code === "SG" && isActive("/"))
+                      ? "text-amass-blue" : "text-black"
                   }`}
                   onClick={() => setIsMenuOpen(false)}
                 >

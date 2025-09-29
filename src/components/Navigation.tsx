@@ -175,11 +175,8 @@ const Navigation = () => {
             </Link>
           </div>
 
-          {/* Right side: FLAG (from public/flags) + CountrySelector + Socials */}
+          {/* Right side: CountrySelector + Socials */}
           <div className="hidden md:flex items-center gap-2 lg:gap-3">
-            {/* <-- Show the flag BEFORE the selector based on IP */}
-            <FlagIcon code={ipCountry?.code || currentCountry.code} />
-
             <CountrySelector />
 
             <div className="ml-1 flex items-center gap-2">
@@ -238,10 +235,9 @@ const Navigation = () => {
                 </Link>
               ))}
 
-              {/* Mobile: flag + selector inline */}
+              {/* Mobile: country selector */}
               <div className="pt-4 border-t border-gray-200">
                 <div className="flex items-center gap-2">
-                  <FlagIcon code={ipCountry?.code || currentCountry.code} />
                   <CountrySelector />
                 </div>
               </div>

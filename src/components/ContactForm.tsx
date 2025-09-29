@@ -36,6 +36,12 @@ const allOffices: Record<string, Array<{
     phones: ["+971 4 3400298", "+971 4 3575508"],
     fax: "+971 4 8831004",
     emails: ["contact@dxb.amassfreight.com"]
+  }],{
+    name: "China",
+    address: "21-22F ,NO.1089, Dongdaming Road, Hongkou, Shanghai,P.R.C.",
+    phones: ["+86 18121430682"],
+    fax: "",
+    emails: ["ec@amassfreight.com"]
   }],
   "Saudi Arabia": [{
     name: "Dammam – Head Office",

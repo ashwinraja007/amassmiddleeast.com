@@ -13,12 +13,38 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { FaFacebookF, FaLinkedinIn } from "react-icons/fa";
 
+/** Small flag component that never shows raw text like '/lk.svg' */
+function FlagIcon({
+  code,
+  className = "h-5 w-7 object-contain rounded-[2px]",
+}: {
+  code: string;
+  className?: string;
+}) {
+  const iso = (code || "").toLowerCase();
+  const src = `/flags/${iso}.svg`;
+  return (
+    <img
+      src={src}
+      alt=""                /* alt intentionally empty so no text shows */
+      aria-hidden="true"    /* decorative */
+      className={className}
+      draggable={false}
+      onError={(e) => {
+        // If missing, hide image (no text fallback ever rendered)
+        (e.currentTarget as HTMLImageElement).style.display = "none";
+      }}
+    />
+  );
+}
+
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCompanyDropdownOpen, setIsCompanyDropdownOpen] = useState(false);
   const location = useLocation();
   const { user } = useAuth();
 
+  // We use the URL to decide the current country flag
   const currentCountry = getCurrentCountryFromPath(location.pathname);
   const isActive = (path: string) => location.pathname === path;
 
@@ -55,8 +81,10 @@ const Navigation = () => {
             <Link
               to={getNavLink("/home")}
               className={`nav-link font-medium text-base xl:text-lg hover:text-amass-blue transition-colors ${
-                isActive(getNavLink("/home")) || (currentCountry.code === "SG" && isActive("/"))
-                  ? "text-amass-blue" : "text-black"
+                isActive(getNavLink("/home")) ||
+                (currentCountry.code === "SG" && isActive("/"))
+                  ? "text-amass-blue"
+                  : "text-black"
               }`}
             >
               Home
@@ -101,7 +129,9 @@ const Navigation = () => {
             <Link
               to={getNavLink("/blog")}
               className={`nav-link font-medium text-base xl:text-lg hover:text-amass-blue transition-colors ${
-                isActive(getNavLink("/blog")) || isActive(getNavLink("/blogs")) ? "text-amass-blue" : "text-black"
+                isActive(getNavLink("/blog")) || isActive(getNavLink("/blogs"))
+                  ? "text-amass-blue"
+                  : "text-black"
               }`}
             >
               Blogs
@@ -126,12 +156,12 @@ const Navigation = () => {
             </Link>
           </div>
 
-          {/* Right side: CountrySelector (clean) + Socials */}
+          {/* Right side: FLAG (from public/flags) + CountrySelector + Socials */}
           <div className="hidden md:flex items-center gap-2 lg:gap-3">
-            {/* IMPORTANT: wrapper ensures nothing else renders before the trigger */}
-            <div className="cs-clean-selector">
-              <CountrySelector />
-            </div>
+            {/* <-- Show the flag BEFORE the selector */}
+            <FlagIcon code={currentCountry.code} />
+
+            <CountrySelector />
 
             <div className="ml-1 flex items-center gap-2">
               {SOCIALS.map(({ name, href, Icon }) => (
@@ -180,7 +210,8 @@ const Navigation = () => {
                   className={`font-medium py-2 text-lg hover:text-amass-blue transition-colors ${
                     isActive(item.path === "/gallery" ? "/gallery" : getNavLink(item.path)) ||
                     (item.path === "/home" && currentCountry.code === "SG" && isActive("/"))
-                      ? "text-amass-blue" : "text-black"
+                      ? "text-amass-blue"
+                      : "text-black"
                   }`}
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -188,8 +219,10 @@ const Navigation = () => {
                 </Link>
               ))}
 
+              {/* Mobile: flag + selector inline */}
               <div className="pt-4 border-t border-gray-200">
-                <div className="cs-clean-selector">
+                <div className="flex items-center gap-2">
+                  <FlagIcon code={currentCountry.code} />
                   <CountrySelector />
                 </div>
               </div>

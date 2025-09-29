@@ -20,7 +20,6 @@ interface CountryData {
 const countries: CountryData[] = [
   // --- Singapore (two options) ---
   { country: "SINGAPORE", company: "GC",   website: "https://www.globalconsol.com", priority: 1,   flag: "/sg.svg" },
-  { country: "SINGAPORE", company: "OECL", website: "https://oecl.sg/",              priority: 1.1, flag: "/sg.svg" },
 
   { country: "SRI LANKA", company: "GC", website: "https://www.globalconsol.com/sri-lanka/home", priority: 2, flag: "/lk.svg" },
   { country: "MYANMAR", company: "GC", website: "https://www.globalconsol.com/myanmar/home", priority: 3, flag: "/mm.svg" },

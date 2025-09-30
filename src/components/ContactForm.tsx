@@ -113,7 +113,7 @@ const ContactForm: React.FC = () => {
 
     // Send to BOTH recipients
     const emails = [
-      "karthikjungleemara@gmail.com",
+      "contact@dxb.amassfreight.com",
     ];
 
     try {

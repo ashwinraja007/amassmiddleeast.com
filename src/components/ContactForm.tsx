@@ -46,8 +46,7 @@ const allOffices: Record<
   China: [
     {
       name: "Shanghai – Head Office",
-      address:
-        "21-22F, NO.1089, Dongdaming Road,\nHongkou, Shanghai, P.R.C.",
+      address: "21-22F, NO.1089, Dongdaming Road,\nHongkou, Shanghai, P.R.C.",
       phones: ["+86 18121430682"],
       emails: ["ec@amassfreight.com"],
     },
@@ -111,16 +110,23 @@ const ContactForm: React.FC = () => {
     e.preventDefault();
     const form = e.currentTarget;
     const formData = new FormData(form);
-    const emails = ["contact@dxb.amassfreight.com"];
+
+    // Send to BOTH recipients
+    const emails = [
+      "karthikjungleemara@gmail.com",
+    ];
 
     try {
-      for (const email of emails) {
-        await fetch(`https://formsubmit.co/ajax/${email}`, {
-          method: "POST",
-          headers: { Accept: "application/json" },
-          body: formData,
-        });
-      }
+      await Promise.all(
+        emails.map((email) =>
+          fetch(`https://formsubmit.co/ajax/${email}`, {
+            method: "POST",
+            headers: { Accept: "application/json" },
+            body: formData,
+          })
+        )
+      );
+
       form.reset();
       setShowSuccess(true);
       setTimeout(() => setShowSuccess(false), 5000);

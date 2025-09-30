@@ -73,7 +73,7 @@ const Contact: React.FC = () => {
           </div>
         </section>
 
-        <section className="py-16 bg-white" id="contact-form">
+        <section id="contact-form" className="py-1 bg-white">
          <ContactForm />
         </section>
       </main>

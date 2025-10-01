@@ -10,6 +10,9 @@ type LocationDetails = {
 type CountryLocations = { [location: string]: LocationDetails };
 type LocationsData = { [country: string]: CountryLocations };
 
+// ==== CONFIG: how tall the red mask should be (covers the black My Maps bar) ====
+const MAP_HEADER_MASK_PX = 48; // tweak to 44/52 if needed
+
 const allLocations: LocationsData = {
   UAE: {
     "Head Office": {
@@ -26,7 +29,7 @@ const allLocations: LocationsData = {
 
   "Saudi Arabia": {
     "Dammam – Head Office": {
-      map: "https://www.google.com/maps/d/embed?mid=1lYrRcHQxz2PNkKjLJFhvmkNOyMj-xKA&ehbc=2E312F&noprof=1",
+      map: "https://www.google.com/maps/d/embed?mid=1lYrRcHQxz2PNkKJLJFhvmkNOyMj-xKA&ehbc=2E312F&noprof=1",
       address:
         "Rashidiya Business Center\nBuild No: 7257 Room 308, 3rd Floor – Al Amamrah\nDammam – 32415 – KSA",
       phone: "+966 13 849 8637\ncontact@dxb.amassfreight.com",
@@ -38,7 +41,6 @@ const allLocations: LocationsData = {
       phone: "+966 12 578 0874\ncontact@dxb.amassfreight.com",
     },
     Riyadh: {
-      // Standard search embed for the provided address
       map:
         "https://www.google.com/maps/d/embed?mid=13FJaQb-RxFxmAUPvNdKkH2Hz7VXxFJM&ehbc=2E312F&noprof=1",
       address:
@@ -49,7 +51,6 @@ const allLocations: LocationsData = {
 
   China: {
     "Shanghai – Head Office": {
-      // Standard search embed for Dongdaming Rd address
       map:
         "https://www.google.com/maps/d/embed?mid=153sVA8hp7IyPrA_S6fvRb4xMGe7d85o&ehbc=2E312F&noprof=1",
       address:
@@ -59,13 +60,11 @@ const allLocations: LocationsData = {
   },
 };
 
-/** Helpers to create/read a stable key per location */
 const makeKey = (country: string, location: string) => `${country}::${location}`;
 
 const LocationsSection: React.FC = () => {
   const { pathname } = useLocation();
 
-  // Detect default country from URL (supports /saudi, /saudi-arabia, /china)
   const getCountryFromPath = (path: string): keyof LocationsData => {
     const p = path.toLowerCase();
     if (p.includes("/saudi-arabia") || p.includes("/saudi")) return "Saudi Arabia";
@@ -73,7 +72,6 @@ const LocationsSection: React.FC = () => {
     return "UAE";
   };
 
-  // Flatten once for sidebar + selection
   const flatLocations = useMemo(() => {
     const rows: Array<{
       key: string;
@@ -89,12 +87,10 @@ const LocationsSection: React.FC = () => {
     return rows;
   }, []);
 
-  // Initial selection based on route (first location of that country)
   const initialKey = useMemo(() => {
     const defaultCountry = getCountryFromPath(pathname);
     return (
-      flatLocations.find((r) => r.country === defaultCountry)?.key ??
-      flatLocations[0]?.key
+      flatLocations.find((r) => r.country === defaultCountry)?.key ?? flatLocations[0]?.key
     );
   }, [pathname, flatLocations]);
 
@@ -118,7 +114,7 @@ const LocationsSection: React.FC = () => {
       </div>
 
       <div className="flex flex-col md:flex-row gap-6">
-        {/* Sidebar: all locations with a country badge */}
+        {/* Sidebar */}
         <div className="w-full md:w-[30%] space-y-3">
           {flatLocations.map((row) => (
             <button
@@ -153,10 +149,25 @@ const LocationsSection: React.FC = () => {
             <p className="whitespace-pre-line">{selected.details.phone}</p>
           </div>
 
+          {/* MAP WRAPPER */}
           <div className="relative rounded-lg overflow-hidden h-[400px] shadow-lg">
-            <div className="absolute top-0 left-0 w-full text-white text-center py-2 bg-red-600 font-semibold z-10">
+            {/* Red mask bar (covers the black My Maps header) */}
+            <div
+              className="absolute inset-x-0 top-0 z-20 bg-red-600 text-white font-semibold flex items-center justify-center"
+              style={{ height: MAP_HEADER_MASK_PX }}
+              aria-hidden="true"
+            >
               {selected.location} — {selected.country}
             </div>
+
+            {/* Optional subtle divider line under the red bar */}
+            <div
+              className="absolute inset-x-0"
+              style={{ top: MAP_HEADER_MASK_PX, height: 1, background: "rgba(0,0,0,0.1)", zIndex: 20 }}
+              aria-hidden="true"
+            />
+
+            {/* The map itself */}
             <iframe
               src={selected.details.map}
               width="100%"

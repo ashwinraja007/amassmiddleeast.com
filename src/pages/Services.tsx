@@ -141,7 +141,7 @@ const Services: React.FC = () => {
                 Our Logistics Services
               </h1>
               <div className="w-20 h-1 bg-gc-gold mx-auto mb-6"></div>
-              <p className="text-xl text-blac leading-relaxed">
+              <p className="text-xl text-black leading-relaxed">
                 Comprehensive end-to-end global logistics solutions tailored to your business needs
               </p>
             </motion.div>

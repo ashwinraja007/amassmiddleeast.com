@@ -11,7 +11,7 @@ type CountryLocations = { [location: string]: LocationDetails };
 type LocationsData = { [country: string]: CountryLocations };
 
 // ==== CONFIG: how tall the red mask should be (covers the black My Maps bar) ====
-const MAP_HEADER_MASK_PX = 48; // tweak to 44/52 if needed
+const MAP_HEADER_MASK_PX = 56; // tweak to 44/52 if needed
 
 const allLocations: LocationsData = {
   UAE: {
@@ -29,7 +29,7 @@ const allLocations: LocationsData = {
 
   "Saudi Arabia": {
     "Dammam – Head Office": {
-      map: "https://www.google.com/maps/d/embed?mid=1lYrRcHQxz2PNkKJLJFhvmkNOyMj-xKA&ehbc=2E312F&noprof=1",
+      map: "https://www.google.com/maps/d/embed?mid=1_S1WHf8uTs8qQrU-2vVxJDGZN1xvqss&ehbc=2E312F&noprof=1",
       address:
         "Rashidiya Business Center\nBuild No: 7257 Room 308, 3rd Floor – Al Amamrah\nDammam – 32415 – KSA",
       phone: "+966 13 849 8637\ncontact@dxb.amassfreight.com",

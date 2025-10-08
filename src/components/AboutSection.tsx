@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { getCurrentCountryFromPath } from "@/services/countryDetection";
-import { motion } from "framer-motion";
 
 const AboutSection: React.FC = () => {
   const location = useLocation();
@@ -14,24 +13,44 @@ const AboutSection: React.FC = () => {
   const getNavLink = (p: string) =>
     currentCountry?.code === "SG"
       ? p
-      : `/${(currentCountry?.name ?? "Singapore").toLowerCase().replace(/\s+/g, "-")}${p}`;
+      : `/${(currentCountry?.name ?? "Singapore")
+          .toLowerCase()
+          .replace(/\s+/g, "-")}${p}`;
 
-  // Put your images in /public and reference with leading slashes
-  const images = [
-    "/Dubai.jpg",
-    "/jebelali1.png",
-    "/burj-khalifa.jpg",
-  ];
-
-  const [index, setIndex] = useState(0);
+  // --- Video autoplay + visibility handling ---
+  const videoRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
-    if (!images.length) return;
-    const id = setInterval(() => {
-      setIndex((i) => (i + 1) % images.length);
-    }, 4000);
-    return () => clearInterval(id);
-  }, [images.length]);
+    const el = videoRef.current;
+    if (!el) return;
+
+    // Try to kick off autoplay on mount (muted + playsInline required on iOS)
+    const tryPlay = async () => {
+      try {
+        await el.play();
+      } catch {
+        // If browser blocks autoplay, we keep it muted & will try again when visible.
+      }
+    };
+    tryPlay();
+
+    // Pause when not visible, resume when visible
+    const io = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (!el) return;
+        if (entry.isIntersecting) {
+          el.play().catch(() => {});
+        } else {
+          el.pause();
+        }
+      },
+      { threshold: 0.25 }
+    );
+
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   return (
     <section className="bg-white py-14 md:py-20">
@@ -69,25 +88,20 @@ const AboutSection: React.FC = () => {
             </div>
           </div>
 
-          {/* RIGHT: auto-scrolling images */}
+          {/* RIGHT: video hero */}
           <div className="order-first lg:order-none">
-            {/* Ensure visible height with aspect ratio (or replace with fixed h-[...]) */}
             <div className="relative w-full aspect-[16/10] overflow-hidden rounded-2xl shadow-xl border border-slate-200 bg-slate-100">
-              {images.map((src, i) => (
-                <motion.img
-                  key={src}
-                  src={src}
-                  alt={`slide-${i}`}
-                  className="absolute inset-0 w-full h-full object-cover"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: i === index ? 1 : 0 }}
-                  transition={{ duration: 0.8 }}
-                  onError={(e) => {
-                    // hide broken images so they don't block others
-                    (e.currentTarget as HTMLImageElement).style.display = "none";
-                  }}
-                />
-              ))}
+              <video
+                ref={videoRef}
+                className="absolute inset-0 w-full h-full object-cover"
+                src="/hero6.mp4"          // put hero6.mp4 in /public
+                poster="/hero6-poster.jpg" // optional: fallback image in /public
+                muted
+                loop
+                playsInline
+                autoPlay
+              />
+              {/* If you want controls, add: controls */}
             </div>
           </div>
         </div>

@@ -20,7 +20,7 @@ const HeroSection: React.FC = () => {
   }];
   return <section className="relative min-h-screen w-full overflow-hidden">
       {/* Full-screen video with NO gradient overlay */}
-      <video className="absolute inset-0 w-full h-full object-cover" src="/hero6.mp4" // replace with your video
+      <video className="absolute inset-0 w-full h-full object-cover" src="/hero5.mp4" // replace with your video
     autoPlay loop muted playsInline />
 
       {/* Buttons Bar at the Bottom */}

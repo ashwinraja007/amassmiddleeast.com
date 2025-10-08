@@ -117,7 +117,7 @@ const CFS = () => {
                     alt="CFS Warehouse"
                     loading="lazy"
                     className="w-full h-96 object-cover"
-                    src="/container.jpg"
+                    src="/cfl4.jpeg"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
                 </div>

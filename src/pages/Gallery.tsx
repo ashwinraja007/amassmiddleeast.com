@@ -128,12 +128,12 @@ const deriveFolder = (img: GalleryImage) => {
             <div className="flex items-center justify-center gap-3 mb-4">
               <span className="text-4xl">{countryFlags[currentCountry]}</span>
               <h1 className="text-4xl font-bold text-gray-900">
-                Gallery - {countryNames[currentCountry]}
+                Gallery 
               </h1>
             </div>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
               Explore our collection of images showcasing our operations and
-              projects in {countryNames[currentCountry]}
+              projects
             </p>
           </div>
 

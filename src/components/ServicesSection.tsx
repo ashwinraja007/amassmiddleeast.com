@@ -26,7 +26,7 @@ const services: ServiceCard[] = [{
   title: "CFS",
   description: "Take full advantage of our state-of-the-art CFS, which is equipped with the latest equipment, technology and staffed by experienced professionals at every level. Our warehouses are designed to handle your cargo efficiently across all regions.",
   slug: "cfs",
-  image: "/container.jpg",
+  image: "/cfl4.jpeg",
   delay: 120,
   Icon: Building2,
   tag: "Container Freight Station"

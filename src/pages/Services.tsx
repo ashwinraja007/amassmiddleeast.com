@@ -109,7 +109,7 @@ const Services: React.FC = () => {
       description:
         "Take full advantage of our state-of-the-art CFS, which is equipped with the latest equipment, technology and staffed by experienced professionals at every level. Our warehouses are designed to handle your cargo efficiently across all regions.",
       icon: Building2,
-      image: "/container.jpg",
+      image: "/cfl4.jpeg",
       slug: "cfs"
     }
   ];

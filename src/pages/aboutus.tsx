@@ -47,7 +47,7 @@ const AboutUs = () => {
 
   // ======= NEW: image scroller like your first section =======
   // Place these in /public; reuse your earlier images for consistency
-  const images = ["/Dubai.jpg", "/jebelali1.png", "/burj-khalifa.jpg"];
+  const images = ["/office1.jpg", "/office2.jpg", "/office3.jpg"];
   const [index, setIndex] = useState(0);
 
   useEffect(() => {

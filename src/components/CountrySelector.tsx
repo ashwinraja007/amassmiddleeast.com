@@ -25,6 +25,7 @@ const countries: CountryData[] = [
   { country: "MYANMAR", company: "GC", website: "https://www.globalconsol.com/myanmar/home", priority: 3, flag: "/mm.svg" },
   { country: "BANGLADESH", company: "GC", website: "https://www.globalconsol.com/bangladesh/home", priority: 4, flag: "/bd.svg" },
   { country: "PAKISTAN", company: "GC", website: "https://www.globalconsol.com/pakistan/home", priority: 5, flag: "/pk.svg" },
+   { country: "CHINA", company: "Amass", website: "https://www.amassfreight.com/", priority: 6, flag: "/cn.svg", slug: "china" },
 
   // Hidden only in Bangladesh
   { country: "MALAYSIA", company: "OECL", website: "https://oecl.sg/malaysia", priority: 6, flag: "/my.svg",

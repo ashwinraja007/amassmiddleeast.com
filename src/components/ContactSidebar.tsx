@@ -11,7 +11,7 @@ interface ContactSidebarProps {
   onClose: () => void;
 }
 
-const countries = [{
+const countries: Country[] = [{
   code: "in",
   name: "India",
   lat: 9.9323,
@@ -22,7 +22,7 @@ const countries = [{
     lng: 76.2996,
     address: "CC 59/801A Elizabeth Memorial Building, Thevara Ferry Jn, Cochin 682013 , Kerala.",
     contacts: ["+91 484 4019192 / 93"]
-  },{
+  }, {
     name: "Mumbai",
     lat: 19.01123,
     lng: 73.03715,
@@ -30,11 +30,11 @@ const countries = [{
     contacts: ["022-35131688 / 35113475 / 35082586"]
   }, {
     name: "Mumbai-Andheri",
-    lat: 19.11303, 
+    lat: 19.11303,
     lng: 72.86848,
     address: "503, Midas, Sahar Plaza Complex,Sir M.V Road,Andheri East, Mumbai 400059",
     contacts: ["+91 8879756838"]
-  },{
+  }, {
     name: "Delhi",
     lat: 28.62748,
     lng: 77.2221,
@@ -48,7 +48,7 @@ const countries = [{
     contacts: ["+91 9841676259"]
   }, {
     name: "Kolkata",
-    lat: 22.5769, 
+    lat: 22.5769,
     lng: 88.4341,
     address: "Merlin Matrix, 3rd floor, Room No. 303 10,D. N. BLOCK, SECTOR - V SALT LAKE CITY, Kolkata – 700091",
     contacts: ["+91 33 46025458 / 59 / 60/ 61"]
@@ -74,8 +74,8 @@ const countries = [{
 }, {
   code: "ae",
   name: "United Arab Emirates (UAE)",
-    lat: 25.2048,
-    lng: 55.2708,
+  lat: 25.2048,
+  lng: 55.2708,
   cities: [{
     name: "Dubai",
     lat: 25.2048,
@@ -98,8 +98,8 @@ const countries = [{
 }, {
   code: "qa",
   name: "Qatar",
-    lat: 25.276987,
-    lng: 51.520008,
+  lat: 25.276987,
+  lng: 51.520008,
   cities: [{
     name: "Doha",
     lat: 25.276987,
@@ -111,7 +111,7 @@ const countries = [{
   code: "sa",
   name: "Saudi Arabia",
   lat: 26.4207,
-    lng: 50.0888,
+  lng: 50.0888,
   cities: [{
     name: "Dammam",
     lat: 26.4207,
@@ -131,7 +131,7 @@ const countries = [{
     address: "Al-Madinah Al-Munawarah Road, Al Sharafeyah, Jeddah 4542 -22234, Kingdom of Saudi Arabia",
     contacts: ["+966 12 578 0874"]
   }]
-},{
+}, {
   code: "sg",
   name: "Singapore",
   lat: 1.3521,
@@ -178,11 +178,11 @@ const countries = [{
 }, {
   code: "th",
   name: "Thailand",
-  lat: 13.72957,  
+  lat: 13.72957,
   lng: 100.53095,
   cities: [{
     name: "Bangkok",
-    lat: 13.72957,  
+    lat: 13.72957,
     lng: 100.53095,
     address: "109 CCT Building, 3rd Floor, Rm.3, Surawong Road, Suriyawongse, Bangrak, Bangkok 10500 109",
     contacts: ["+662-634-3240", "+662-634-3942"]
@@ -233,7 +233,7 @@ const countries = [{
     contacts: ["+92 42-35782306/07/08"],
     email: "info.pk@globalconsol.com"
   }]
-},  {
+}, {
   code: "us",
   name: "United States (USA)",
   lat: 41.8622,
@@ -272,7 +272,24 @@ const countries = [{
     address: "167-169 Great Portland Street 5th Floor, London W1W 5PF, United Kingdom",
     contacts: ["+44 (0) 203 393 9508"]
   }]
-},{
+}, {
+  code: "au",
+  name: "Australia",
+  lat: -37.7064,
+  lng: 144.8503,
+  cities: [{
+    name: "Melbourne",
+    lat: -37.7064,
+    lng: 144.8503,
+    address: "Suite 5, 7-9 Mallet Road, Tullamarine, Victoria, 3043",
+    contacts: ["Mob: +61 432254969", "Tel: +61 388205157"],
+    email: "info@gglaustralia.com"
+  }]
+},
+
+// ================== NEW REGIONS ==================
+
+{
   code: "ar",
   name: "Argentina",
   lat: -34.6037,
@@ -282,10 +299,13 @@ const countries = [{
     lat: -34.6037,
     lng: -58.3816,
     address: "Carlos Pellegrini 719, 3A 1009 CABA, Buenos Aires, Argentina",
-    contacts: ["+54 11 4547 7864", "Sales: comercial@agn-argentina.com", "Operations: operaciones@agn-argentina.com"]
+    contacts: [
+      "+54 11 4547 7864",
+      "Sales: comercial@agn-argentina.com",
+      "Operations: operaciones@agn-argentina.com"
+    ]
   }]
-},
-{
+}, {
   code: "br",
   name: "Brazil",
   lat: -23.5505,
@@ -302,8 +322,7 @@ const countries = [{
       "Finance: financeiro@agn-brasil.com"
     ]
   }]
-},
-{
+}, {
   code: "co",
   name: "Colombia",
   lat: 4.7110,
@@ -313,10 +332,13 @@ const countries = [{
     lat: 4.710989,
     lng: -74.072090,
     address: "Carrera 7 #114–33, Oficina 802, Edificio Scotia Bank, Bogotá, Colombia",
-    contacts: ["+57 3142188434", "ocarreno@agn-colombia.com", "www.amassgroup.com"]
+    contacts: [
+      "+57 3142188434",
+      "ocarreno@agn-colombia.com",
+      "www.amassgroup.com"
+    ]
   }]
-},
-{
+}, {
   code: "mx",
   name: "Mexico",
   lat: 19.4326,
@@ -332,8 +354,7 @@ const countries = [{
       "yfigueroa@agn-mexico.com.mx"
     ]
   }]
-},
-{
+}, {
   code: "vn",
   name: "Vietnam",
   lat: 10.8231,
@@ -343,10 +364,14 @@ const countries = [{
     lat: 10.8186,
     lng: 106.6636,
     address: "Ground Floor, Sovilaco Building, 01 Pho Quang Street, Tan Son Hoa Ward, Ho Chi Minh City, Vietnam",
-    contacts: ["+84 28 36366686", "Tax ID: 0109670595-001", "jennie@mgl.vn", "http://mgl.vn"]
+    contacts: [
+      "+84 28 36366686",
+      "Tax ID: 0109670595-001",
+      "jennie@mgl.vn",
+      "http://mgl.vn"
+    ]
   }]
-},
-{
+}, {
   code: "cl",
   name: "Chile",
   lat: -33.4489,
@@ -356,22 +381,14 @@ const countries = [{
     lat: -33.3833,
     lng: -70.5800,
     address: "Av. Vitacura 3535, Oficina 1603, Edificio Atémpora, Vitacura, Santiago de Chile, Chile",
-    contacts: ["+56 2 338 88478", "+56 9 9837 1770", "aritter@agn-chile.com", "www.amassfreight.com"]
-  }] {
-  code: "au",
-  name: "Australia",
-  lat: -37.7064,
-  lng: 144.8503,
-  cities: [{
-    name: "Melbourne",
-    lat: -37.7064,
-    lng: 144.8503,
-    address: "Suite 5, 7-9 Mallet Road, Tullamarine, Victoria, 3043",
-    contacts: ["Mob: +61 432254969", "Tel: +61 388205157"],
-    email: "info@gglaustralia.com"
+    contacts: [
+      "+56 2 338 88478",
+      "+56 9 9837 1770",
+      "aritter@agn-chile.com",
+      "www.amassfreight.com"
+    ]
   }]
 }];
-
 // Sort countries alphabetically by name
 const sortedCountries = [...countries].sort((a, b) => a.name.localeCompare(b.name));
 

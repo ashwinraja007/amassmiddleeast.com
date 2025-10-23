@@ -292,12 +292,12 @@ const countries: Country[] = [{
 {
   code: "ar",
   name: "Argentina",
-  lat: -34.6037,
-  lng: -58.3816,
+  lat: --34.5999,
+  lng: --58.3810,
   cities: [{
     name: "Buenos Aires",
-    lat: -34.6037,
-    lng: -58.3816,
+    lat: -34.5999,
+    lng: -58.3810,
     address: "Carlos Pellegrini 719, 3A 1009 CABA, Buenos Aires, Argentina",
     contacts: [
       "+54 11 4547 7864",
@@ -308,12 +308,12 @@ const countries: Country[] = [{
 }, {
   code: "br",
   name: "Brazil",
-  lat: -23.5505,
-  lng: -46.6333,
+  lat: -23.6031,
+  lng: -46.6741,
   cities: [{
     name: "São Paulo – Moema",
-    lat: -23.6006,
-    lng: -46.6732,
+    lat: -23.6031,
+    lng: -46.6741,
     address: "Rua Araguari, 835 – Room 72, Moema, São Paulo, Brazil",
     contacts: [
       "+55 (11) 99411 3006",
@@ -325,12 +325,12 @@ const countries: Country[] = [{
 }, {
   code: "co",
   name: "Colombia",
-  lat: 4.7110,
-  lng: -74.0721,
+  lat: 4.6930,
+  lng: -74.0339,
   cities: [{
     name: "Bogotá",
-    lat: 4.710989,
-    lng: -74.072090,
+    lat: 4.6930,
+    lng: -74.0339,
     address: "Carrera 7 #114–33, Oficina 802, Edificio Scotia Bank, Bogotá, Colombia",
     contacts: [
       "+57 3142188434",
@@ -341,12 +341,12 @@ const countries: Country[] = [{
 }, {
   code: "mx",
   name: "Mexico",
-  lat: 19.4326,
-  lng: -99.1332,
+  lat: 19.3879,
+  lng: -99.1746,
   cities: [{
     name: "Mexico City",
-    lat: 19.3971,
-    lng: -99.1732,
+    lat: 19.3879,
+    lng: -99.1746,
     address: "Insurgentes Sur 863, Piso 6, Colonia Nápoles, CP 03810, Ciudad de México, Mexico",
     contacts: [
       "Mobile: +52 5568930543",
@@ -357,12 +357,12 @@ const countries: Country[] = [{
 }, {
   code: "vn",
   name: "Vietnam",
-  lat: 10.8231,
-  lng: 106.6297,
+  lat: 10.803,
+  lng: 106.6656,
   cities: [{
     name: "Ho Chi Minh City",
-    lat: 10.8186,
-    lng: 106.6636,
+    lat: 10.803,
+    lng: 106.6656,
     address: "Ground Floor, Sovilaco Building, 01 Pho Quang Street, Tan Son Hoa Ward, Ho Chi Minh City, Vietnam",
     contacts: [
       "+84 28 36366686",
@@ -374,12 +374,12 @@ const countries: Country[] = [{
 }, {
   code: "cl",
   name: "Chile",
-  lat: -33.4489,
-  lng: -70.6693,
+  lat: -33.4042,
+  lng: -70.5957,
   cities: [{
     name: "Santiago (Vitacura)",
-    lat: -33.3833,
-    lng: -70.5800,
+    lat: -33.4042,
+    lng: -70.5957,
     address: "Av. Vitacura 3535, Oficina 1603, Edificio Atémpora, Vitacura, Santiago de Chile, Chile",
     contacts: [
       "+56 2 338 88478",

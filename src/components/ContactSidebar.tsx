@@ -444,7 +444,7 @@ const ContactSidebar: React.FC<ContactSidebarProps> = ({ isOpen, onClose }) => {
     if (iframe) {
       try {
         const zoomLevel = city ? 12 : 9;
-        const baseUrl = "https://www.google.com/maps/d/u/0/embed?mid=1Gy9JUvlSaOBrtQaKI7OoYU2KgFymoXg&ehbc";
+        const baseUrl = "https://www.google.com/maps/d/embed?mid=16_2W0JMhfZhP2Dl8_HEfPCvoPt5eC-Y&ehbc=2E312F";
         const newSrc = `${baseUrl}&z=${zoomLevel}&ll=${lat},${lng}&hl=en&ehbc=2E312F&output=embed`;
         iframe.src = newSrc;
         if (city) setSelectedLocation(city);

@@ -60,7 +60,7 @@ const allLocations: LocationsData = {
 
   Argentina: {
     "Buenos Aires": {
-      map: "https://maps.google.com/?q=Carlos+Pellegrini+719,+CABA+Buenos+Aires",
+      map: "https://www.google.com/maps/d/embed?mid=1FJ6I_Xqvbo1hcoJwya3RlkJcNRLLMkE&ehbc=2E312F&noprof=1",
       address: "Carlos Pellegrini 719, 3A 1009 CABA\nBuenos Aires, Argentina",
       phone: "+54 11 4547 7864\ncomercial@agn-argentina.com\noperaciones@agn-argentina.com",
     },
@@ -68,7 +68,7 @@ const allLocations: LocationsData = {
 
   Brazil: {
     "São Paulo – Moema": {
-      map: "https://maps.google.com/?q=Rua+Araguari+835,+Moema,+Sao+Paulo",
+      map: "https://www.google.com/maps/d/embed?mid=1S_0sSOe5KAchNrT3lFfVUYQlZVqX08U&ehbc=2E312F&noprof=1",
       address: "Rua Araguari, 835 – Room 72 – Moema\nSão Paulo, Brazil",
       phone:
         "+55 (11) 99411 3006\nsales@agn-brasil.com\noperational@agn-brasil.com\nfinanceiro@agn-brasil.com",
@@ -77,7 +77,7 @@ const allLocations: LocationsData = {
 
   Colombia: {
     Bogotá: {
-      map: "https://maps.google.com/?q=Carrera+7+%23114-33,+Bogota",
+      map: "https://www.google.com/maps/d/embed?mid=1xsU45mjez2jC_3gHLoz7VX6r8cq3GmY&ehbc=2E312F&noprof=1",
       address:
         "Carrera 7 #114–33, Oficina 802\nEdificio Scotia Bank, Bogotá, Colombia",
       phone: "+57 3142188434\nocarreno@agn-colombia.com\nwww.amassgroup.com",
@@ -86,7 +86,7 @@ const allLocations: LocationsData = {
 
   Mexico: {
     "Mexico City": {
-      map: "https://maps.google.com/?q=Insurgentes+Sur+863,+Colonia+Napoles,+CDMX",
+      map: "https://www.google.com/maps/d/embed?mid=1qBzfmowXcVr6mHZodRqINRzImgiVmp0&ehbc=2E312F&noprof=1",
       address:
         "Insurgentes Sur 863, Piso 6, Colonia Nápoles\nCP 03810, Ciudad de México, Mexico",
       phone:
@@ -96,7 +96,7 @@ const allLocations: LocationsData = {
 
   Vietnam: {
     "Ho Chi Minh City": {
-      map: "https://maps.google.com/?q=01+Pho+Quang,+Tan+Son+Hoa,+HCMC",
+      map: "https://www.google.com/maps/d/embed?mid=1CBa095JraFL1JmhcGu6dBX9x3OVmkT8&ehbc=2E312F&noprof=1",
       address:
         "Ground Fl, Sovilaco Bldg, 01 Pho Quang Str\nTan Son Hoa Ward, Ho Chi Minh City, Vietnam",
       phone: "+84 28 36366686\n0109670595-001\njennie@mgl.vn\nhttp://mgl.vn",
@@ -105,7 +105,7 @@ const allLocations: LocationsData = {
 
   Chile: {
     Santiago: {
-      map: "https://maps.google.com/?q=Av.+Vitacura+3535,+Vitacura,+Santiago",
+      map: "https://www.google.com/maps/d/embed?mid=1zDt0TUa0n5YVJTX_edtL7K_FN_AH9dc&ehbc=2E312F&noprof=1",
       address:
         "Av. Vitacura 3535, oficina 1603\nEdificio Atémpora – Vitacura, Santiago de Chile",
       phone: "+56 2 338 88478\n+56 9 9837 1770\naritter@agn-chile.com\nwww.amassfreight.com",

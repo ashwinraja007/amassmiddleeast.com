@@ -272,7 +272,92 @@ const countries = [{
     address: "167-169 Great Portland Street 5th Floor, London W1W 5PF, United Kingdom",
     contacts: ["+44 (0) 203 393 9508"]
   }]
-}, {
+},{
+  code: "ar",
+  name: "Argentina",
+  lat: -34.6037,
+  lng: -58.3816,
+  cities: [{
+    name: "Buenos Aires",
+    lat: -34.6037,
+    lng: -58.3816,
+    address: "Carlos Pellegrini 719, 3A 1009 CABA, Buenos Aires, Argentina",
+    contacts: ["+54 11 4547 7864", "Sales: comercial@agn-argentina.com", "Operations: operaciones@agn-argentina.com"]
+  }]
+},
+{
+  code: "br",
+  name: "Brazil",
+  lat: -23.5505,
+  lng: -46.6333,
+  cities: [{
+    name: "São Paulo – Moema",
+    lat: -23.6006,
+    lng: -46.6732,
+    address: "Rua Araguari, 835 – Room 72, Moema, São Paulo, Brazil",
+    contacts: [
+      "+55 (11) 99411 3006",
+      "Sales: sales@agn-brasil.com",
+      "Operations: operational@agn-brasil.com",
+      "Finance: financeiro@agn-brasil.com"
+    ]
+  }]
+},
+{
+  code: "co",
+  name: "Colombia",
+  lat: 4.7110,
+  lng: -74.0721,
+  cities: [{
+    name: "Bogotá",
+    lat: 4.710989,
+    lng: -74.072090,
+    address: "Carrera 7 #114–33, Oficina 802, Edificio Scotia Bank, Bogotá, Colombia",
+    contacts: ["+57 3142188434", "ocarreno@agn-colombia.com", "www.amassgroup.com"]
+  }]
+},
+{
+  code: "mx",
+  name: "Mexico",
+  lat: 19.4326,
+  lng: -99.1332,
+  cities: [{
+    name: "Mexico City",
+    lat: 19.3971,
+    lng: -99.1732,
+    address: "Insurgentes Sur 863, Piso 6, Colonia Nápoles, CP 03810, Ciudad de México, Mexico",
+    contacts: [
+      "Mobile: +52 5568930543",
+      "Office: +52 5556828362 Ext 1002 / +52 5596294019 Ext 1002",
+      "yfigueroa@agn-mexico.com.mx"
+    ]
+  }]
+},
+{
+  code: "vn",
+  name: "Vietnam",
+  lat: 10.8231,
+  lng: 106.6297,
+  cities: [{
+    name: "Ho Chi Minh City",
+    lat: 10.8186,
+    lng: 106.6636,
+    address: "Ground Floor, Sovilaco Building, 01 Pho Quang Street, Tan Son Hoa Ward, Ho Chi Minh City, Vietnam",
+    contacts: ["+84 28 36366686", "Tax ID: 0109670595-001", "jennie@mgl.vn", "http://mgl.vn"]
+  }]
+},
+{
+  code: "cl",
+  name: "Chile",
+  lat: -33.4489,
+  lng: -70.6693,
+  cities: [{
+    name: "Santiago (Vitacura)",
+    lat: -33.3833,
+    lng: -70.5800,
+    address: "Av. Vitacura 3535, Oficina 1603, Edificio Atémpora, Vitacura, Santiago de Chile, Chile",
+    contacts: ["+56 2 338 88478", "+56 9 9837 1770", "aritter@agn-chile.com", "www.amassfreight.com"]
+  }] {
   code: "au",
   name: "Australia",
   lat: -37.7064,

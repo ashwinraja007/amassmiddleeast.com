@@ -41,7 +41,8 @@ const allLocations: LocationsData = {
       phone: "+966 12 578 0874\ncontact@dxb.amassfreight.com",
     },
     Riyadh: {
-      map: "https://www.google.com/maps/d/embed?mid=13FJaQb-RxFxmAUPvNdKkH2Hz7VXxFJM&ehbc=2E312F&noprof=1",
+      map:
+        "https://www.google.com/maps/d/embed?mid=13FJaQb-RxFxmAUPvNdKkH2Hz7VXxFJM&ehbc=2E312F&noprof=1",
       address:
         "Room No. 20, Al Malaz\nBldg. No. 104, 2nd Floor, Al Qirawani St.\nAl Malaz District, Riyadh 11332, K.S.A",
       phone: "+966 13 849 8630\ncontact@dxb.amassfreight.com",
@@ -50,65 +51,11 @@ const allLocations: LocationsData = {
 
   China: {
     "Shanghai – Head Office": {
-      map: "https://www.google.com/maps/d/embed?mid=153sVA8hp7IyPrA_S6fvRb4xMGe7d85o&ehbc=2E312F&noprof=1",
-      address: "21-22F, NO.1089, Dongdaming Road,\nHongkou, Shanghai, P.R.C.",
+      map:
+        "https://www.google.com/maps/d/embed?mid=153sVA8hp7IyPrA_S6fvRb4xMGe7d85o&ehbc=2E312F&noprof=1",
+      address:
+        "21-22F, NO.1089, Dongdaming Road,\nHongkou, Shanghai, P.R.C.",
       phone: "+86 18121430682\nec@amassfreight.com",
-    },
-  },
-
-  // ===== New regions added below with dummy map URLs =====
-
-  Argentina: {
-    "Buenos Aires": {
-      map: "https://www.google.com/maps/d/embed?mid=1FJ6I_Xqvbo1hcoJwya3RlkJcNRLLMkE&ehbc=2E312F&noprof=1",
-      address: "Carlos Pellegrini 719, 3A 1009 CABA\nBuenos Aires, Argentina",
-      phone: "+54 11 4547 7864\ncomercial@agn-argentina.com\noperaciones@agn-argentina.com",
-    },
-  },
-
-  Brazil: {
-    "São Paulo – Moema": {
-      map: "https://www.google.com/maps/d/embed?mid=1S_0sSOe5KAchNrT3lFfVUYQlZVqX08U&ehbc=2E312F&noprof=1",
-      address: "Rua Araguari, 835 – Room 72 – Moema\nSão Paulo, Brazil",
-      phone:
-        "+55 (11) 99411 3006\nsales@agn-brasil.com\noperational@agn-brasil.com\nfinanceiro@agn-brasil.com",
-    },
-  },
-
-  Colombia: {
-    Bogotá: {
-      map: "https://www.google.com/maps/d/embed?mid=1xsU45mjez2jC_3gHLoz7VX6r8cq3GmY&ehbc=2E312F&noprof=1",
-      address:
-        "Carrera 7 #114–33, Oficina 802\nEdificio Scotia Bank, Bogotá, Colombia",
-      phone: "+57 3142188434\nocarreno@agn-colombia.com\nwww.amassgroup.com",
-    },
-  },
-
-  Mexico: {
-    "Mexico City": {
-      map: "https://www.google.com/maps/d/embed?mid=1qBzfmowXcVr6mHZodRqINRzImgiVmp0&ehbc=2E312F&noprof=1",
-      address:
-        "Insurgentes Sur 863, Piso 6, Colonia Nápoles\nCP 03810, Ciudad de México, Mexico",
-      phone:
-        "M +52 5568930543\nO +52 5556828362 Ext 1002\nO +52 55 9629 4019 Ext 1002\nyfigueroa@agn-mexico.com.mx",
-    },
-  },
-
-  Vietnam: {
-    "Ho Chi Minh City": {
-      map: "https://www.google.com/maps/d/embed?mid=1CBa095JraFL1JmhcGu6dBX9x3OVmkT8&ehbc=2E312F&noprof=1",
-      address:
-        "Ground Fl, Sovilaco Bldg, 01 Pho Quang Str\nTan Son Hoa Ward, Ho Chi Minh City, Vietnam",
-      phone: "+84 28 36366686\n0109670595-001\njennie@mgl.vn\nhttp://mgl.vn",
-    },
-  },
-
-  Chile: {
-    Santiago: {
-      map: "https://www.google.com/maps/d/embed?mid=1zDt0TUa0n5YVJTX_edtL7K_FN_AH9dc&ehbc=2E312F&noprof=1",
-      address:
-        "Av. Vitacura 3535, oficina 1603\nEdificio Atémpora – Vitacura, Santiago de Chile",
-      phone: "+56 2 338 88478\n+56 9 9837 1770\naritter@agn-chile.com\nwww.amassfreight.com",
     },
   },
 };
@@ -122,12 +69,6 @@ const LocationsSection: React.FC = () => {
     const p = path.toLowerCase();
     if (p.includes("/saudi-arabia") || p.includes("/saudi")) return "Saudi Arabia";
     if (p.includes("/china")) return "China";
-    if (p.includes("/argentina")) return "Argentina";
-    if (p.includes("/brazil")) return "Brazil";
-    if (p.includes("/colombia")) return "Colombia";
-    if (p.includes("/mexico")) return "Mexico";
-    if (p.includes("/vietnam")) return "Vietnam";
-    if (p.includes("/chile")) return "Chile";
     return "UAE";
   };
 
@@ -149,8 +90,7 @@ const LocationsSection: React.FC = () => {
   const initialKey = useMemo(() => {
     const defaultCountry = getCountryFromPath(pathname);
     return (
-      flatLocations.find((r) => r.country === defaultCountry)?.key ??
-      flatLocations[0]?.key
+      flatLocations.find((r) => r.country === defaultCountry)?.key ?? flatLocations[0]?.key
     );
   }, [pathname, flatLocations]);
 

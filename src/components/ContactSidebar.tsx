@@ -6,12 +6,29 @@ import { cn } from "@/lib/utils";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { useIsMobile } from '@/hooks/use-mobile';
 
+interface City {
+  name: string;
+  lat: number;
+  lng: number;
+  address: string;
+  contacts: string[];
+  email?: string;
+}
+
+interface Country {
+  code: string;   // e.g., "in", "ar", "br"
+  name: string;   // e.g., "India"
+  lat: number;    // default focus lat for the country
+  lng: number;    // default focus lng for the country
+  cities: City[];
+}
+
 interface ContactSidebarProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-const countries = [{
+const countries: Country[] = [{
   code: "in",
   name: "India",
   lat: 9.9323,
@@ -22,7 +39,7 @@ const countries = [{
     lng: 76.2996,
     address: "CC 59/801A Elizabeth Memorial Building, Thevara Ferry Jn, Cochin 682013 , Kerala.",
     contacts: ["+91 484 4019192 / 93"]
-  },{
+  }, {
     name: "Mumbai",
     lat: 19.01123,
     lng: 73.03715,
@@ -30,11 +47,11 @@ const countries = [{
     contacts: ["022-35131688 / 35113475 / 35082586"]
   }, {
     name: "Mumbai-Andheri",
-    lat: 19.11303, 
+    lat: 19.11303,
     lng: 72.86848,
     address: "503, Midas, Sahar Plaza Complex,Sir M.V Road,Andheri East, Mumbai 400059",
     contacts: ["+91 8879756838"]
-  },{
+  }, {
     name: "Delhi",
     lat: 28.62748,
     lng: 77.2221,
@@ -48,7 +65,7 @@ const countries = [{
     contacts: ["+91 9841676259"]
   }, {
     name: "Kolkata",
-    lat: 22.5769, 
+    lat: 22.5769,
     lng: 88.4341,
     address: "Merlin Matrix, 3rd floor, Room No. 303 10,D. N. BLOCK, SECTOR - V SALT LAKE CITY, Kolkata – 700091",
     contacts: ["+91 33 46025458 / 59 / 60/ 61"]
@@ -74,8 +91,8 @@ const countries = [{
 }, {
   code: "ae",
   name: "United Arab Emirates (UAE)",
-    lat: 25.2048,
-    lng: 55.2708,
+  lat: 25.2048,
+  lng: 55.2708,
   cities: [{
     name: "Dubai",
     lat: 25.2048,
@@ -98,8 +115,8 @@ const countries = [{
 }, {
   code: "qa",
   name: "Qatar",
-    lat: 25.276987,
-    lng: 51.520008,
+  lat: 25.276987,
+  lng: 51.520008,
   cities: [{
     name: "Doha",
     lat: 25.276987,
@@ -111,7 +128,7 @@ const countries = [{
   code: "sa",
   name: "Saudi Arabia",
   lat: 26.4207,
-    lng: 50.0888,
+  lng: 50.0888,
   cities: [{
     name: "Dammam",
     lat: 26.4207,
@@ -131,7 +148,7 @@ const countries = [{
     address: "Al-Madinah Al-Munawarah Road, Al Sharafeyah, Jeddah 4542 -22234, Kingdom of Saudi Arabia",
     contacts: ["+966 12 578 0874"]
   }]
-},{
+}, {
   code: "sg",
   name: "Singapore",
   lat: 1.3521,
@@ -178,11 +195,11 @@ const countries = [{
 }, {
   code: "th",
   name: "Thailand",
-  lat: 13.72957,  
+  lat: 13.72957,
   lng: 100.53095,
   cities: [{
     name: "Bangkok",
-    lat: 13.72957,  
+    lat: 13.72957,
     lng: 100.53095,
     address: "109 CCT Building, 3rd Floor, Rm.3, Surawong Road, Suriyawongse, Bangrak, Bangkok 10500 109",
     contacts: ["+662-634-3240", "+662-634-3942"]
@@ -233,7 +250,7 @@ const countries = [{
     contacts: ["+92 42-35782306/07/08"],
     email: "info.pk@globalconsol.com"
   }]
-},  {
+}, {
   code: "us",
   name: "United States (USA)",
   lat: 41.8622,
@@ -247,15 +264,15 @@ const countries = [{
     email: "info@gglusa.us"
   }, {
     name: "New York",
-    lat: 37.4545,
-    lng: -122.1818,
+    lat: 40.7128,
+    lng: -74.0060,
     address: "New Jersey Branch, 33 Wood Avenue South Suite 600, Iselin, NJ 08830",
     contacts: ["+1 732 456 6780"],
     email: "info@gglusa.us"
   }, {
     name: "Los Angeles",
-    lat: 40.5330,
-    lng: -74.3481,
+    lat: 34.0522,
+    lng: -118.2437,
     address: "2250 South Central Avenue Compton, CA 90220",
     contacts: ["+1 310 928 3903"],
     email: "info@gglusa.us"
@@ -285,16 +302,119 @@ const countries = [{
     contacts: ["Mob: +61 432254969", "Tel: +61 388205157"],
     email: "info@gglaustralia.com"
   }]
+},
+
+// ================== NEW REGIONS ==================
+
+{
+  code: "ar",
+  name: "Argentina",
+  lat: -34.5999,     // FIXED: no double minus
+  lng: -58.3810,     // FIXED: no double minus
+  cities: [{
+    name: "Buenos Aires",
+    lat: -34.5999,
+    lng: -58.3810,
+    address: "Carlos Pellegrini 719, 3A 1009 CABA, Buenos Aires, Argentina",
+    contacts: [
+      "+54 11 4547 7864",
+      "Sales: comercial@agn-argentina.com",
+      "Operations: operaciones@agn-argentina.com"
+    ]
+  }]
+}, {
+  code: "br",
+  name: "Brazil",
+  lat: -23.6031,
+  lng: -46.6741,
+  cities: [{
+    name: "São Paulo – Moema",
+    lat: -23.6031,
+    lng: -46.6741,
+    address: "Rua Araguari, 835 – Room 72, Moema, São Paulo, Brazil",
+    contacts: [
+      "+55 (11) 99411 3006",
+      "Sales: sales@agn-brasil.com",
+      "Operations: operational@agn-brasil.com",
+      "Finance: financeiro@agn-brasil.com"
+    ]
+  }]
+}, {
+  code: "co",
+  name: "Colombia",
+  lat: 4.6930,
+  lng: -74.0339,
+  cities: [{
+    name: "Bogotá",
+    lat: 4.6930,
+    lng: -74.0339,
+    address: "Carrera 7 #114–33, Oficina 802, Edificio Scotia Bank, Bogotá, Colombia",
+    contacts: [
+      "+57 3142188434",
+      "ocarreno@agn-colombia.com",
+      "www.amassgroup.com"
+    ]
+  }]
+}, {
+  code: "mx",
+  name: "Mexico",
+  lat: 19.3879,
+  lng: -99.1746,
+  cities: [{
+    name: "Mexico City",
+    lat: 19.3879,
+    lng: -99.1746,
+    address: "Insurgentes Sur 863, Piso 6, Colonia Nápoles, CP 03810, Ciudad de México, Mexico",
+    contacts: [
+      "Mobile: +52 5568930543",
+      "Office: +52 5556828362 Ext 1002 / +52 5596294019 Ext 1002",
+      "yfigueroa@agn-mexico.com.mx"
+    ]
+  }]
+}, {
+  code: "vn",
+  name: "Vietnam",
+  lat: 10.803,
+  lng: 106.6656,
+  cities: [{
+    name: "Ho Chi Minh City",
+    lat: 10.803,
+    lng: 106.6656,
+    address: "Ground Floor, Sovilaco Building, 01 Pho Quang Street, Tan Son Hoa Ward, Ho Chi Minh City, Vietnam",
+    contacts: [
+      "+84 28 36366686",
+      "Tax ID: 0109670595-001",
+      "jennie@mgl.vn",
+      "http://mgl.vn"
+    ]
+  }]
+}, {
+  code: "cl",
+  name: "Chile",
+  lat: -33.4042,
+  lng: -70.5957,
+  cities: [{
+    name: "Santiago (Vitacura)",
+    lat: -33.4042,
+    lng: -70.5957,
+    address: "Av. Vitacura 3535, Oficina 1603, Edificio Atémpora, Vitacura, Santiago de Chile, Chile",
+    contacts: [
+      "+56 2 338 88478",
+      "+56 9 9837 1770",
+      "aritter@agn-chile.com",
+      "www.amassfreight.com"
+    ]
+  }]
 }];
 
 // Sort countries alphabetically by name
-const sortedCountries = [...countries].sort((a, b) => a.name.localeCompare(b.name));
+const sortedCountries: Country[] = [...countries].sort((a, b) => a.name.localeCompare(b.name));
 
 const ContactSidebar: React.FC<ContactSidebarProps> = ({ isOpen, onClose }) => {
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const [expandedCountry, setExpandedCountry] = useState<string | null>(null);
-  const [selectedLocation, setSelectedLocation] = useState<any | null>(null);
-  const [selectedCityIndexes, setSelectedCityIndexes] = useState<{ [countryName: string]: number }>({});
+  const [selectedLocation, setSelectedLocation] = useState<City | null>(null);
+  const [selectedCityIndexes, setSelectedCityIndexes] = useState<Record<string, number>>({});
   const isMobile = useIsMobile();
 
   useEffect(() => {
@@ -308,62 +428,51 @@ const ContactSidebar: React.FC<ContactSidebarProps> = ({ isOpen, onClose }) => {
       const firstCity = firstCountry.cities[0];
       setSelectedLocation(firstCity);
       setExpandedCountry(firstCountry.name);
-      
-      // Initialize selected city indexes for all countries to 0 (first city)
-      const initialIndexes: { [countryName: string]: number } = {};
+
+      const initialIndexes: Record<string, number> = {};
       sortedCountries.forEach(country => {
         initialIndexes[country.name] = 0;
       });
       setSelectedCityIndexes(initialIndexes);
-      
-      // Navigate to the first location on map
+
       navigateToLocation(firstCity.lat, firstCity.lng, firstCity);
     }
-  }, []);
+  }, [sortedCountries]);
 
-  const navigateToLocation = (lat: number, lng: number, city: any = null) => {
-    // Find the iframe in the ContactMapContainer
-    const iframe = document.querySelector('iframe[title="Interactive Map"]') as HTMLIFrameElement;
+  const navigateToLocation = (lat: number, lng: number, city: City | null = null) => {
+    const iframe = document.querySelector('iframe[title="Interactive Map"]') as HTMLIFrameElement | null;
     if (iframe) {
       try {
-        // Use higher zoom level for city-specific locations
         const zoomLevel = city ? 12 : 9;
-        const baseUrl = "https://www.google.com/maps/d/u/0/embed?mid=1Gy9JUvlSaOBrtQaKI7OoYU2KgFymoXg&ehbc";
+        const baseUrl = "https://www.google.com/maps/d/embed?mid=16_2W0JMhfZhP2Dl8_HEfPCvoPt5eC-Y&ehbc=2E312F";
         const newSrc = `${baseUrl}&z=${zoomLevel}&ll=${lat},${lng}&hl=en&ehbc=2E312F&output=embed`;
         iframe.src = newSrc;
-        if (city) {
-          setSelectedLocation(city);
-        }
+        if (city) setSelectedLocation(city);
       } catch (e) {
         console.error("Navigation failed:", e);
       }
     }
   };
 
-  const handleCitySelection = (country: any, cityIndex: number) => {
-    setSelectedCityIndexes(prev => ({
-      ...prev,
-      [country.name]: cityIndex
-    }));
-    
+  const handleCitySelection = (country: Country, cityIndex: number) => {
+    setSelectedCityIndexes(prev => ({ ...prev, [country.name]: cityIndex }));
     const selectedCity = country.cities[cityIndex];
     navigateToLocation(selectedCity.lat, selectedCity.lng, selectedCity);
   };
 
-  const isSelectedCity = (countryName: string, cityIndex: number) => {
-    return selectedCityIndexes[countryName] === cityIndex;
-  };
+  const isSelectedCity = (countryName: string, cityIndex: number) =>
+    selectedCityIndexes[countryName] === cityIndex;
 
   return (
     <>
       {/* Backdrop overlay for mobile */}
       {isOpen && isMobile && (
-        <div 
-          className="fixed inset-0 bg-black/50 z-40 backdrop-blur-sm transition-opacity duration-300" 
-          onClick={onClose} 
+        <div
+          className="fixed inset-0 bg-black/50 z-40 backdrop-blur-sm transition-opacity duration-300"
+          onClick={onClose}
         />
       )}
-      
+
       {/* Sidebar container */}
       <div className={`my-3 w-full ${isMobile ? 'max-w-[95%]' : 'max-w-[520px]'} mx-auto px-2 md:px-0`}>
         {/* Header */}
@@ -380,105 +489,107 @@ const ContactSidebar: React.FC<ContactSidebarProps> = ({ isOpen, onClose }) => {
         </div>
 
         {/* Content area */}
-        <ScrollArea className={`h-[calc(100vh-10rem)] md:h-[calc(100vh-8rem)] bg-white rounded-b-xl shadow-md`}>
+        <ScrollArea className="h-[calc(100vh-10rem)] md:h-[calc(100vh-8rem)] bg-white rounded-b-xl shadow-md">
           <div className="p-4">
             <div className="mt-4 space-y-3">
               <Accordion type="single" collapsible value={expandedCountry || ""} className="w-full space-y-3">
-                {sortedCountries.map(country => {
-                  return (
-                    <AccordionItem 
-                      key={country.name} 
-                      value={country.name} 
-                      className="border border-red-100 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all bg-white"
+                {sortedCountries.map((country) => (
+                  <AccordionItem
+                    key={country.name}
+                    value={country.name}
+                    className="border border-red-100 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all bg-white"
+                  >
+                    <AccordionTrigger
+                      onClick={() => {
+                        setExpandedCountry(expandedCountry === country.name ? null : country.name);
+                        navigateToLocation(country.lat, country.lng);
+                      }}
+                      className="rounded-t-md hover:bg-amber-50 transition-colors px-3 py-2"
                     >
-                      <AccordionTrigger 
-                        onClick={() => {
-                          setExpandedCountry(expandedCountry === country.name ? null : country.name);
-                          navigateToLocation(country.lat, country.lng);
-                        }}
-                        className="rounded-t-md hover:bg-amber-50 transition-colors px-3 py-2"
-                      >
-                        <div className="flex items-center gap-3">
-                          <img 
-                            src={`/${country.code}.svg`} 
-                            alt={`${country.name} flag`} 
-                            className="w-6 h-6 rounded-sm object-cover shadow-sm" 
-                          />
-                          <span className="font-medium">{country.name}</span>
-                        </div>
-                      </AccordionTrigger>
-                      
-                      <AccordionContent className="bg-gradient-to-b from-red-50/30 to-white px-3 py-2">
+                      <div className="flex items-center gap-3">
+                        <img
+                          src={`/${country.code}.svg`}
+                          alt={`${country.name} flag`}
+                          className="w-6 h-6 rounded-sm object-cover shadow-sm"
+                        />
+                        <span className="font-medium">{country.name}</span>
+                      </div>
+                    </AccordionTrigger>
+
+                    <AccordionContent className="bg-gradient-to-b from-red-50/30 to-white px-3 py-2">
+                      <div className="space-y-2">
+                        {/* All cities displayed as buttons */}
                         <div className="space-y-2">
-                          {/* All cities displayed as buttons */}
-                          <div className="space-y-2">
-                            {country.cities.map((city: any, index: number) => (
-                              <div key={index} className="w-full">
-                                <Button 
-                                  variant="ghost" 
-                                  className={cn(
-                                    "w-full justify-start text-sm p-2 h-auto rounded-md border transition-all shadow-sm",
-                                    isSelectedCity(country.name, index) 
-                                      ? "bg-red-100 hover:bg-red-150 border-red-300 text-red-800" 
-                                      : "bg-white hover:bg-red-50 border-gray-100 hover:border-red-200"
-                                  )}
-                                  onClick={() => {
-                                    handleCitySelection(country, index);
-                                    if (isMobile) {
-                                      setTimeout(() => setSelectedLocation({ ...city }), 50);
-                                    }
-                                  }}
-                                >
-                                  <MapPin className="w-4 h-4 mr-2 text-red-600 flex-shrink-0" />
-                                  <span className="font-medium truncate">{city.name}</span>
-                                  <ChevronRight className="w-4 h-4 ml-auto text-red-300" />
-                                </Button>
-                                
-                                {/* Show address details for selected city */}
-                                {isSelectedCity(country.name, index) && city.address && (
-                                  <div className="mt-2 p-3 bg-gradient-to-br from-red-50 to-white rounded-lg border border-red-200 shadow text-sm animate-in fade-in duration-300 w-full">
-                                    <h4 className="font-semibold text-red-700 mb-2 pb-1 border-b border-red-100 flex items-center">
-                                      <span className="bg-gradient-to-r from-red-600 to-red-400 bg-clip-text text-transparent">{city.name} Office</span>
-                                    </h4>
-                                    
-                                    <div className="flex items-start mb-2 group hover:bg-red-50/50 p-2 rounded-md transition-colors w-full">
-                                      <Home className="w-4 h-4 mr-2 text-red-500 mt-1 flex-shrink-0 group-hover:text-red-600 transition-colors" />
-                                      <p className="text-gray-700 group-hover:text-gray-900 transition-colors text-sm break-words w-full overflow-hidden">{city.address}</p>
-                                    </div>
-                                    
-                                    {city.contacts && city.contacts.length > 0 && (
-                                      <div className="flex items-start mb-2 group hover:bg-red-50/50 p-2 rounded-md transition-colors w-full">
-                                        <Phone className="w-4 h-4 mr-2 text-red-500 mt-1 flex-shrink-0 group-hover:text-red-600 transition-colors" />
-                                        <div className="space-y-1 w-full overflow-hidden">
-                                          {city.contacts.map((contact: string, idx: number) => (
-                                            <p key={idx} className="text-gray-700 group-hover:text-gray-900 transition-colors text-sm break-words">{contact}</p>
-                                          ))}
-                                        </div>
-                                      </div>
-                                    )}
-                                    
-                                    {city.email && (
-                                      <div className="flex items-start group hover:bg-red-50/50 p-2 rounded-md transition-colors w-full">
-                                        <Mail className="w-4 h-4 mr-2 text-red-500 mt-1 flex-shrink-0 group-hover:text-red-600 transition-colors" />
-                                        <a 
-                                          href={`mailto:${city.email}`} 
-                                          className="text-red-600 hover:text-red-800 hover:underline flex items-center text-sm break-words w-full overflow-hidden"
-                                        >
-                                          {city.email}
-                                          <ExternalLink className="ml-1 h-3 w-3" />
-                                        </a>
-                                      </div>
-                                    )}
-                                  </div>
+                          {country.cities.map((city, index) => (
+                            <div key={`${country.name}-${city.name}`} className="w-full">
+                              <Button
+                                variant="ghost"
+                                className={cn(
+                                  "w-full justify-start text-sm p-2 h-auto rounded-md border transition-all shadow-sm",
+                                  isSelectedCity(country.name, index)
+                                    ? "bg-red-100 hover:bg-red-150 border-red-300 text-red-800"
+                                    : "bg-white hover:bg-red-50 border-gray-100 hover:border-red-200"
                                 )}
-                              </div>
-                            ))}
-                          </div>
+                                onClick={() => {
+                                  handleCitySelection(country, index);
+                                  if (isMobile) setTimeout(() => setSelectedLocation({ ...city }), 50);
+                                }}
+                              >
+                                <MapPin className="w-4 h-4 mr-2 text-red-600 flex-shrink-0" />
+                                <span className="font-medium truncate">{city.name}</span>
+                                <ChevronRight className="w-4 h-4 ml-auto text-red-300" />
+                              </Button>
+
+                              {/* Show address details for selected city */}
+                              {isSelectedCity(country.name, index) && city.address && (
+                                <div className="mt-2 p-3 bg-gradient-to-br from-red-50 to-white rounded-lg border border-red-200 shadow text-sm animate-in fade-in duration-300 w-full">
+                                  <h4 className="font-semibold text-red-700 mb-2 pb-1 border-b border-red-100 flex items-center">
+                                    <span className="bg-gradient-to-r from-red-600 to-red-400 bg-clip-text text-transparent">
+                                      {city.name} Office
+                                    </span>
+                                  </h4>
+
+                                  <div className="flex items-start mb-2 group hover:bg-red-50/50 p-2 rounded-md transition-colors w-full">
+                                    <Home className="w-4 h-4 mr-2 text-red-500 mt-1 flex-shrink-0 group-hover:text-red-600 transition-colors" />
+                                    <p className="text-gray-700 group-hover:text-gray-900 transition-colors text-sm break-words w-full overflow-hidden">
+                                      {city.address}
+                                    </p>
+                                  </div>
+
+                                  {city.contacts?.length > 0 && (
+                                    <div className="flex items-start mb-2 group hover:bg-red-50/50 p-2 rounded-md transition-colors w-full">
+                                      <Phone className="w-4 h-4 mr-2 text-red-500 mt-1 flex-shrink-0 group-hover:text-red-600 transition-colors" />
+                                      <div className="space-y-1 w-full overflow-hidden">
+                                        {city.contacts.map((contact, idx) => (
+                                          <p key={idx} className="text-gray-700 group-hover:text-gray-900 transition-colors text-sm break-words">
+                                            {contact}
+                                          </p>
+                                        ))}
+                                      </div>
+                                    </div>
+                                  )}
+
+                                  {city.email && (
+                                    <div className="flex items-start group hover:bg-red-50/50 p-2 rounded-md transition-colors w-full">
+                                      <Mail className="w-4 h-4 mr-2 text-red-500 mt-1 flex-shrink-0 group-hover:text-red-600 transition-colors" />
+                                      <a
+                                        href={`mailto:${city.email}`}
+                                        className="text-red-600 hover:text-red-800 hover:underline flex items-center text-sm break-words w-full overflow-hidden"
+                                      >
+                                        {city.email}
+                                        <ExternalLink className="ml-1 h-3 w-3" />
+                                      </a>
+                                    </div>
+                                  )}
+                                </div>
+                              )}
+                            </div>
+                          ))}
                         </div>
-                      </AccordionContent>
-                    </AccordionItem>
-                  );
-                })}
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
               </Accordion>
             </div>
           </div>

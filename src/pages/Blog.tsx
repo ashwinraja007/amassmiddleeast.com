@@ -97,9 +97,7 @@ const Blog = () => {
           </div> : articles.length === 0 ? <div className="text-center py-12">
             <p className="text-muted-foreground mb-4">No articles published yet.</p>
             <Link to="/blog-editor">
-              <Button className="bg-red-600 hover:bg-red-700 text-white">
-                Create First Article
-              </Button>
+
             </Link>
           </div> : <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">

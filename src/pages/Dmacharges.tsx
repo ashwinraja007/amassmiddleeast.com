@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 
-const PDF_PATH = "/DMA-charges.pdf"; // keep this in public/
+const PDF_PATH = "/DMA-Charges.pdf"; // keep this in public/
 
 const DmaCharges: React.FC = () => {
   // Scroll to top whenever this page is opened

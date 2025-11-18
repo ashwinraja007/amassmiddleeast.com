@@ -1,15 +1,19 @@
 // src/pages/DmaCharges.tsx
-import React from "react";
+import React, { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 
-const PDF_PATH = "DMA_Charges.pdf"; // must match file name in public/
+// PDF must be at: public/DMA_Charges.pdf
+const PDF_PATH = "/DMA_Charges.pdf";
 
-const ScrollToTop = () => {
+const ScrollToTop: React.FC = () => {
   const { pathname } = useLocation();
+
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [pathname]);
+
   return null;
 };
 
@@ -19,8 +23,9 @@ const DmaCharges: React.FC = () => {
       <ScrollToTop />
       <Navigation />
 
-      <main className="flex-1 pt-[80px] pb-6">
-        <div className="max-w-6xl mx-auto w-full h-[calc(100vh-180px)]">
+      {/* Make PDF big: full width, tall height, no top padding */}
+      <main className="flex-1">
+        <div className="w-full h-[calc(100vh-150px)]">
           <iframe
             src={PDF_PATH}
             title="DMA Charges"
@@ -29,7 +34,7 @@ const DmaCharges: React.FC = () => {
           />
         </div>
 
-        <div className="mt-4 text-center">
+        <div className="mt-2 text-center">
           <a
             href={PDF_PATH}
             target="_blank"

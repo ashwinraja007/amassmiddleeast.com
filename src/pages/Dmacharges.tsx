@@ -5,9 +5,18 @@ import Footer from "@/components/Footer";
 
 const PDF_PATH = "DMA_Charges.pdf"; // must match file name in public/
 
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [pathname]);
+  return null;
+};
+
 const DmaCharges: React.FC = () => {
   return (
     <div className="min-h-screen bg-white flex flex-col">
+      <ScrollToTop />
       <Navigation />
 
       <main className="flex-1 pt-[80px] pb-6">

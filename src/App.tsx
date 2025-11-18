@@ -48,7 +48,7 @@ import LiquidCargo from '@/pages/services/LiquidCargo';
 import ThirdPartyLogistics from '@/pages/services/ThirdPartyLogistics';
 import LinerAgency from '@/pages/services/LinerAgency';
 import LCL from '@/pages/services/LCL';
-
+import Dmacharges from '@/pages/Dmacharges';
 import CFS from '@/pages/services/CFS';
 
 import { AuthProvider } from '@/contexts/AuthContext';
@@ -128,7 +128,7 @@ const App: React.FC = () => {
               <Route path="/career" element={<Career />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/blogs" element={<Blog />} />
-              
+               <Route path="/dma-charges" element={<Dmacharges />} />
               <Route path="/blog/:slug" element={<BlogDetail />} />
               <Route path="/news" element={<NewsOverviewPage />} />
               <Route path="/projects" element={<Projects />} />

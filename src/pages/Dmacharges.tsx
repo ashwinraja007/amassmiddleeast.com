@@ -1,7 +1,7 @@
 // src/pages/DmaCharges.tsx
 import React from "react";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
+import Navigation from "@/components/Navigation";
+import Footer from "@/components/Footer";
 
 const PDF_PATH = "/DMA-charges.pdf"; // public/dma-charges.pdf
 
@@ -9,7 +9,7 @@ const DmaCharges: React.FC = () => {
   return (
     <div className="min-h-screen bg-white flex flex-col">
       {/* Header */}
-      <Header />
+      <Navigation />
 
       {/* PDF viewer */}
       <main className="flex-1 pt-[80px] pb-6">

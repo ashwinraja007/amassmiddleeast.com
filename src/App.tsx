@@ -35,6 +35,7 @@ import NewsOverviewPage from '@/pages/NewsOverviewPage';
 import Projects from '@/pages/Projects';
 import PrivacyPolicy from '@/pages/PrivacyPolicy';
 import TermsAndConditions from '@/pages/TermsAndConditions';
+import Dmacharges from '@/pages/Dmacharges';
 import NotFound from '@/pages/NotFound';
 
 // Service pages
@@ -116,6 +117,8 @@ const App: React.FC = () => {
               <Route path="/home" element={<Index />} />
               <Route path="/sri-lanka/home" element={<SriLankaHome />} />
               <Route path="/myanmar/home" element={<MyanmarHome />} />
+              <Route path="/dma-charges" element={<Dmacharges />} />
+              
               <Route path="/bangladesh/home" element={<BangladeshHome />} />
               <Route path="/pakistan/home" element={<PakistanHome />} />
 

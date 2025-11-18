@@ -3,7 +3,7 @@ import React from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 
-const PDF_PATH = "/DMA-charges.pdf"; // must match file name in public/
+const PDF_PATH = "DMA_Charges.pdf"; // must match file name in public/
 
 const DmaCharges: React.FC = () => {
   return (

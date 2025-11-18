@@ -170,6 +170,7 @@ const Footer = () => {
                 { name: "Global Presence", path: "/global-presence" },
                 { name: "Contact Us", path: "/contact" },
                 { name: "Privacy Policy", path: "/privacy-policy" },
+                { name: "DMA Charges", path: "/dma-charges" },
               ].map((link, index) => (
                 <Link
                   key={index}

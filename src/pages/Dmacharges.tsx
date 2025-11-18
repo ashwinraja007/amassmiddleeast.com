@@ -3,7 +3,7 @@ import React from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
-const PDF_PATH = "/dma-charges.pdf"; // public/dma-charges.pdf
+const PDF_PATH = "/DMA-charges.pdf"; // public/dma-charges.pdf
 
 const DmaCharges: React.FC = () => {
   return (

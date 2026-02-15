@@ -42,7 +42,7 @@ const countries: CountryData[] = [
   { country: "UAE", company: "AMASS", website: "https://amassmiddleeast.com/", priority: 13, flag: "/ae.svg" },
   { country: "USA", company: "GGL", website: "https://gglusa.us/", priority: 14, flag: "/us.svg",
     visibilityByCountry: { MYANMAR: false } },
-  { country: "UK", company: "Moltech", website: "https://moltech.uk/", priority: 15, flag: "/gb.svg" }
+  { country: "UK", company: "GGL", website: "https://www.ggl.sg/uk", priority: 15, flag: "/gb.svg" }
 ];
 
 const CountrySelector = () => {

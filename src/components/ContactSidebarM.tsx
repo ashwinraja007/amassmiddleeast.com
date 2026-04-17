@@ -235,9 +235,9 @@ code: "in",
     name: "Karachi",
     lat: 24.8608,
     lng: 67.0097,
-    address: "Suite No.301, 3rd Floor, Fortune Center, Shahrah-e-Faisal, Block 6, PECHS, Karachi, Pakistan",
-    contacts: ["+92-300-8282511", "+92-21-34302281-5"],
-    email: "khalid.pk@globalconsol.com"
+    address: "Suite No. 507 & 508, 5th Floor Fortune Center, Block-6, P.E.C.H.S, Shahrah-e-Faisal, Karachi, Pakistan",
+    contacts: ["+92 21 34542881/ +92 21 34542882/ +92 21 34542883/ +92 21 34542884"],
+    email: "info.pk@ggl.sg"
   }, {
     name: "Lahore",
     lat: 31.5204,
